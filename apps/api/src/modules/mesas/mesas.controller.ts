@@ -21,6 +21,7 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { MesaEntity } from './entities/mesa.entity';
+import { TenantGuard } from 'src/guards/tenant.guard';
 
 @ApiTags('Mesas')
 @Controller('mesas')

@@ -21,6 +21,7 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 import { TenantEntity } from './tenant.entity';
+import { TenantGuard } from 'src/guards/tenant.guard';
 
 @ApiTags('Tenants')
 @Controller('tenants')

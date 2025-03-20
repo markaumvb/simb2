@@ -21,6 +21,7 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { FuncaoEntity } from './entities/funcao.entity';
+import { TenantGuard } from 'src/guards/tenant.guard';
 
 @ApiTags('Funções de usuários')
 @Controller('funcaos')

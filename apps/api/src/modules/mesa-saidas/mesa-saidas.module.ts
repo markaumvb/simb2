@@ -4,6 +4,6 @@ import { MesaSaidasController } from './mesa-saidas.controller';
 
 @Module({
   controllers: [MesaSaidasController],
-  providers: [MesaSaidasService]
+  providers: [MesaSaidasService],
 })
 export class MesaSaidasModule {}

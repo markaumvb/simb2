@@ -4,6 +4,6 @@ import { TipoMesasController } from './tipo-mesas.controller';
 
 @Module({
   controllers: [TipoMesasController],
-  providers: [TipoMesasService]
+  providers: [TipoMesasService],
 })
 export class TipoMesasModule {}

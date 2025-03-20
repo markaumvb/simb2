@@ -20,6 +20,7 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { FuncionarioPerfilEntity } from './entities/funcionario-perfil.entity';
+import { TenantGuard } from 'src/guards/tenant.guard';
 
 @ApiTags('Perfil de funcionarios/ usuários no sistema')
 @Controller('funcionario-perfils')

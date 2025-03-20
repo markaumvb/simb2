@@ -4,6 +4,6 @@ import { MesaEntradasController } from './mesa-entradas.controller';
 
 @Module({
   controllers: [MesaEntradasController],
-  providers: [MesaEntradasService]
+  providers: [MesaEntradasService],
 })
 export class MesaEntradasModule {}

@@ -4,6 +4,6 @@ import { LogMesasController } from './log-mesas.controller';
 
 @Module({
   controllers: [LogMesasController],
-  providers: [LogMesasService]
+  providers: [LogMesasService],
 })
 export class LogMesasModule {}

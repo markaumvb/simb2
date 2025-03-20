@@ -20,6 +20,7 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { MesaEntradaEntity } from './entities/mesa-entrada.entity';
+import { TenantGuard } from 'src/guards/tenant.guard';
 
 @ApiTags('Entradas de Mesas em pontos')
 @Controller('mesa-entradas')

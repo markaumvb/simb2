@@ -7,6 +7,6 @@ import { PrismaModule } from 'src/database/prisma.module';
   controllers: [FuncionariosController],
   providers: [FuncionariosService],
   imports: [PrismaModule],
-  exports:[FuncionariosService] // para ser usado no jwtstrategy (autenticação)
+  exports: [FuncionariosService], // para ser usado no jwtstrategy (autenticação)
 })
 export class FuncionariosModule {}

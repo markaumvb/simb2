@@ -4,6 +4,6 @@ import { ItensAcertosController } from './itens-acertos.controller';
 
 @Module({
   controllers: [ItensAcertosController],
-  providers: [ItensAcertosService]
+  providers: [ItensAcertosService],
 })
 export class ItensAcertosModule {}

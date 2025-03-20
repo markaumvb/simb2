@@ -4,6 +4,6 @@ import { HistoricoPontosController } from './historico-pontos.controller';
 
 @Module({
   controllers: [HistoricoPontosController],
-  providers: [HistoricoPontosService]
+  providers: [HistoricoPontosService],
 })
 export class HistoricoPontosModule {}

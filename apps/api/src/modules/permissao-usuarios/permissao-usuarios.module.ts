@@ -4,6 +4,6 @@ import { PermissaoUsuariosController } from './permissao-usuarios.controller';
 
 @Module({
   controllers: [PermissaoUsuariosController],
-  providers: [PermissaoUsuariosService]
+  providers: [PermissaoUsuariosService],
 })
 export class PermissaoUsuariosModule {}

@@ -20,6 +20,7 @@ import { CreateMembrosLinhaDto } from './dto/create-membros-linha.dto';
 import { UpdateMembrosLinhaDto } from './dto/update-membros-linha.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { MembrosLinhaEntity } from './entities/membros-linha.entity';
+import { TenantGuard } from 'src/guards/tenant.guard';
 
 @ApiTags('Membros da linha')
 @Controller('membros-linhas')

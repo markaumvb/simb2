@@ -4,6 +4,6 @@ import { MovimentacoesController } from './movimentacoes.controller';
 
 @Module({
   controllers: [MovimentacoesController],
-  providers: [MovimentacoesService]
+  providers: [MovimentacoesService],
 })
 export class MovimentacoesModule {}

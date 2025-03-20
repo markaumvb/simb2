@@ -4,6 +4,6 @@ import { ComposicoesController } from './composicoes.controller';
 
 @Module({
   controllers: [ComposicoesController],
-  providers: [ComposicoesService]
+  providers: [ComposicoesService],
 })
 export class ComposicoesModule {}

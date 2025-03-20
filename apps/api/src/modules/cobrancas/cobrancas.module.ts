@@ -4,6 +4,6 @@ import { CobrancasController } from './cobrancas.controller';
 
 @Module({
   controllers: [CobrancasController],
-  providers: [CobrancasService]
+  providers: [CobrancasService],
 })
 export class CobrancasModule {}

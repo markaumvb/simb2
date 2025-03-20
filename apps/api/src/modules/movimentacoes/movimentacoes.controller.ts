@@ -21,6 +21,7 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { MovimentacoeEntity } from './entities/movimentacoe.entity';
+import { TenantGuard } from 'src/guards/tenant.guard';
 
 @ApiTags('Movimentações por linhas')
 @Controller('movimentacoes')

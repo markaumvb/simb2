@@ -4,6 +4,6 @@ import { TipoDespesasController } from './tipo-despesas.controller';
 
 @Module({
   controllers: [TipoDespesasController],
-  providers: [TipoDespesasService]
+  providers: [TipoDespesasService],
 })
 export class TipoDespesasModule {}

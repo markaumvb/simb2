@@ -20,6 +20,7 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { PontoClienteEntity } from './entities/ponto-cliente.entity';
+import { TenantGuard } from 'src/guards/tenant.guard';
 
 @ApiTags('Pontos de Clientes')
 @Controller('ponto-clientes')

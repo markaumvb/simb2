@@ -4,6 +4,6 @@ import { FuncionarioPerfilsController } from './funcionario-perfils.controller';
 
 @Module({
   controllers: [FuncionarioPerfilsController],
-  providers: [FuncionarioPerfilsService]
+  providers: [FuncionarioPerfilsService],
 })
 export class FuncionarioPerfilsModule {}

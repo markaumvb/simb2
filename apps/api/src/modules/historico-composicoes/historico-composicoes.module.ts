@@ -4,6 +4,6 @@ import { HistoricoComposicoesController } from './historico-composicoes.controll
 
 @Module({
   controllers: [HistoricoComposicoesController],
-  providers: [HistoricoComposicoesService]
+  providers: [HistoricoComposicoesService],
 })
 export class HistoricoComposicoesModule {}

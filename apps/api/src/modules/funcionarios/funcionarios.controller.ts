@@ -22,6 +22,7 @@ import {
 } from '@nestjs/swagger';
 import { FuncionarioEntity } from './entities/funcionario.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { TenantGuard } from 'src/guards/tenant.guard';
 
 @ApiTags('Funcionario')
 @Controller('funcionarios')

@@ -4,6 +4,6 @@ import { DepositosController } from './depositos.controller';
 
 @Module({
   controllers: [DepositosController],
-  providers: [DepositosService]
+  providers: [DepositosService],
 })
 export class DepositosModule {}

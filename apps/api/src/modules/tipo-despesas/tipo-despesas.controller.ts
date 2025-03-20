@@ -20,6 +20,7 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { TipoDespesaEntity } from './entities/tipo-despesa.entity';
+import { TenantGuard } from 'src/guards/tenant.guard';
 
 @ApiTags('Tipos de despesas')
 @Controller('tipo-despesas')
