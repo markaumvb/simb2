@@ -1,19 +1,18 @@
-import { ApiProperty } from '@nestjsx/crud/lib/crud';
-import { Prisma, itens_acerto } from '@prisma/client';
-import { Transform } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
+// Importe apenas Prisma, não o modelo específico
+import { Prisma } from '@prisma/client';
 
-export class ItensAcertoEntity implements itens_acerto {
+// Crie a interface manualmente
+export class ItensAcertoEntity {
   @ApiProperty()
   id: number;
 
   @ApiProperty()
   descricao: string;
 
-  @Transform(({ value }) => {
-    return Number(value);
-  })
+  // Use tipo de dados mais genérico para o Decimal
   @ApiProperty({ type: Number, nullable: true })
-  valor: Prisma.Decimal;
+  valor: number;
 
   @ApiProperty()
   data: Date;

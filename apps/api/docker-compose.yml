@@ -6,16 +6,11 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=fr67we10
+      - POSTGRES_DB=simb
     ports:
-      - '5433:5432'
-    volumes: 
-      - db:/var/lib/postgresql/data
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 volumes:
-  db:
+  postgres_data:
     driver: local
-
-##rodar container postgre: docker-compose up -d
-
-##backup e restore:
-
-# https://medium.com/codex/how-to-persist-and-backup-data-of-a-postgresql-docker-container-9fe269ff4334

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { tipo_mesa } from '@prisma/client';
+import { tipo_mesa } from '../../../packages/database';
 
 export class TipoMesaEntity implements tipo_mesa {
   @ApiProperty()

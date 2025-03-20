@@ -44,13 +44,14 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
-    // Configuração do ThrottlerModule para rate limiting
-    ThrottlerModule.forRoot([
-      {
-        ttl: 60,
-        limit: 100,
-      },
-    ]),
+    ThrottlerModule.forRoot({
+      throttlers: [
+        {
+          ttl: 60,
+          limit: 100,
+        },
+      ],
+    }) as any,
 
     // Configuração global do ConfigModule para variáveis de ambiente
     ConfigModule.forRoot({
