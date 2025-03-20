@@ -20,7 +20,6 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { AcertoFechamentoEntity } from './entities/acerto-fechamento.entity';
-import { create } from 'domain';
 import { TenantGuard } from 'src/guards/tenant.guard';
 
 @ApiTags('Acerto de fechamento de linha')

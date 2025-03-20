@@ -20,6 +20,7 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { BrindeEntity } from './entities/brinde.entity';
+import { TenantGuard } from 'src/guards/tenant.guard';
 
 @ApiTags('Brindes')
 @Controller('brindes')

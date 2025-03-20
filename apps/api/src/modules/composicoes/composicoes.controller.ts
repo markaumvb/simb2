@@ -21,6 +21,7 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { ComposicoeEntity } from './entities/composicoe.entity';
+import { TenantGuard } from 'src/guards/tenant.guard';
 
 @ApiTags('Composições de Gruas')
 @Controller('composicoes')
