@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Prisma } from '@prisma/client';
+import { Decimal } from '@prisma/client/runtime/library';
 import { Transform } from 'class-transformer';
 import {
   IsNotEmpty,
@@ -28,14 +28,14 @@ export class CreateAlmoxarifadoDto {
   @Transform(({ value }) => {
     return Number(value);
   })
-  valor_unitario: Prisma.Decimal;
+  valor_unitario: Decimal;
 
   @ApiProperty({ type: Number })
   @IsNumber()
   @Transform(({ value }) => {
     return Number(value);
   })
-  saldo: Prisma.Decimal;
+  saldo: Decimal;
 
   @IsOptional()
   @ApiProperty({ type: Number, required: false })
@@ -43,7 +43,7 @@ export class CreateAlmoxarifadoDto {
   @Transform(({ value }) => {
     return Number(value);
   })
-  saldo_min: Prisma.Decimal;
+  saldo_min: Decimal;
 
   @IsOptional()
   @ApiProperty({ type: Number, required: false })
@@ -51,7 +51,7 @@ export class CreateAlmoxarifadoDto {
   @Transform(({ value }) => {
     return Number(value);
   })
-  saldo_max: Prisma.Decimal;
+  saldo_max: Decimal;
 
   @IsNotEmpty()
   @ApiProperty()

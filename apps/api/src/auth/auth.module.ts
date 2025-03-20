@@ -16,7 +16,7 @@ import { refreshJwtStrategy } from './refreshToken.strategy';
     PassportModule,
     JwtModule.register({
       secret: process.env.SECRETKEY,
-      signOptions: { expiresIn: process.env.EXPIRESIN }, // e.g. 30s, 7d, 24h
+      signOptions: { expiresIn: process.env.EXPIRESIN },
     }),
     FuncionariosModule,
   ],
