@@ -30,8 +30,9 @@ async function bootstrap() {
     .addBearerAuth()
     .build();
 
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document, {
+  // Corrija a incompatibilidade de tipos com um cast explícito
+  const document = SwaggerModule.createDocument(app as any, config);
+  SwaggerModule.setup('api', app as any, document, {
     customSiteTitle: 'API DO SIMB',
     swaggerOptions: {
       tagsSorter: 'alpha',
