@@ -44,21 +44,36 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
+    // Configuração do ThrottlerModule para rate limiting
     ThrottlerModule.forRoot([
       {
         ttl: 60,
         limit: 100,
       },
     ]),
+
+    // Configuração global do ConfigModule para variáveis de ambiente
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+
+    // Módulo do Prisma para acesso ao banco de dados
     PrismaModule,
+
+    // Configuração do JwtModule para autenticação
     JwtModule.register({
       secret: process.env.SECRETKEY,
       signOptions: { expiresIn: process.env.EXPIRESIN },
     }),
+
+    // Configuração do CacheModule para melhorar a performance
     CacheModule.register({
       isGlobal: true,
-      ttl: 30,
+      ttl: 30, // 30 segundos de tempo de cache padrão
     }),
+
+    // Módulos da aplicação
     TenantModule,
     AuthModule,
     CidadesModule,
@@ -95,24 +110,32 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
   ],
   controllers: [],
   providers: [
+    // Service de tenant do Prisma
     PrismaTenantService,
+
+    // Interceptor de cache global
     {
       provide: APP_INTERCEPTOR,
       useClass: CacheInterceptor,
     },
+
+    // Interceptor de paginação global
     {
       provide: APP_INTERCEPTOR,
       useClass: PaginationInterceptor,
     },
+
+    // Guard para rate limiting global
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
     },
   ],
-  exports: [PrismaTenantService],
+  exports: [PrismaTenantService], // Exporta o PrismaTenantService para ser usado em outros módulos
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
+    // Aplica o middleware de tenant a todas as rotas
     consumer.apply(TenantMiddleware).forRoutes('*');
   }
 }

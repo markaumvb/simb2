@@ -34,7 +34,7 @@
     "@nestjs/swagger": "^11.0.7",
     "@nestjs/throttler": "^6.4.0",
     "@nestjsx/crud": "^5.0.0-alpha.3",
-    "@prisma/client": "^4.16.2",
+    "@prisma/client": "^6.5.0",
     "bcrypt": "^5.1.1",
     "cache-manager": "^6.4.1",
     "class-transformer": "^0.5.1",
