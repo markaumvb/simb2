@@ -30,7 +30,7 @@ import { PerfilsModule } from './modules/perfils/perfils.module';
 import { PontosModule } from './modules/pontos/pontos.module';
 import { PontoClientesModule } from './modules/ponto-clientes/ponto-clientes.module';
 import { TipoDespesasModule } from './modules/tipo-despesas/tipo-despesas.module';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { PaginationInterceptor } from './interceptors/pagination';
 import { ComposicoesModule } from './modules/composicoes/composicoes.module';
 import { ItensAcertosModule } from './modules/itens-acertos/itens-acertos.module';
@@ -40,10 +40,16 @@ import { JwtModule } from '@nestjs/jwt';
 import { TenantModule } from './modules/tenants/tenant.module';
 import { TenantMiddleware } from './middleware/tenant.middleware';
 import { PrismaTenantService } from './providers/prisma-tenant.provider';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60,
+        limit: 100,
+      },
+    ]),
     PrismaModule,
     JwtModule.register({
       secret: process.env.SECRETKEY,
@@ -97,6 +103,10 @@ import { PrismaTenantService } from './providers/prisma-tenant.provider';
     {
       provide: APP_INTERCEPTOR,
       useClass: PaginationInterceptor,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
     },
   ],
   exports: [PrismaTenantService],
