@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { tipo_mesa } from '../../../packages/database';
+import { Tipo_mesa } from '@database';
 
-export class TipoMesaEntity implements tipo_mesa {
+export class TipoMesaEntity implements Tipo_mesa {
   @ApiProperty()
   id: number;
 
@@ -16,6 +16,9 @@ export class TipoMesaEntity implements tipo_mesa {
 
   @ApiProperty()
   composicao: boolean;
+
+  @ApiProperty()
+  tenant_id: number; // Adicionado o campo tenant_id
 
   constructor(partial: Partial<TipoMesaEntity>) {
     Object.assign(this, partial);
