@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Prisma, deposito } from '@prisma/client';
+import { Prisma, Deposito } from '@database';
 import { Transform } from 'class-transformer';
 
-export class DepositoEntity implements deposito {
+export class DepositoEntity implements Deposito {
   @ApiProperty()
   id: number;
 
@@ -41,6 +41,9 @@ export class DepositoEntity implements deposito {
 
   @ApiProperty({ type: Number })
   id_funcionario: number;
+
+  @ApiProperty()
+  tenant_id: number;
 
   constructor(partial: Partial<DepositoEntity>) {
     Object.assign(this, partial);

@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { acerto_fechamento } from '@prisma/client';
+import { Acerto_fechamento } from '@database';
 import { Type } from 'class-transformer';
 import { ItensAcertoEntity } from 'src/modules/itens-acertos/entities/itens-acerto.entity';
 
-export class AcertoFechamentoEntity implements acerto_fechamento {
+export class AcertoFechamentoEntity implements Acerto_fechamento {
   @ApiProperty()
   id: number;
 
@@ -27,6 +27,9 @@ export class AcertoFechamentoEntity implements acerto_fechamento {
 
   @ApiProperty()
   status: boolean;
+
+  @ApiProperty()
+  tenant_id: number;
 
   @ApiProperty({ type: [ItensAcertoEntity], required: false })
   @Type(() => ItensAcertoEntity)

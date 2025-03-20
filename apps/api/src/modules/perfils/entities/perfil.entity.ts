@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { perfil } from '@prisma/client';
+import { Perfil } from '@database';
 
-export class PerfilEntity implements perfil {
+export class PerfilEntity implements Perfil {
   @ApiProperty()
   id: number;
 
@@ -52,6 +52,9 @@ export class PerfilEntity implements perfil {
 
   @ApiProperty()
   ponto: boolean;
+
+  @ApiProperty()
+  tenant_id: number;
 
   constructor(partial: Partial<PerfilEntity>) {
     Object.assign(this, partial);

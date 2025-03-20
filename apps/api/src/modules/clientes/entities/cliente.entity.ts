@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { cliente } from '@prisma/client';
+import { Cliente } from '@database';
 import { Type } from 'class-transformer';
 import { DebitosClienteEntity } from 'src/modules/debitos-clientes/entities/debitos-cliente.entity';
 
-export class ClienteEntity implements cliente {
+export class ClienteEntity implements Cliente {
   @ApiProperty()
   id: number;
 
@@ -51,6 +51,9 @@ export class ClienteEntity implements cliente {
 
   @ApiProperty()
   tipo_pessoa: string | null;
+
+  @ApiProperty()
+  tenant_id: number;
 
   @ApiProperty({ type: [DebitosClienteEntity], required: false })
   @Type(() => DebitosClienteEntity)

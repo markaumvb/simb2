@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { brinde } from '@prisma/client';
+import { Brinde } from '@database';
 
-export class BrindeEntity implements brinde {
+export class BrindeEntity implements Brinde {
   @ApiProperty()
   id: number;
 
@@ -34,6 +34,9 @@ export class BrindeEntity implements brinde {
 
   @ApiProperty()
   data: Date;
+
+  @ApiProperty()
+  tenant_id: number;
 
   constructor(partial: Partial<BrindeEntity>) {
     Object.assign(this, partial);

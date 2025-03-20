@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { mesa_saida } from '@prisma/client';
+import { Mesa_saida } from '@database';
 
-export class MesaSaidaEntity implements mesa_saida {
+export class MesaSaidaEntity implements Mesa_saida {
   @ApiProperty()
   id: number;
 
@@ -31,6 +31,9 @@ export class MesaSaidaEntity implements mesa_saida {
 
   @ApiProperty()
   id_ponto: number | null;
+
+  @ApiProperty()
+  tenant_id: number;
 
   constructor(partial: Partial<MesaSaidaEntity>) {
     Object.assign(this, partial);

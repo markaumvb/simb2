@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { funcao } from '@prisma/client';
+import { Funcao } from '@database';
 
-export class FuncaoEntity implements funcao {
+export class FuncaoEntity implements Funcao {
   @ApiProperty()
   id: number;
 
@@ -16,6 +16,9 @@ export class FuncaoEntity implements funcao {
 
   @ApiProperty()
   id_sistema: number;
+
+  @ApiProperty()
+  tenant_id: number;
 
   constructor(partial: Partial<FuncaoEntity>) {
     Object.assign(this, partial);

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { sistema } from '@prisma/client';
+import { Sistema } from '@database';
 
-export class SistemaEntity implements sistema {
+export class SistemaEntity implements Sistema {
   @ApiProperty()
   id: number;
 
@@ -16,6 +16,9 @@ export class SistemaEntity implements sistema {
 
   @ApiProperty()
   dt_alteracao: Date | null;
+
+  @ApiProperty()
+  tenant_id: number;
 
   constructor(partial: Partial<SistemaEntity>) {
     Object.assign(this, partial);

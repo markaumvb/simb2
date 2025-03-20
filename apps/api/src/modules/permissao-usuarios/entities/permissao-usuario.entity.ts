@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { permissoes_usuario } from '@prisma/client';
+import { Permissoes_usuario } from '@database';
 
-export class PermissaoUsuarioEntity implements permissoes_usuario {
+export class PermissaoUsuarioEntity implements Permissoes_usuario {
   @ApiProperty()
   id: number;
 
@@ -37,6 +37,9 @@ export class PermissaoUsuarioEntity implements permissoes_usuario {
 
   @ApiProperty()
   id_sistema: number;
+
+  @ApiProperty()
+  tenant_id: number;
 
   constructor(partial: Partial<PermissaoUsuarioEntity>) {
     Object.assign(this, partial);

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { historico_composicao } from '@prisma/client';
+import { Historico_composicao } from '@database';
 
-export class HistoricoComposicoeEntity implements historico_composicao {
+export class HistoricoComposicoeEntity implements Historico_composicao {
   @ApiProperty()
   id: number;
   @ApiProperty()
@@ -12,6 +12,9 @@ export class HistoricoComposicoeEntity implements historico_composicao {
   dt_inclusao: Date | null;
   @ApiProperty()
   dt_alteracao: Date | null;
+
+  @ApiProperty()
+  tenant_id: number;
 
   constructor(partial: Partial<HistoricoComposicoeEntity>) {
     Object.assign(this, partial);

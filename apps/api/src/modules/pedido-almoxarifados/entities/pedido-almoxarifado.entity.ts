@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { pedido_almoxarifado } from '@prisma/client';
+import { Pedido_almoxarifado } from '@database';
 
-export class PedidoAlmoxarifadoEntity implements pedido_almoxarifado {
+export class PedidoAlmoxarifadoEntity implements Pedido_almoxarifado {
   @ApiProperty()
   id: number;
 
@@ -22,6 +22,9 @@ export class PedidoAlmoxarifadoEntity implements pedido_almoxarifado {
 
   @ApiProperty()
   id_movimentacao: number;
+
+  @ApiProperty()
+  tenant_id: number;
 
   constructor(partial: Partial<PedidoAlmoxarifadoEntity>) {
     Object.assign(this, partial);

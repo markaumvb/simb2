@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { tipo_despesa } from '@prisma/client';
+import { Tipo_despesa } from '@database';
 
-export class TipoDespesaEntity implements tipo_despesa {
+export class TipoDespesaEntity implements Tipo_despesa {
   @ApiProperty()
   id: number;
 
@@ -16,6 +16,9 @@ export class TipoDespesaEntity implements tipo_despesa {
 
   @ApiProperty()
   status: boolean | null;
+
+  @ApiProperty()
+  tenant_id: number;
 
   constructor(partial: Partial<TipoDespesaEntity>) {
     Object.assign(this, partial);

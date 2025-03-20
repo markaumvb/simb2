@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Prisma, debitos_cliente } from '@prisma/client';
+import { Prisma, Debitos_cliente } from '@database';
 import { Transform } from 'class-transformer';
 
-export class DebitosClienteEntity implements debitos_cliente {
+export class DebitosClienteEntity implements Debitos_cliente {
   @ApiProperty()
   id: number;
 
@@ -26,6 +26,9 @@ export class DebitosClienteEntity implements debitos_cliente {
 
   @ApiProperty()
   debito_credito: string;
+
+  @ApiProperty()
+  tenant_id: number;
 
   constructor(partial: Partial<DebitosClienteEntity>) {
     Object.assign(this, partial);

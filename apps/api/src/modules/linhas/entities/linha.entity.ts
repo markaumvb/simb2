@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { linha } from '@prisma/client';
+import { Linha } from '@database';
 
-export class LinhaEntity implements linha {
+export class LinhaEntity implements Linha {
   @ApiProperty()
   id: number;
 
@@ -13,4 +13,7 @@ export class LinhaEntity implements linha {
 
   @ApiProperty()
   dt_inclusao: Date;
+
+  @ApiProperty()
+  tenant_id: number;
 }

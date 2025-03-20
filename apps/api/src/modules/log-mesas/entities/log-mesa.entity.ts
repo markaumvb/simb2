@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Prisma, log_mesa } from '@prisma/client';
+import { Prisma, Log_mesa } from '@database';
 import { Transform, Type } from 'class-transformer';
 import { MesaEntity } from 'src/modules/mesas/entities/mesa.entity';
 
-export class LogMesaEntity implements log_mesa {
+export class LogMesaEntity implements Log_mesa {
   @ApiProperty()
   id: number;
 
@@ -60,6 +60,9 @@ export class LogMesaEntity implements log_mesa {
 
   @ApiProperty()
   id_funcionario: number | null;
+
+  @ApiProperty()
+  tenant_id: number;
 
   @ApiProperty({ type: [MesaEntity], required: false })
   @Type(() => MesaEntity)

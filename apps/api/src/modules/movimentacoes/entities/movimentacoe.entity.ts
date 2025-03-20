@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { movimentacao } from '@prisma/client';
+import { Movimentacao } from '@database';
 
-export class MovimentacoeEntity implements movimentacao {
+export class MovimentacoeEntity implements Movimentacao {
   @ApiProperty()
   id: number;
 
@@ -25,6 +25,9 @@ export class MovimentacoeEntity implements movimentacao {
 
   @ApiProperty()
   dt_possivel_encerramento: Date | null;
+
+  @ApiProperty()
+  tenant_id: number;
 
   constructor(partial: Partial<MovimentacoeEntity>) {
     Object.assign(this, partial);

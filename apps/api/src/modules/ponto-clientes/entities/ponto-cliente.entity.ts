@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ponto_cliente } from '@prisma/client';
+import { Ponto_cliente } from '@database';
 
-export class PontoClienteEntity implements ponto_cliente {
+export class PontoClienteEntity implements Ponto_cliente {
   @ApiProperty()
   id: number;
 
@@ -31,6 +31,9 @@ export class PontoClienteEntity implements ponto_cliente {
 
   @ApiProperty()
   dt_encerramento: Date | null;
+
+  @ApiProperty()
+  tenant_id: number;
 
   constructor(partial: Partial<PontoClienteEntity>) {
     Object.assign(this, partial);

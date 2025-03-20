@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { funcionario_perfil } from '@prisma/client';
+import { Funcionario_perfil } from '@database';
 
-export class FuncionarioPerfilEntity implements funcionario_perfil {
+export class FuncionarioPerfilEntity implements Funcionario_perfil {
   @ApiProperty()
   id: number;
 
@@ -40,6 +40,9 @@ export class FuncionarioPerfilEntity implements funcionario_perfil {
 
   @ApiProperty()
   token: string;
+
+  @ApiProperty()
+  tenant_id: number;
 
   constructor(partial: Partial<FuncionarioPerfilEntity>) {
     Object.assign(this, partial);

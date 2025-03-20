@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Prisma, ponto } from '@prisma/client';
+import { Prisma, Ponto } from '@database';
 import { Transform } from 'class-transformer';
 
-export class PontoEntity implements ponto {
+export class PontoEntity implements Ponto {
   @ApiProperty()
   id: number;
 
@@ -50,6 +50,9 @@ export class PontoEntity implements ponto {
 
   @ApiProperty()
   paga_aluguel: boolean;
+
+  @ApiProperty()
+  tenant_id: number;
 
   @Transform(({ value }) => {
     return Number(value);

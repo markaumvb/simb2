@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Prisma, composicao } from '@prisma/client';
+import { Prisma, Composicao } from '@database';
 import { Transform, Type } from 'class-transformer';
 import { AlmoxarifadoEntity } from 'src/modules/almoxarifados/entities/almoxarifado.entity';
 
-export class ComposicoeEntity implements composicao {
+export class ComposicoeEntity implements Composicao {
   @ApiProperty()
   id: number;
 
@@ -27,6 +27,9 @@ export class ComposicoeEntity implements composicao {
 
   @ApiProperty()
   status: boolean;
+
+  @ApiProperty()
+  tenant_id: number;
 
   @ApiProperty({ type: [AlmoxarifadoEntity], required: false })
   @Type(() => AlmoxarifadoEntity)

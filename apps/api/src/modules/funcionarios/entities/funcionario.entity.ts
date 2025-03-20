@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Prisma, funcionario } from '@prisma/client';
+import { Prisma, Funcionario } from '@database';
 import { Exclude, Transform, Type } from 'class-transformer';
 import { PermissaoUsuarioEntity } from 'src/modules/permissao-usuarios/entities/permissao-usuario.entity';
 
-export class FuncionarioEntity implements funcionario {
+export class FuncionarioEntity implements Funcionario {
   @ApiProperty()
   id: number;
 
@@ -84,6 +84,9 @@ export class FuncionarioEntity implements funcionario {
 
   @ApiProperty()
   email: string;
+
+  @ApiProperty()
+  tenant_id: number;
 
   @ApiProperty({ type: [PermissaoUsuarioEntity], required: false })
   @Type(() => PermissaoUsuarioEntity)

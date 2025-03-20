@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Prisma, historico_ponto } from '@prisma/client';
+import { Prisma, Historico_ponto } from '@database';
 import { Transform } from 'class-transformer';
 
-export class HistoricoPontoEntity implements historico_ponto {
+export class HistoricoPontoEntity implements Historico_ponto {
   @ApiProperty()
   id: number;
 
@@ -41,6 +41,9 @@ export class HistoricoPontoEntity implements historico_ponto {
 
   @ApiProperty()
   qtde_mesa: number;
+
+  @ApiProperty()
+  tenant_id: number;
 
   @Transform(({ value }) => {
     return Number(value);
