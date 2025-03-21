@@ -17,7 +17,6 @@ export class PrismaTenantService {
 
     if (!tenantId) {
       // Se não encontrar tenantId, retorna o cliente prisma normal
-      // Útil para rotas públicas ou admin
       return this.prismaService;
     }
 
@@ -25,16 +24,46 @@ export class PrismaTenantService {
     return this.prismaService.$extends({
       query: {
         $allModels: {
-          async $allOperations({ args, query, model }) {
+          async $allOperations({ args, query, model, operation }) {
             // Lista de modelos que não têm tenant_id
             const noTenantModels = ['Tenant'];
 
-            if (!noTenantModels.includes(model)) {
-              // Adiciona tenant_id em todas as consultas
-              args.where = {
-                ...args.where,
-                tenant_id: parseInt(tenantId),
-              };
+            // Lista de operações que não têm 'where'
+            const noWhereOperations = ['create', 'createMany'];
+
+            if (
+              !noTenantModels.includes(model) &&
+              !noWhereOperations.includes(operation)
+            ) {
+              // Operações que têm 'where' podem ter tenant_id adicionado
+              if (args && 'where' in args) {
+                args.where = {
+                  ...args.where,
+                  tenant_id: parseInt(tenantId),
+                };
+              }
+            } else if (
+              operation === 'create' &&
+              !noTenantModels.includes(model)
+            ) {
+              // Para operação create, adicionar tenant_id nos dados
+              if (args && 'data' in args) {
+                args.data = {
+                  ...args.data,
+                  tenant_id: parseInt(tenantId),
+                };
+              }
+            } else if (
+              operation === 'createMany' &&
+              !noTenantModels.includes(model)
+            ) {
+              // Para operação createMany, adicionar tenant_id em cada item de dados
+              if (args && 'data' in args && Array.isArray(args.data)) {
+                args.data = args.data.map((item) => ({
+                  ...item,
+                  tenant_id: parseInt(tenantId),
+                }));
+              }
             }
 
             return query(args);
