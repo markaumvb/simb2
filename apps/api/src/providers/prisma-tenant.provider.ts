@@ -1,8 +1,7 @@
 // src/providers/prisma-tenant.provider.ts
 import { Injectable, Scope, Inject } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
-import { PrismaService } from '@app/database/prisma.service';
-import { Request } from 'express';
+import { PrismaService } from '@database';
 
 @Injectable({ scope: Scope.REQUEST })
 export class PrismaTenantService {
@@ -11,7 +10,7 @@ export class PrismaTenantService {
     private readonly prismaService: PrismaService,
   ) {}
 
-  // Retorna o cliente Prisma original (sem modificações)
+  // Retorna o cliente Prisma original
   get prisma() {
     return this.prismaService;
   }
@@ -21,7 +20,7 @@ export class PrismaTenantService {
     return this._request['tenantId'] ? Number(this._request['tenantId']) : null;
   }
 
-  // Método para adicionar tenant_id a filtros
+  // Adiciona tenant_id a filtros where
   addTenantToFilter(filter: any = {}): any {
     const tenantId = this.currentTenantId;
     if (tenantId === null) {
@@ -30,20 +29,20 @@ export class PrismaTenantService {
     return { ...filter, tenant_id: tenantId };
   }
 
-  // Método para adicionar tenant_id a dados
+  // Adiciona tenant_id e relação tenant a dados
   addTenantToData(data: any = {}): any {
     const tenantId = this.currentTenantId;
     if (tenantId === null) {
       return data;
     }
 
-    // Criar uma cópia para não modificar o original
+    // Criar uma cópia dos dados
     const newData = { ...data };
 
-    // Adicionar tenant_id como campo numérico
+    // Adicionar tenant_id
     newData.tenant_id = tenantId;
 
-    // Adicionar relação tenant para o Prisma
+    // Adicionar relação tenant
     newData.tenant = {
       connect: { id: tenantId },
     };

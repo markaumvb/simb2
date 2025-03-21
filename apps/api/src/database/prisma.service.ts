@@ -1,21 +1,24 @@
-// apps/api/src/database/prisma.service.ts
+// src/database/prisma.service.ts
 import { INestApplication, Injectable, OnModuleInit } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@database';
 
 @Injectable()
-export class PrismaService extends PrismaClient implements OnModuleInit {
+export class PrismaService implements OnModuleInit {
   constructor() {
-    super();
+    // Não precisa chamar super() pois não estamos estendendo PrismaClient
+  }
+
+  get client() {
+    return prisma;
   }
 
   async onModuleInit() {
-    await this.$connect();
+    await prisma.$connect();
   }
 
   async enableShutdownHooks(app: INestApplication) {
-    // Removendo o evento $on completamente para evitar erro de tipagem
-    // Implementar uma abordagem alternativa para shutdown
     process.on('beforeExit', async () => {
+      await prisma.$disconnect();
       await app.close();
     });
   }

@@ -5,7 +5,7 @@ import { UpdateFuncionarioDto } from './dto/update-funcionario.dto';
 import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 import * as bcrypt from 'bcrypt';
 
-export const roundsOfHashing = 10; // fator de custo (aumentar a força do hash)
+export const roundsOfHashing = 10;
 
 @Injectable()
 export class FuncionariosService {
@@ -17,20 +17,17 @@ export class FuncionariosService {
       roundsOfHashing,
     );
 
-    // Criar uma cópia modificada do DTO
+    // Extrair id_cidade e preparar relação cidade
+    const { id_cidade, ...restData } = createFuncionarioDto;
+
     const funcionarioData = {
-      ...createFuncionarioDto,
+      ...restData,
       senha: hashedpassword,
-      // Adicionar conexão explícita com cidade
       cidade: {
-        connect: { id: createFuncionarioDto.id_cidade },
+        connect: { id: id_cidade },
       },
     };
 
-    // Remover id_cidade do objeto principal para evitar conflito
-    delete funcionarioData.id_cidade;
-
-    // Aplicar tenant e criar o funcionário
     return this.prismaTenant.prisma.funcionario.create({
       data: this.prismaTenant.addTenantToData(funcionarioData),
     });
@@ -67,22 +64,21 @@ export class FuncionariosService {
   }
 
   async update(id: number, updateFuncionarioDto: UpdateFuncionarioDto) {
-    const funcionarioData = { ...updateFuncionarioDto };
+    const { id_cidade, senha, ...restData } = updateFuncionarioDto;
 
-    // Hash a senha se fornecida
-    if (funcionarioData.senha) {
-      funcionarioData.senha = await bcrypt.hash(
-        funcionarioData.senha,
-        roundsOfHashing,
-      );
+    // Preparar objeto de dados
+    const funcionarioData: any = { ...restData };
+
+    // Se tiver senha, fazer hash
+    if (senha) {
+      funcionarioData.senha = await bcrypt.hash(senha, roundsOfHashing);
     }
 
-    // Lidar com relação de cidade se o id_cidade foi fornecido
-    if (funcionarioData.id_cidade) {
+    // Se tiver id_cidade, adicionar relação
+    if (id_cidade) {
       funcionarioData.cidade = {
-        connect: { id: funcionarioData.id_cidade },
+        connect: { id: id_cidade },
       };
-      delete funcionarioData.id_cidade;
     }
 
     return this.prismaTenant.prisma.funcionario.update({
