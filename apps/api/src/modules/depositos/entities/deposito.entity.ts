@@ -9,10 +9,10 @@ export class DepositoEntity implements Deposito {
   @ApiProperty()
   dt_hora: Date;
 
-  @ApiProperty({ type: Number })
   @Transform(({ value }) => {
     return Number(value);
   })
+  @ApiProperty({ type: Number, nullable: true })
   valor: Prisma.Decimal;
 
   @ApiProperty({ type: Number })

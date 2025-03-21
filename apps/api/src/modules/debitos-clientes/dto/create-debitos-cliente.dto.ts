@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@database';
 import { Transform } from 'class-transformer';
 import {
   IsNotEmpty,
@@ -34,7 +34,7 @@ export class CreateDebitosClienteDto {
     return Number(value);
   })
   @ApiProperty({ type: Number, nullable: true })
-  valor: Prisma.Decimal;
+  valorDecimal;
 
   @IsString()
   @ApiProperty()

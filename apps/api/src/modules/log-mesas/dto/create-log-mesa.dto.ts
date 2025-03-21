@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@database';
 import { Transform } from 'class-transformer';
 import {
   IsDate,
@@ -31,7 +31,7 @@ export class CreateLogMesaDto {
     return Number(value);
   })
   @ApiProperty({ type: Number, nullable: true })
-  valor_anterior: Prisma.Decimal | null;
+  valor_anteriorDecimal | null;
 
   @IsOptional()
   @IsNumber()
@@ -39,7 +39,7 @@ export class CreateLogMesaDto {
     return Number(value);
   })
   @ApiProperty({ type: Number, nullable: true })
-  valor_atual: Prisma.Decimal | null;
+  valor_atualDecimal | null;
 
   @IsOptional()
   @IsNumber()
@@ -47,7 +47,7 @@ export class CreateLogMesaDto {
     return Number(value);
   })
   @ApiProperty({ type: Number, nullable: true })
-  porcentagem_anterior: Prisma.Decimal | null;
+  porcentagem_anteriorDecimal | null;
 
   @IsOptional()
   @IsNumber()
@@ -56,7 +56,7 @@ export class CreateLogMesaDto {
   })
   @ApiProperty({ type: Number, nullable: true })
   @ApiProperty()
-  porcentagem_atual: Prisma.Decimal | null;
+  porcentagem_atualDecimal | null;
 
   @IsDate()
   @ApiProperty()

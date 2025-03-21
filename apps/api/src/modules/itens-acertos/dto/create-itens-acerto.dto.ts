@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Prisma } from '@prisma/client';
 import { Transform } from 'class-transformer';
 import {
   IsDate,
@@ -20,7 +19,7 @@ export class CreateItensAcertoDto {
     return Number(value);
   })
   @ApiProperty({ type: Number, nullable: true })
-  valor: Prisma.Decimal;
+  valorDecimal;
 
   @IsDate()
   @ApiProperty()

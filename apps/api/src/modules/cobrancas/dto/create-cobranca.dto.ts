@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@database';
 import { Transform } from 'class-transformer';
 import { IsDate, IsNotEmpty, IsNumber } from 'class-validator';
 
@@ -30,7 +30,7 @@ export class CreateCobrancaDto {
     return Number(value);
   })
   @ApiProperty({ type: Number })
-  valor_cobrado: Prisma.Decimal;
+  valor_cobradoDecimal;
 
   @IsNotEmpty()
   @IsNumber()
@@ -38,7 +38,7 @@ export class CreateCobrancaDto {
     return Number(value);
   })
   @ApiProperty({ type: Number })
-  desconto: Prisma.Decimal | null;
+  descontoDecimal | null;
 
   @ApiProperty()
   dt_alteracao: Date | null;

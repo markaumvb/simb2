@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@database';
 import { Transform } from 'class-transformer';
 import {
   IsDate,
@@ -64,5 +64,5 @@ export class CreateHistoricoPontoDto {
     return Number(value);
   })
   @ApiProperty({ type: Number, nullable: true })
-  media_cobranca: Prisma.Decimal | null;
+  media_cobrancaDecimal | null;
 }

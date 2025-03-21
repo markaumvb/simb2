@@ -27,7 +27,7 @@ export class CobrancaEntitity implements Cobranca {
   @Transform(({ value }) => {
     return Number(value);
   })
-  @ApiProperty({ type: Number })
+  @ApiProperty({ type: Number, nullable: true })
   desconto: Prisma.Decimal | null;
 
   @ApiProperty()

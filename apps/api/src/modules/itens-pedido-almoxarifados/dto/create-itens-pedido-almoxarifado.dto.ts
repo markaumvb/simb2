@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@database';
 import { Transform } from 'class-transformer';
 import {
   IsDate,
@@ -28,7 +28,7 @@ export class CreateItensPedidoAlmoxarifadoDto {
     return Number(value);
   })
   @ApiProperty({ type: Number, nullable: true })
-  qtde: Prisma.Decimal;
+  qtdeDecimal;
 
   @IsString()
   @ApiProperty()
@@ -51,5 +51,5 @@ export class CreateItensPedidoAlmoxarifadoDto {
     return Number(value);
   })
   @ApiProperty({ type: Number, nullable: true })
-  valor: Prisma.Decimal;
+  valorDecimal;
 }

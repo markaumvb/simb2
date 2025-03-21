@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@database';
 import { Transform } from 'class-transformer';
 import {
   IsBoolean,
@@ -76,7 +76,7 @@ export class CreatePontoDto {
     return Number(value);
   })
   @ApiProperty({ type: Number, nullable: true })
-  valor_aluguel: Prisma.Decimal | null;
+  valor_aluguelDecimal | null;
 
   @IsNumber()
   @IsOptional()

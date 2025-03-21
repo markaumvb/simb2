@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 // Importe apenas Prisma, não o modelo específico
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@database';
 
 // Crie a interface manualmente
 export class ItensAcertoEntity {

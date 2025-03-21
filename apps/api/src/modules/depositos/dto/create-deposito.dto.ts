@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@database';
 import { Transform } from 'class-transformer';
 import { IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
 
@@ -13,7 +13,7 @@ export class CreateDepositoDto {
   @Transform(({ value }) => {
     return Number(value);
   })
-  valor: Prisma.Decimal;
+  valorDecimal;
 
   @IsString()
   @ApiProperty({ type: Number })

@@ -56,25 +56,25 @@ export class FuncionarioEntity implements Funcionario {
     return Number(value);
   })
   @ApiProperty({ type: Number, nullable: true })
-  salario_base: Prisma.Decimal;
+  salario_base: Prisma.Decimal | null;
 
   @Transform(({ value }) => {
     return Number(value);
   })
   @ApiProperty({ type: Number, nullable: true })
-  comissao: Prisma.Decimal;
+  comissao: Prisma.Decimal | null;
 
   @Transform(({ value }) => {
     return Number(value);
   })
   @ApiProperty({ type: Number, nullable: true })
-  vale_alimentacao: Prisma.Decimal;
+  vale_alimentacao: Prisma.Decimal | null;
 
   @Transform(({ value }) => {
     return Number(value);
   })
   @ApiProperty({ type: Number, nullable: true })
-  nota_promissoria: Prisma.Decimal;
+  nota_promissoria: Prisma.Decimal | null;
 
   @Exclude()
   senha: string;

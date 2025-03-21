@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Prisma, itens_pedido_almoxarifado } from '@prisma/client';
+import { Prisma, itens_pedido_almoxarifado } from '@database';
 import { Transform } from 'class-transformer';
 
 export class ItensPedidoAlmoxarifadoEntity
@@ -15,7 +15,7 @@ export class ItensPedidoAlmoxarifadoEntity
     return Number(value);
   })
   @ApiProperty({ type: Number, nullable: true })
-  qtde: Prisma.Decimal;
+  qtdeDecimal;
 
   @ApiProperty()
   status: string;
@@ -30,7 +30,7 @@ export class ItensPedidoAlmoxarifadoEntity
     return Number(value);
   })
   @ApiProperty({ type: Number, nullable: true })
-  valor: Prisma.Decimal;
+  valorDecimal;
 
   @ApiProperty()
   id_pedido: number;

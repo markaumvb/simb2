@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@database';
 import { Transform } from 'class-transformer';
 import { IsBoolean, IsNotEmpty, IsNumber } from 'class-validator';
 
@@ -19,7 +19,7 @@ export class CreateComposicoeDto {
     return Number(value);
   })
   @ApiProperty({ type: Number, nullable: true })
-  saldo: Prisma.Decimal | null;
+  saldoDecimal | null;
 
   @ApiProperty()
   @IsNotEmpty()

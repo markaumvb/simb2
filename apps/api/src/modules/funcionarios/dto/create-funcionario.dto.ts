@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@database';
 import { Transform } from 'class-transformer';
 import {
   IsEmail,
@@ -65,28 +65,28 @@ export class CreateFuncionarioDto {
   @Transform(({ value }) => {
     return Number(value);
   })
-  salario_base: Prisma.Decimal | null;
+  salario_baseDecimal | null;
 
   @ApiProperty({ type: Number })
   @IsNumber()
   @Transform(({ value }) => {
     return Number(value);
   })
-  comissao: Prisma.Decimal | null;
+  comissaoDecimal | null;
 
   @ApiProperty({ type: Number })
   @IsNumber()
   @Transform(({ value }) => {
     return Number(value);
   })
-  vale_alimentacao: Prisma.Decimal | null;
+  vale_alimentacaoDecimal | null;
 
   @ApiProperty({ type: Number })
   @IsNumber()
   @Transform(({ value }) => {
     return Number(value);
   })
-  nota_promissoria: Prisma.Decimal | null;
+  nota_promissoriaDecimal | null;
 
   @IsString()
   @IsNotEmpty()

@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Prisma, Log_mesa } from '@database';
 import { Transform, Type } from 'class-transformer';
 import { MesaEntity } from 'src/modules/mesas/entities/mesa.entity';
+import { Decimal } from '@prisma/client/runtime/library';
 
 export class LogMesaEntity implements Log_mesa {
   @ApiProperty()
@@ -21,14 +22,14 @@ export class LogMesaEntity implements Log_mesa {
   })
   @ApiProperty({ type: Number, nullable: true })
   @ApiProperty()
-  valor_anterior: Prisma.Decimal | null;
+  valor_anterior: Decimal | null;
 
   @Transform(({ value }) => {
     return Number(value);
   })
   @ApiProperty({ type: Number, nullable: true })
   @ApiProperty()
-  valor_atual: Prisma.Decimal | null;
+  valor_atual: Decimal | null;
 
   @Transform(({ value }) => {
     return Number(value);
