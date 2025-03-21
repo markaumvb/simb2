@@ -7,17 +7,17 @@ import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 export class MesaEntradasService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(createMesaEntradaDto: CreateMesaEntradaDto) {
+  async create(create(createMesaEntradaDto: CreateMesaEntradaDto) {): Promise<any> {
     return this.prismaTenant.prisma.mesa_entrada.create({
       data: createMesaEntradaDto,
     });
   }
 
-  findAll() {
+  async findAll(): Promise<any[]> {
     return this.prismaTenant.prisma.mesa_entrada.findMany();
   }
 
-  findOne(id: number) {
+  async findOne(findOne(id: number) {): Promise<any | null> {
     return this.prismaTenant.prisma.mesa_entrada.findUnique({
       where: { id },
       include: {
@@ -26,14 +26,14 @@ export class MesaEntradasService {
     });
   }
 
-  update(id: number, updateMesaEntradaDto: UpdateMesaEntradaDto) {
+  async update(update(id: number, updateMesaEntradaDto: UpdateMesaEntradaDto) {): Promise<any> {
     return this.prismaTenant.prisma.mesa_entrada.update({
       where: { id },
       data: updateMesaEntradaDto,
     });
   }
 
-  remove(id: number) {
+  async remove(remove(id: number) {): Promise<any> {
     return this.prismaTenant.prisma.mesa_entrada.delete({ where: { id } });
   }
 }

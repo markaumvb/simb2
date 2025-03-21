@@ -7,30 +7,30 @@ import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 export class FuncionarioPerfilsService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(createFuncionarioPerfilDto: CreateFuncionarioPerfilDto) {
+  async create(create(createFuncionarioPerfilDto: CreateFuncionarioPerfilDto) {): Promise<any> {
     return this.prismaTenant.prisma.funcionario_perfil.create({
       data: createFuncionarioPerfilDto,
     });
   }
 
-  findAll() {
+  async findAll(): Promise<any[]> {
     return this.prismaTenant.prisma.funcionario_perfil.findMany();
   }
 
-  findOne(id: number) {
+  async findOne(findOne(id: number) {): Promise<any | null> {
     return this.prismaTenant.prisma.funcionario_perfil.findUnique({
       where: { id: id },
     });
   }
 
-  update(id: number, updateFuncionarioPerfilDto: UpdateFuncionarioPerfilDto) {
+  async update(update(id: number, updateFuncionarioPerfilDto: UpdateFuncionarioPerfilDto) {): Promise<any> {
     return this.prismaTenant.prisma.funcionario_perfil.update({
       where: { id },
       data: updateFuncionarioPerfilDto,
     });
   }
 
-  remove(id: number) {
+  async remove(remove(id: number) {): Promise<any> {
     return this.prismaTenant.prisma.funcionario_perfil.delete({
       where: { id: id },
     });

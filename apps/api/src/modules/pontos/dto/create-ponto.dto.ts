@@ -1,5 +1,5 @@
+// src/modules/pontos/dto/create-ponto.dto.ts
 import { ApiProperty } from '@nestjs/swagger';
-import { Prisma } from '@database';
 import { Transform } from 'class-transformer';
 import {
   IsBoolean,
@@ -21,13 +21,19 @@ export class CreatePontoDto {
   @ApiProperty()
   endereco: string;
 
-  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ required: false })
   cep: string | null;
 
-  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ required: false })
   coord_y: string | null;
 
-  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ required: false })
   coord_x: string | null;
 
   @IsDate()
@@ -37,7 +43,7 @@ export class CreatePontoDto {
 
   @IsDate()
   @IsOptional()
-  @ApiProperty()
+  @ApiProperty({ required: false })
   dt_alteracao: Date | null;
 
   @IsNumber()
@@ -50,10 +56,14 @@ export class CreatePontoDto {
   @ApiProperty()
   tipo: string;
 
-  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ required: false })
   complemento: string | null;
 
-  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ required: false })
   bairro: string | null;
 
   @IsNumber()
@@ -72,14 +82,12 @@ export class CreatePontoDto {
 
   @IsNumber()
   @IsOptional()
-  @Transform(({ value }) => {
-    return Number(value);
-  })
+  @Transform(({ value }) => Number(value))
   @ApiProperty({ type: Number, nullable: true })
-  valor_aluguelDecimal | null;
+  valor_aluguel: number | null;
 
   @IsNumber()
   @IsOptional()
-  @ApiProperty()
+  @ApiProperty({ required: false })
   numero_endereco: number | null;
 }

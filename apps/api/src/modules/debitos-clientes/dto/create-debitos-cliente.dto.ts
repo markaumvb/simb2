@@ -34,7 +34,7 @@ export class CreateDebitosClienteDto {
     return Number(value);
   })
   @ApiProperty({ type: Number, nullable: true })
-  valorDecimal;
+  valor: number;
 
   @IsString()
   @ApiProperty()

@@ -19,7 +19,7 @@ export class CreateItensAcertoDto {
     return Number(value);
   })
   @ApiProperty({ type: Number, nullable: true })
-  valorDecimal;
+  valor: number;
 
   @IsDate()
   @ApiProperty()

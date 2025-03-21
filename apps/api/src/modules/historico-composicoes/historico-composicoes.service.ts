@@ -7,33 +7,33 @@ import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 export class HistoricoComposicoesService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(createHistoricoComposicoeDto: CreateHistoricoComposicoeDto) {
+  async create(create(createHistoricoComposicoeDto: CreateHistoricoComposicoeDto) {): Promise<any> {
     return this.prismaTenant.prisma.historico_composicao.create({
       data: createHistoricoComposicoeDto,
     });
   }
 
-  findAll() {
+  async findAll(): Promise<any[]> {
     return this.prismaTenant.prisma.historico_composicao.findMany();
   }
 
-  findOne(id: number) {
+  async findOne(findOne(id: number) {): Promise<any | null> {
     return this.prismaTenant.prisma.historico_composicao.findUnique({
       where: { id },
     });
   }
 
-  update(
+  async update(update(
     id: number,
     updateHistoricoComposicoeDto: UpdateHistoricoComposicoeDto,
-  ) {
+  ) {): Promise<any> {
     return this.prismaTenant.prisma.historico_composicao.update({
       where: { id },
       data: updateHistoricoComposicoeDto,
     });
   }
 
-  remove(id: number) {
+  async remove(remove(id: number) {): Promise<any> {
     return this.prismaTenant.prisma.historico_composicao.delete({
       where: { id },
     });

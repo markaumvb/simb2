@@ -65,28 +65,28 @@ export class CreateFuncionarioDto {
   @Transform(({ value }) => {
     return Number(value);
   })
-  salario_baseDecimal | null;
+  salario_base: number | null;
 
   @ApiProperty({ type: Number })
   @IsNumber()
   @Transform(({ value }) => {
     return Number(value);
   })
-  comissaoDecimal | null;
+  comissao: number | null;
 
   @ApiProperty({ type: Number })
   @IsNumber()
   @Transform(({ value }) => {
     return Number(value);
   })
-  vale_alimentacaoDecimal | null;
+  vale_alimentacao: number | null;
 
   @ApiProperty({ type: Number })
   @IsNumber()
   @Transform(({ value }) => {
     return Number(value);
   })
-  nota_promissoriaDecimal | null;
+  nota_promissoria: number | null;
 
   @IsString()
   @IsNotEmpty()

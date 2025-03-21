@@ -7,15 +7,15 @@ import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 export class LinhasService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(createLinhaDto: CreateLinhaDto) {
+  async create(create(createLinhaDto: CreateLinhaDto) {): Promise<any> {
     return this.prismaTenant.prisma.linha.create({ data: createLinhaDto });
   }
 
-  findAll() {
+  async findAll(): Promise<any[]> {
     return this.prismaTenant.prisma.linha.findMany();
   }
 
-  findOne(id: number) {
+  async findOne(findOne(id: number) {): Promise<any | null> {
     return this.prismaTenant.prisma.linha.findUnique({
       where: { id },
       include: {
@@ -24,14 +24,14 @@ export class LinhasService {
     });
   }
 
-  update(id: number, updateLinhaDto: UpdateLinhaDto) {
+  async update(update(id: number, updateLinhaDto: UpdateLinhaDto) {): Promise<any> {
     return this.prismaTenant.prisma.linha.update({
       where: { id },
       data: updateLinhaDto,
     });
   }
 
-  remove(id: number) {
+  async remove(remove(id: number) {): Promise<any> {
     return this.prismaTenant.prisma.linha.delete({ where: { id } });
   }
 }

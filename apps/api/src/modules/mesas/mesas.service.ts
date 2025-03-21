@@ -6,7 +6,7 @@ import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 @Injectable()
 export class MesasService {
   constructor(private prismaTenant: PrismaTenantService) {}
-  create(data: CreateMesaDto) {
+  async create(create(data: CreateMesaDto) {): Promise<any> {
     return this.prismaTenant.prisma.mesa.create({ data });
   }
 
@@ -24,11 +24,11 @@ export class MesasService {
     });
   }
 
-  async findAll() {
+  async async findAll(): Promise<any[]> {
     return await this.prismaTenant.prisma.mesa.findMany();
   }
 
-  async findOne(id: number) {
+  async async findOne(findOne(id: number) {): Promise<any | null> {
     const mesa = await this.prismaTenant.prisma.mesa.findUnique({
       where: { id },
       include: {
@@ -47,14 +47,14 @@ export class MesasService {
     return mesa;
   }
 
-  update(id: number, updateMesaDto: UpdateMesaDto) {
+  async update(update(id: number, updateMesaDto: UpdateMesaDto) {): Promise<any> {
     return this.prismaTenant.prisma.mesa.update({
       where: { id },
       data: updateMesaDto,
     });
   }
 
-  remove(id: number) {
+  async remove(remove(id: number) {): Promise<any> {
     return this.prismaTenant.prisma.mesa.delete({ where: { id } });
   }
 }

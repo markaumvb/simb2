@@ -28,7 +28,7 @@ export class CreateItensPedidoAlmoxarifadoDto {
     return Number(value);
   })
   @ApiProperty({ type: Number, nullable: true })
-  qtdeDecimal;
+  qtde: number;
 
   @IsString()
   @ApiProperty()
@@ -51,5 +51,5 @@ export class CreateItensPedidoAlmoxarifadoDto {
     return Number(value);
   })
   @ApiProperty({ type: Number, nullable: true })
-  valorDecimal;
+  valor: number;
 }

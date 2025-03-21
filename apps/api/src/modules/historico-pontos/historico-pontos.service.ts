@@ -7,17 +7,17 @@ import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 export class HistoricoPontosService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(createHistoricoPontoDto: CreateHistoricoPontoDto) {
+  async create(create(createHistoricoPontoDto: CreateHistoricoPontoDto) {): Promise<any> {
     return this.prismaTenant.prisma.historico_ponto.create({
       data: createHistoricoPontoDto,
     });
   }
 
-  findAll() {
+  async findAll(): Promise<any[]> {
     return this.prismaTenant.prisma.historico_ponto.findMany();
   }
 
-  findOne(id: number) {
+  async findOne(findOne(id: number) {): Promise<any | null> {
     return this.prismaTenant.prisma.historico_ponto.findUnique({
       where: { id },
       include: {
@@ -26,14 +26,14 @@ export class HistoricoPontosService {
     });
   }
 
-  update(id: number, updateHistoricoPontoDto: UpdateHistoricoPontoDto) {
+  async update(update(id: number, updateHistoricoPontoDto: UpdateHistoricoPontoDto) {): Promise<any> {
     return this.prismaTenant.prisma.historico_ponto.update({
       where: { id },
       data: updateHistoricoPontoDto,
     });
   }
 
-  remove(id: number) {
+  async remove(remove(id: number) {): Promise<any> {
     return this.prismaTenant.prisma.historico_ponto.delete({ where: { id } });
   }
 }

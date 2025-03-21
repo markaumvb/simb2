@@ -7,15 +7,15 @@ import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 export class FuncaosService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(data: CreateFuncaoDto) {
+  async create(create(data: CreateFuncaoDto) {): Promise<any> {
     return this.prismaTenant.prisma.funcao.create({ data });
   }
 
-  findAll() {
+  async findAll(): Promise<any[]> {
     return this.prismaTenant.prisma.funcao.findMany();
   }
 
-  findOne(id: number) {
+  async findOne(findOne(id: number) {): Promise<any | null> {
     return this.prismaTenant.prisma.funcao.findUnique({
       where: { id },
       include: {
@@ -24,14 +24,14 @@ export class FuncaosService {
     });
   }
 
-  update(id: number, updateFuncaoDto: UpdateFuncaoDto) {
+  async update(update(id: number, updateFuncaoDto: UpdateFuncaoDto) {): Promise<any> {
     return this.prismaTenant.prisma.funcao.update({
       where: { id },
       data: updateFuncaoDto,
     });
   }
 
-  remove(id: number) {
+  async remove(remove(id: number) {): Promise<any> {
     return this.prismaTenant.prisma.funcao.delete({ where: { id } });
   }
 }

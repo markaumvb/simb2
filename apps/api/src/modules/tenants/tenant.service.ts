@@ -7,17 +7,17 @@ import { UpdateTenantDto } from './dto/update-tenant.dto';
 export class TenantService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  async create(createTenantDto: CreateTenantDto) {
+  async async create(create(createTenantDto: CreateTenantDto) {): Promise<any> {
     return this.prismaTenant.prisma.tenant.create({
       data: createTenantDto,
     });
   }
 
-  async findAll() {
+  async async findAll(): Promise<any[]> {
     return this.prismaTenant.prisma.tenant.findMany();
   }
 
-  async findOne(id: number) {
+  async async findOne(findOne(id: number) {): Promise<any | null> {
     return this.prismaTenant.prisma.tenant.findUnique({
       where: { id },
     });
@@ -29,14 +29,14 @@ export class TenantService {
     });
   }
 
-  async update(id: number, updateTenantDto: UpdateTenantDto) {
+  async async update(update(id: number, updateTenantDto: UpdateTenantDto) {): Promise<any> {
     return this.prismaTenant.prisma.tenant.update({
       where: { id },
       data: updateTenantDto,
     });
   }
 
-  async remove(id: number) {
+  async async remove(remove(id: number) {): Promise<any> {
     return this.prismaTenant.prisma.tenant.delete({
       where: { id },
     });

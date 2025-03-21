@@ -7,28 +7,28 @@ import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 export class TipoDespesasService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(createTipoDespesaDto: CreateTipoDespesaDto) {
+  async create(create(createTipoDespesaDto: CreateTipoDespesaDto) {): Promise<any> {
     return this.prismaTenant.prisma.tipo_despesa.create({
       data: createTipoDespesaDto,
     });
   }
 
-  findAll() {
+  async findAll(): Promise<any[]> {
     return this.prismaTenant.prisma.tipo_despesa.findMany();
   }
 
-  findOne(id: number) {
+  async findOne(findOne(id: number) {): Promise<any | null> {
     return this.prismaTenant.prisma.tipo_despesa.findUnique({ where: { id } });
   }
 
-  update(id: number, updateTipoDespesaDto: UpdateTipoDespesaDto) {
+  async update(update(id: number, updateTipoDespesaDto: UpdateTipoDespesaDto) {): Promise<any> {
     return this.prismaTenant.prisma.tipo_despesa.update({
       where: { id },
       data: updateTipoDespesaDto,
     });
   }
 
-  remove(id: number) {
+  async remove(remove(id: number) {): Promise<any> {
     return this.prismaTenant.prisma.tipo_despesa.delete({ where: { id } });
   }
 }

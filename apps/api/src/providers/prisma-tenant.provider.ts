@@ -1,7 +1,9 @@
+// src/providers/prisma-tenant.provider.ts
 import { Injectable, Scope, Inject } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { PrismaService } from 'src/database/prisma.service';
 import { Request } from 'express';
+import { PrismaClient } from '@prisma/client';
 
 @Injectable({ scope: Scope.REQUEST })
 export class PrismaTenantService {
@@ -10,7 +12,7 @@ export class PrismaTenantService {
     private prismaService: PrismaService,
   ) {}
 
-  get prisma() {
+  get prisma(): PrismaClient {
     const tenantId = this.request['tenantId'];
 
     if (!tenantId) {

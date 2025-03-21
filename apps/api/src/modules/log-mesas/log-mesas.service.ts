@@ -7,15 +7,15 @@ import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 export class LogMesasService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(createLogMesaDto: CreateLogMesaDto) {
+  async create(create(createLogMesaDto: CreateLogMesaDto) {): Promise<any> {
     return this.prismaTenant.prisma.log_mesa.create({ data: createLogMesaDto });
   }
 
-  findAll() {
+  async findAll(): Promise<any[]> {
     return this.prismaTenant.prisma.log_mesa.findMany();
   }
 
-  findOne(id: number) {
+  async findOne(findOne(id: number) {): Promise<any | null> {
     return this.prismaTenant.prisma.log_mesa.findUnique({ where: { id } });
   }
 
@@ -29,14 +29,14 @@ export class LogMesasService {
     });
   }
 
-  update(id: number, updateLogMesaDto: UpdateLogMesaDto) {
+  async update(update(id: number, updateLogMesaDto: UpdateLogMesaDto) {): Promise<any> {
     return this.prismaTenant.prisma.log_mesa.update({
       where: { id },
       data: updateLogMesaDto,
     });
   }
 
-  remove(id: number) {
+  async remove(remove(id: number) {): Promise<any> {
     return this.prismaTenant.prisma.log_mesa.delete({ where: { id } });
   }
 }

@@ -7,28 +7,28 @@ import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 export class PontoClientesService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(createPontoClienteDto: CreatePontoClienteDto) {
+  async create(create(createPontoClienteDto: CreatePontoClienteDto) {): Promise<any> {
     return this.prismaTenant.prisma.ponto_cliente.create({
       data: createPontoClienteDto,
     });
   }
 
-  findAll() {
+  async findAll(): Promise<any[]> {
     return this.prismaTenant.prisma.ponto_cliente.findMany();
   }
 
-  findOne(id: number) {
+  async findOne(findOne(id: number) {): Promise<any | null> {
     return this.prismaTenant.prisma.ponto_cliente.findUnique({ where: { id } });
   }
 
-  update(id: number, updatePontoClienteDto: UpdatePontoClienteDto) {
+  async update(update(id: number, updatePontoClienteDto: UpdatePontoClienteDto) {): Promise<any> {
     return this.prismaTenant.prisma.ponto_cliente.update({
       where: { id },
       data: updatePontoClienteDto,
     });
   }
 
-  remove(id: number) {
+  async remove(remove(id: number) {): Promise<any> {
     return this.prismaTenant.prisma.ponto_cliente.delete({ where: { id } });
   }
 }

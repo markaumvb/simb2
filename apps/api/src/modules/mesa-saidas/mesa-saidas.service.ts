@@ -7,28 +7,28 @@ import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 export class MesaSaidasService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(createMesaSaidaDto: CreateMesaSaidaDto) {
+  async create(create(createMesaSaidaDto: CreateMesaSaidaDto) {): Promise<any> {
     return this.prismaTenant.prisma.mesa_saida.create({
       data: createMesaSaidaDto,
     });
   }
 
-  findAll() {
+  async findAll(): Promise<any[]> {
     return this.prismaTenant.prisma.mesa_saida.findMany();
   }
 
-  findOne(id: number) {
+  async findOne(findOne(id: number) {): Promise<any | null> {
     return this.prismaTenant.prisma.mesa_saida.findUnique({ where: { id } });
   }
 
-  update(id: number, updateMesaSaidaDto: UpdateMesaSaidaDto) {
+  async update(update(id: number, updateMesaSaidaDto: UpdateMesaSaidaDto) {): Promise<any> {
     return this.prismaTenant.prisma.mesa_saida.update({
       where: { id },
       data: updateMesaSaidaDto,
     });
   }
 
-  remove(id: number) {
+  async remove(remove(id: number) {): Promise<any> {
     return this.prismaTenant.prisma.mesa_saida.delete({ where: { id } });
   }
 }

@@ -7,17 +7,17 @@ import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 export class AcertoFechamentosService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(createAcertoFechamentoDto: CreateAcertoFechamentoDto) {
+  async create(create(createAcertoFechamentoDto: CreateAcertoFechamentoDto) {): Promise<any> {
     return this.prismaTenant.prisma.acerto_fechamento.create({
       data: createAcertoFechamentoDto,
     });
   }
 
-  findAll() {
+  async findAll(): Promise<any[]> {
     return this.prismaTenant.prisma.acerto_fechamento.findMany();
   }
 
-  findOne(id: number) {
+  async findOne(findOne(id: number) {): Promise<any | null> {
     return this.prismaTenant.prisma.acerto_fechamento.findUnique({
       where: { id },
       include: {
@@ -26,14 +26,14 @@ export class AcertoFechamentosService {
     });
   }
 
-  update(id: number, updateAcertoFechamentoDto: UpdateAcertoFechamentoDto) {
+  async update(update(id: number, updateAcertoFechamentoDto: UpdateAcertoFechamentoDto) {): Promise<any> {
     return this.prismaTenant.prisma.acerto_fechamento.update({
       where: { id },
       data: updateAcertoFechamentoDto,
     });
   }
 
-  remove(id: number) {
+  async remove(remove(id: number) {): Promise<any> {
     return this.prismaTenant.prisma.acerto_fechamento.delete({ where: { id } });
   }
 }

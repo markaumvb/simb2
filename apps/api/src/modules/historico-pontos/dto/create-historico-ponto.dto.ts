@@ -64,5 +64,5 @@ export class CreateHistoricoPontoDto {
     return Number(value);
   })
   @ApiProperty({ type: Number, nullable: true })
-  media_cobrancaDecimal | null;
+  media_cobranca: number | null;
 }

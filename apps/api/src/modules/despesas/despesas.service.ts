@@ -7,11 +7,11 @@ import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 export class DespesasService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(createDespesaDto: CreateDespesaDto) {
+  async create(create(createDespesaDto: CreateDespesaDto) {): Promise<any> {
     return this.prismaTenant.prisma.despesa.create({ data: createDespesaDto });
   }
 
-  findAll() {
+  async findAll(): Promise<any[]> {
     return this.prismaTenant.prisma.despesa.findMany();
   }
 
@@ -21,7 +21,7 @@ export class DespesasService {
     });
   }
 
-  findOne(id: number) {
+  async findOne(findOne(id: number) {): Promise<any | null> {
     return this.prismaTenant.prisma.despesa.findUnique({
       where: { id },
       include: {
@@ -31,14 +31,14 @@ export class DespesasService {
     });
   }
 
-  update(id: number, updateDespesaDto: UpdateDespesaDto) {
+  async update(update(id: number, updateDespesaDto: UpdateDespesaDto) {): Promise<any> {
     return this.prismaTenant.prisma.despesa.update({
       where: { id },
       data: updateDespesaDto,
     });
   }
 
-  remove(id: number) {
+  async remove(remove(id: number) {): Promise<any> {
     return this.prismaTenant.prisma.despesa.delete({ where: { id } });
   }
 }

@@ -7,28 +7,28 @@ import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 export class PermissaoUsuariosService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(data: CreatePermissaoUsuarioDto) {
+  async create(create(data: CreatePermissaoUsuarioDto) {): Promise<any> {
     return this.prismaTenant.prisma.permissoes_usuario.create({ data });
   }
 
-  findAll() {
+  async findAll(): Promise<any[]> {
     return this.prismaTenant.prisma.permissoes_usuario.findMany();
   }
 
-  findOne(id: number) {
+  async findOne(findOne(id: number) {): Promise<any | null> {
     return this.prismaTenant.prisma.permissoes_usuario.findUnique({
       where: { id },
     });
   }
 
-  update(id: number, data: UpdatePermissaoUsuarioDto) {
+  async update(update(id: number, data: UpdatePermissaoUsuarioDto) {): Promise<any> {
     return this.prismaTenant.prisma.permissoes_usuario.update({
       where: { id },
       data,
     });
   }
 
-  remove(id: number) {
+  async remove(remove(id: number) {): Promise<any> {
     return this.prismaTenant.prisma.permissoes_usuario.delete({
       where: { id },
     });

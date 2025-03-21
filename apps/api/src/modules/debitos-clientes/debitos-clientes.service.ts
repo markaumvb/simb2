@@ -7,17 +7,17 @@ import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 export class DebitosClientesService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(createDebitosClienteDto: CreateDebitosClienteDto) {
+  async create(create(createDebitosClienteDto: CreateDebitosClienteDto) {): Promise<any> {
     return this.prismaTenant.prisma.debitos_cliente.create({
       data: createDebitosClienteDto,
     });
   }
 
-  findAll() {
+  async findAll(): Promise<any[]> {
     return this.prismaTenant.prisma.debitos_cliente.findMany();
   }
 
-  findOne(id: number) {
+  async findOne(findOne(id: number) {): Promise<any | null> {
     return this.prismaTenant.prisma.debitos_cliente.findUnique({
       where: { id },
       include: {
@@ -26,14 +26,14 @@ export class DebitosClientesService {
     });
   }
 
-  update(id: number, updateDebitosClienteDto: UpdateDebitosClienteDto) {
+  async update(update(id: number, updateDebitosClienteDto: UpdateDebitosClienteDto) {): Promise<any> {
     return this.prismaTenant.prisma.debitos_cliente.update({
       where: { id },
       data: updateDebitosClienteDto,
     });
   }
 
-  remove(id: number) {
+  async remove(remove(id: number) {): Promise<any> {
     return this.prismaTenant.prisma.debitos_cliente.delete({ where: { id } });
   }
 }

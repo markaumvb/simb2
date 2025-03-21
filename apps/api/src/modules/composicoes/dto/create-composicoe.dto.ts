@@ -19,7 +19,7 @@ export class CreateComposicoeDto {
     return Number(value);
   })
   @ApiProperty({ type: Number, nullable: true })
-  saldoDecimal | null;
+  saldo: number | null;
 
   @ApiProperty()
   @IsNotEmpty()

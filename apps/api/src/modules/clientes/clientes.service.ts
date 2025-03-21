@@ -6,15 +6,15 @@ import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 @Injectable()
 export class ClientesService {
   constructor(private prismaTenant: PrismaTenantService) {}
-  create(createClienteDto: CreateClienteDto) {
+  async create(create(createClienteDto: CreateClienteDto) {): Promise<any> {
     return this.prismaTenant.prisma.cliente.create({ data: createClienteDto });
   }
 
-  async findAll() {
+  async async findAll(): Promise<any[]> {
     return await this.prismaTenant.prisma.cliente.findMany();
   }
 
-  findOne(id: number) {
+  async findOne(findOne(id: number) {): Promise<any | null> {
     return this.prismaTenant.prisma.cliente.findUnique({
       where: { id },
       include: {
@@ -31,14 +31,14 @@ export class ClientesService {
     });
   }
 
-  update(id: number, updateClienteDto: UpdateClienteDto) {
+  async update(update(id: number, updateClienteDto: UpdateClienteDto) {): Promise<any> {
     return this.prismaTenant.prisma.cliente.update({
       where: { id },
       data: updateClienteDto,
     });
   }
 
-  remove(id: number) {
+  async remove(remove(id: number) {): Promise<any> {
     return this.prismaTenant.prisma.cliente.delete({ where: { id } });
   }
 }

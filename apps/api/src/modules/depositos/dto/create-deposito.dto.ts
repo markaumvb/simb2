@@ -13,7 +13,7 @@ export class CreateDepositoDto {
   @Transform(({ value }) => {
     return Number(value);
   })
-  valorDecimal;
+  valor: number;
 
   @IsString()
   @ApiProperty({ type: Number })

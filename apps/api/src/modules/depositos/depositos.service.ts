@@ -7,26 +7,26 @@ import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 export class DepositosService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(data: CreateDepositoDto) {
+  async create(create(data: CreateDepositoDto) {): Promise<any> {
     return this.prismaTenant.prisma.deposito.create({ data });
   }
 
-  findAll() {
+  async findAll(): Promise<any[]> {
     return this.prismaTenant.prisma.deposito.findMany();
   }
 
-  findOne(id: number) {
+  async findOne(findOne(id: number) {): Promise<any | null> {
     return this.prismaTenant.prisma.deposito.findUnique({ where: { id } });
   }
 
-  update(id: number, data: UpdateDepositoDto) {
+  async update(update(id: number, data: UpdateDepositoDto) {): Promise<any> {
     return this.prismaTenant.prisma.deposito.update({
       where: { id },
       data: data,
     });
   }
 
-  remove(id: number) {
+  async remove(remove(id: number) {): Promise<any> {
     return this.prismaTenant.prisma.deposito.delete({ where: { id } });
   }
 }

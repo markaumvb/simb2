@@ -7,15 +7,15 @@ import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 export class CobrancasService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(data: CreateCobrancaDto) {
+  async create(create(data: CreateCobrancaDto) {): Promise<any> {
     return this.prismaTenant.prisma.cobranca.create({ data });
   }
 
-  findAll() {
+  async findAll(): Promise<any[]> {
     return this.prismaTenant.prisma.cobranca.findMany();
   }
 
-  findOne(id: number) {
+  async findOne(findOne(id: number) {): Promise<any | null> {
     return this.prismaTenant.prisma.cobranca.findUnique({ where: { id: id } });
   }
 
@@ -28,14 +28,14 @@ export class CobrancasService {
     });
   }
 
-  update(id: number, updateCobrancaDto: UpdateCobrancaDto) {
+  async update(update(id: number, updateCobrancaDto: UpdateCobrancaDto) {): Promise<any> {
     return this.prismaTenant.prisma.cobranca.update({
       where: { id },
       data: updateCobrancaDto,
     });
   }
 
-  remove(id: number) {
+  async remove(remove(id: number) {): Promise<any> {
     return this.prismaTenant.prisma.cobranca.delete({ where: { id } });
   }
 }

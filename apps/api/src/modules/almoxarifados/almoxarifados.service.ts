@@ -7,17 +7,17 @@ import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 export class AlmoxarifadosService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(createAlmoxarifadoDto: CreateAlmoxarifadoDto) {
+  async create(create(createAlmoxarifadoDto: CreateAlmoxarifadoDto) {): Promise<any> {
     return this.prismaTenant.prisma.almoxarifado.create({
       data: createAlmoxarifadoDto,
     });
   }
 
-  findAll() {
+  async findAll(): Promise<any[]> {
     return this.prismaTenant.prisma.almoxarifado.findMany();
   }
 
-  findOne(id: number) {
+  async findOne(findOne(id: number) {): Promise<any | null> {
     return this.prismaTenant.prisma.almoxarifado.findUnique({
       where: { id },
       include: {
@@ -26,14 +26,14 @@ export class AlmoxarifadosService {
     });
   }
 
-  update(id: number, updateAlmoxarifadoDto: UpdateAlmoxarifadoDto) {
+  async update(update(id: number, updateAlmoxarifadoDto: UpdateAlmoxarifadoDto) {): Promise<any> {
     return this.prismaTenant.prisma.almoxarifado.update({
       where: { id },
       data: updateAlmoxarifadoDto,
     });
   }
 
-  remove(id: number) {
+  async remove(remove(id: number) {): Promise<any> {
     return this.prismaTenant.prisma.almoxarifado.delete({ where: { id } });
   }
 }

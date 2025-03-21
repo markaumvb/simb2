@@ -7,15 +7,15 @@ import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 export class TipoMesasService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(data: CreateTipoMesaDto) {
+  async create(create(data: CreateTipoMesaDto) {): Promise<any> {
     return this.prismaTenant.prisma.tipo_mesa.create({ data });
   }
 
-  findAll() {
+  async findAll(): Promise<any[]> {
     return this.prismaTenant.prisma.tipo_mesa.findMany();
   }
 
-  findOne(id: number) {
+  async findOne(findOne(id: number) {): Promise<any | null> {
     return this.prismaTenant.prisma.tipo_mesa.findUnique({
       where: { id },
       include: {
@@ -24,14 +24,14 @@ export class TipoMesasService {
     });
   }
 
-  update(id: number, updateTipoMesaDto: UpdateTipoMesaDto) {
+  async update(update(id: number, updateTipoMesaDto: UpdateTipoMesaDto) {): Promise<any> {
     return this.prismaTenant.prisma.tipo_mesa.update({
       where: { id },
       data: updateTipoMesaDto,
     });
   }
 
-  remove(id: number) {
+  async remove(remove(id: number) {): Promise<any> {
     return this.prismaTenant.prisma.tipo_mesa.delete({ where: { id } });
   }
 }

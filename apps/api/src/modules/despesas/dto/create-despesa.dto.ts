@@ -20,7 +20,7 @@ export class CreateDespesaDto {
   @Transform(({ value }) => {
     return Number(value);
   })
-  valorDecimal;
+  valor: number;
 
   @IsDate()
   @ApiProperty()

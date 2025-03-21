@@ -7,17 +7,17 @@ import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 export class CidadesService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(createCidadeDto: CreateCidadeDto) {
+  async create(create(createCidadeDto: CreateCidadeDto) {): Promise<any> {
     return this.prismaTenant.prisma.cidade.create({ data: createCidadeDto });
   }
 
-  async findAll() {
+  async async findAll(): Promise<any[]> {
     const total = await this.prismaTenant.prisma.cidade.count;
     const dados = await this.prismaTenant.prisma.cidade.findMany();
     return { dados, total };
   }
 
-  findOne(id: number) {
+  async findOne(findOne(id: number) {): Promise<any | null> {
     return this.prismaTenant.prisma.cidade.findUnique({
       where: { id },
       include: {
@@ -26,14 +26,14 @@ export class CidadesService {
     });
   }
 
-  update(id: number, updateCidadeDto: UpdateCidadeDto) {
+  async update(update(id: number, updateCidadeDto: UpdateCidadeDto) {): Promise<any> {
     return this.prismaTenant.prisma.cidade.update({
       where: { id },
       data: updateCidadeDto,
     });
   }
 
-  remove(id: number) {
+  async remove(remove(id: number) {): Promise<any> {
     return this.prismaTenant.prisma.cidade.delete({ where: { id } });
   }
 }

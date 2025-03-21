@@ -2,33 +2,34 @@ import { Injectable } from '@nestjs/common';
 import { CreateBrindeDto } from './dto/create-brinde.dto';
 import { UpdateBrindeDto } from './dto/update-brinde.dto';
 import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
+import { async } from 'rxjs';
 
 @Injectable()
 export class BrindesService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(createBrindeDto: CreateBrindeDto) {
+  async create(create(createBrindeDto: CreateBrindeDto) {): Promise<any> {
     return this.prismaTenant.prisma.brinde.create({ data: createBrindeDto });
   }
 
-  findAll() {
+  async findAll(): Promise<any[]> {
     return this.prismaTenant.prisma.brinde.findMany();
   }
 
-  findOne(id: number) {
+  async findOne(findOne(id: number) {): Promise<any | null> {
     return this.prismaTenant.prisma.brinde.findUnique({
       where: { id },
     });
   }
 
-  update(id: number, updateBrindeDto: UpdateBrindeDto) {
+  async update(update(id: number, updateBrindeDto: UpdateBrindeDto) {): Promise<any> {
     return this.prismaTenant.prisma.brinde.update({
       where: { id },
       data: updateBrindeDto,
     });
   }
 
-  remove(id: number) {
+  async remove(remove(id: number) {): Promise<any> {
     return this.prismaTenant.prisma.brinde.delete({ where: { id } });
   }
 }

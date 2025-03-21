@@ -10,7 +10,7 @@ export const roundsOfHashing = 10; // fator de custo (aumentar a força do hash)
 export class FuncionariosService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  async create(createFuncionarioDto: CreateFuncionarioDto) {
+  async async create(create(createFuncionarioDto: CreateFuncionarioDto) {): Promise<any> {
     const hashedpassword = await bcrypt.hash(
       createFuncionarioDto.senha,
       roundsOfHashing,
@@ -21,7 +21,7 @@ export class FuncionariosService {
     });
   }
 
-  findAll() {
+  async findAll(): Promise<any[]> {
     return this.prismaTenant.prisma.funcionario.findMany();
   }
 
@@ -31,7 +31,7 @@ export class FuncionariosService {
     });
   }
 
-  findOne(id: number) {
+  async findOne(findOne(id: number) {): Promise<any | null> {
     return this.prismaTenant.prisma.funcionario.findUnique({
       where: { id },
       include: {
@@ -49,7 +49,7 @@ export class FuncionariosService {
     });
   }
 
-  async update(id: number, updateFuncionarioDto: UpdateFuncionarioDto) {
+  async async update(update(id: number, updateFuncionarioDto: UpdateFuncionarioDto) {): Promise<any> {
     if (updateFuncionarioDto.senha) {
       updateFuncionarioDto.senha = await bcrypt.hash(
         updateFuncionarioDto.senha,
@@ -62,7 +62,7 @@ export class FuncionariosService {
     });
   }
 
-  remove(id: number) {
+  async remove(remove(id: number) {): Promise<any> {
     return this.prismaTenant.prisma.funcionario.delete({ where: { id } });
   }
 }

@@ -1,12 +1,12 @@
+// src/modules/log-mesas/dto/create-log-mesa.dto.ts
 import { ApiProperty } from '@nestjs/swagger';
-import { Prisma } from '@database';
 import { Transform } from 'class-transformer';
 import {
   IsDate,
   IsNotEmpty,
   IsNumber,
   IsOptional,
-  isNotEmpty,
+  IsString,
 } from 'class-validator';
 
 export class CreateLogMesaDto {
@@ -18,68 +18,63 @@ export class CreateLogMesaDto {
   @IsNumber()
   @IsNotEmpty()
   @ApiProperty()
-  contador_anterior: number | null;
+  contador_anterior: number;
 
   @IsNumber()
   @IsNotEmpty()
   @ApiProperty()
-  contador_atual: number | null;
+  contador_atual: number;
 
   @IsOptional()
   @IsNumber()
-  @Transform(({ value }) => {
-    return Number(value);
-  })
+  @Transform(({ value }) => Number(value))
   @ApiProperty({ type: Number, nullable: true })
-  valor_anteriorDecimal | null;
+  valor_anterior: number | null;
 
   @IsOptional()
   @IsNumber()
-  @Transform(({ value }) => {
-    return Number(value);
-  })
+  @Transform(({ value }) => Number(value))
   @ApiProperty({ type: Number, nullable: true })
-  valor_atualDecimal | null;
+  valor_atual: number | null;
 
   @IsOptional()
   @IsNumber()
-  @Transform(({ value }) => {
-    return Number(value);
-  })
+  @Transform(({ value }) => Number(value))
   @ApiProperty({ type: Number, nullable: true })
-  porcentagem_anteriorDecimal | null;
+  porcentagem_anterior: number | null;
 
   @IsOptional()
   @IsNumber()
-  @Transform(({ value }) => {
-    return Number(value);
-  })
+  @Transform(({ value }) => Number(value))
   @ApiProperty({ type: Number, nullable: true })
-  @ApiProperty()
-  porcentagem_atualDecimal | null;
+  porcentagem_atual: number | null;
 
   @IsDate()
   @ApiProperty()
-  data: Date | null;
+  data: Date;
 
   @IsNumber()
   @IsNotEmpty()
   @ApiProperty()
-  id_linha: number | null;
+  id_linha: number;
 
   @IsNumber()
   @IsNotEmpty()
   @ApiProperty()
-  id_movimentacao: number | null;
+  id_movimentacao: number;
 
-  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ required: false })
   cord_x: string | null;
 
-  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ required: false })
   cord_y: string | null;
 
   @IsNumber()
-  @IsNotEmpty()
-  @ApiProperty()
+  @IsOptional()
+  @ApiProperty({ required: false })
   id_funcionario: number | null;
 }

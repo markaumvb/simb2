@@ -30,7 +30,7 @@ export class CreateCobrancaDto {
     return Number(value);
   })
   @ApiProperty({ type: Number })
-  valor_cobradoDecimal;
+  valor_cobrado: number;
 
   @IsNotEmpty()
   @IsNumber()
@@ -38,7 +38,7 @@ export class CreateCobrancaDto {
     return Number(value);
   })
   @ApiProperty({ type: Number })
-  descontoDecimal | null;
+  desconto: number | null;
 
   @ApiProperty()
   dt_alteracao: Date | null;
