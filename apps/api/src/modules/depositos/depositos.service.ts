@@ -1,32 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { CreateDepositoDto } from './dto/create-deposito.dto';
 import { UpdateDepositoDto } from './dto/update-deposito.dto';
-import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
+import { PrismaService } from 'src/database/prisma.service';
 
 @Injectable()
 export class DepositosService {
-  constructor(private prismaTenant: PrismaTenantService) {}
+  constructor(private prisma: PrismaService) {}
 
-  async create(create(data: CreateDepositoDto) {): Promise<any> {
-    return this.prismaTenant.prisma.deposito.create({ data });
+  create(data: CreateDepositoDto) {
+    return this.prisma.deposito.create({ data });
   }
 
-  async findAll(): Promise<any[]> {
-    return this.prismaTenant.prisma.deposito.findMany();
+  findAll() {
+    return this.prisma.deposito.findMany();
   }
 
-  async findOne(findOne(id: number) {): Promise<any | null> {
-    return this.prismaTenant.prisma.deposito.findUnique({ where: { id } });
+  findOne(id: number) {
+    return this.prisma.deposito.findUnique({ where: { id } });
   }
 
-  async update(update(id: number, data: UpdateDepositoDto) {): Promise<any> {
-    return this.prismaTenant.prisma.deposito.update({
+  update(id: number, data: UpdateDepositoDto) {
+    return this.prisma.deposito.update({
       where: { id },
       data: data,
     });
   }
 
-  async remove(remove(id: number) {): Promise<any> {
-    return this.prismaTenant.prisma.deposito.delete({ where: { id } });
+  remove(id: number) {
+    return this.prisma.deposito.delete({ where: { id } });
   }
 }

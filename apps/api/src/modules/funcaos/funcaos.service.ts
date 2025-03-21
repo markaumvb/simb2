@@ -1,22 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { CreateFuncaoDto } from './dto/create-funcao.dto';
 import { UpdateFuncaoDto } from './dto/update-funcao.dto';
-import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
+import { PrismaService } from 'src/database/prisma.service';
 
 @Injectable()
 export class FuncaosService {
-  constructor(private prismaTenant: PrismaTenantService) {}
+  constructor(private prisma: PrismaService) {}
 
-  async create(create(data: CreateFuncaoDto) {): Promise<any> {
-    return this.prismaTenant.prisma.funcao.create({ data });
+  create(data: CreateFuncaoDto) {
+    return this.prisma.funcao.create({ data });
   }
 
-  async findAll(): Promise<any[]> {
-    return this.prismaTenant.prisma.funcao.findMany();
+  findAll() {
+    return this.prisma.funcao.findMany();
   }
 
-  async findOne(findOne(id: number) {): Promise<any | null> {
-    return this.prismaTenant.prisma.funcao.findUnique({
+  findOne(id: number) {
+    return this.prisma.funcao.findUnique({
       where: { id },
       include: {
         membros_linha: true,
@@ -24,14 +24,14 @@ export class FuncaosService {
     });
   }
 
-  async update(update(id: number, updateFuncaoDto: UpdateFuncaoDto) {): Promise<any> {
-    return this.prismaTenant.prisma.funcao.update({
+  update(id: number, updateFuncaoDto: UpdateFuncaoDto) {
+    return this.prisma.funcao.update({
       where: { id },
       data: updateFuncaoDto,
     });
   }
 
-  async remove(remove(id: number) {): Promise<any> {
-    return this.prismaTenant.prisma.funcao.delete({ where: { id } });
+  remove(id: number) {
+    return this.prisma.funcao.delete({ where: { id } });
   }
 }

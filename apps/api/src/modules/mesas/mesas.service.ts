@@ -1,35 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import { CreateMesaDto } from './dto/create-mesa.dto';
 import { UpdateMesaDto } from './dto/update-mesa.dto';
-import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
+import { PrismaService } from 'src/database/prisma.service';
 
 @Injectable()
 export class MesasService {
-  constructor(private prismaTenant: PrismaTenantService) {}
-  async create(create(data: CreateMesaDto) {): Promise<any> {
-    return this.prismaTenant.prisma.mesa.create({ data });
+  constructor(private prisma: PrismaService) {}
+  create(data: CreateMesaDto) {
+    return this.prisma.mesa.create({ data });
   }
 
   async findLinha(linha: number) {
-    return await this.prismaTenant.prisma.mesa.findMany({
+    return await this.prisma.mesa.findMany({
       where: { id_linha: linha },
       orderBy: { id: 'asc' },
     });
   }
 
   async findStatus(status: string) {
-    return await this.prismaTenant.prisma.mesa.findMany({
+    return await this.prisma.mesa.findMany({
       where: { status },
       orderBy: { id: 'asc' },
     });
   }
 
-  async async findAll(): Promise<any[]> {
-    return await this.prismaTenant.prisma.mesa.findMany();
+  async findAll() {
+    return await this.prisma.mesa.findMany();
   }
 
-  async async findOne(findOne(id: number) {): Promise<any | null> {
-    const mesa = await this.prismaTenant.prisma.mesa.findUnique({
+  async findOne(id: number) {
+    const mesa = await this.prisma.mesa.findUnique({
       where: { id },
       include: {
         composicao: true,
@@ -47,14 +47,14 @@ export class MesasService {
     return mesa;
   }
 
-  async update(update(id: number, updateMesaDto: UpdateMesaDto) {): Promise<any> {
-    return this.prismaTenant.prisma.mesa.update({
+  update(id: number, updateMesaDto: UpdateMesaDto) {
+    return this.prisma.mesa.update({
       where: { id },
       data: updateMesaDto,
     });
   }
 
-  async remove(remove(id: number) {): Promise<any> {
-    return this.prismaTenant.prisma.mesa.delete({ where: { id } });
+  remove(id: number) {
+    return this.prisma.mesa.delete({ where: { id } });
   }
 }

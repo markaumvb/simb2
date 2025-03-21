@@ -1,32 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSistemaDto } from './dto/create-sistema.dto';
 import { UpdateSistemaDto } from './dto/update-sistema.dto';
-import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
+import { PrismaService } from 'src/database/prisma.service';
 
 @Injectable()
 export class SistemasService {
-  constructor(private prismaTenant: PrismaTenantService) {}
+  constructor(private prisma: PrismaService) {}
 
-  async create(create(createSistemaDto: CreateSistemaDto) {): Promise<any> {
-    return this.prismaTenant.prisma.sistema.create({ data: createSistemaDto });
+  create(createSistemaDto: CreateSistemaDto) {
+    return this.prisma.sistema.create({ data: createSistemaDto });
   }
 
-  async findAll(): Promise<any[]> {
-    return this.prismaTenant.prisma.sistema.findMany();
+  findAll() {
+    return this.prisma.sistema.findMany();
   }
 
-  async findOne(findOne(id: number) {): Promise<any | null> {
-    return this.prismaTenant.prisma.sistema.findUnique({ where: { id } });
+  findOne(id: number) {
+    return this.prisma.sistema.findUnique({ where: { id } });
   }
 
-  async update(update(id: number, updateSistemaDto: UpdateSistemaDto) {): Promise<any> {
-    return this.prismaTenant.prisma.sistema.update({
+  update(id: number, updateSistemaDto: UpdateSistemaDto) {
+    return this.prisma.sistema.update({
       where: { id },
       data: updateSistemaDto,
     });
   }
 
-  async remove(remove(id: number) {): Promise<any> {
-    return this.prismaTenant.prisma.sistema.delete({ where: { id } });
+  remove(id: number) {
+    return this.prisma.sistema.delete({ where: { id } });
   }
 }

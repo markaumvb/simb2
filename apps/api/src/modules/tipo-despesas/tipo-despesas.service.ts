@@ -1,34 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTipoDespesaDto } from './dto/create-tipo-despesa.dto';
 import { UpdateTipoDespesaDto } from './dto/update-tipo-despesa.dto';
-import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
+import { PrismaService } from 'src/database/prisma.service';
 
 @Injectable()
 export class TipoDespesasService {
-  constructor(private prismaTenant: PrismaTenantService) {}
+  constructor(private prisma: PrismaService) {}
 
-  async create(create(createTipoDespesaDto: CreateTipoDespesaDto) {): Promise<any> {
-    return this.prismaTenant.prisma.tipo_despesa.create({
-      data: createTipoDespesaDto,
-    });
+  create(createTipoDespesaDto: CreateTipoDespesaDto) {
+    return this.prisma.tipo_despesa.create({ data: createTipoDespesaDto });
   }
 
-  async findAll(): Promise<any[]> {
-    return this.prismaTenant.prisma.tipo_despesa.findMany();
+  findAll() {
+    return this.prisma.tipo_despesa.findMany();
   }
 
-  async findOne(findOne(id: number) {): Promise<any | null> {
-    return this.prismaTenant.prisma.tipo_despesa.findUnique({ where: { id } });
+  findOne(id: number) {
+    return this.prisma.tipo_despesa.findUnique({ where: { id } });
   }
 
-  async update(update(id: number, updateTipoDespesaDto: UpdateTipoDespesaDto) {): Promise<any> {
-    return this.prismaTenant.prisma.tipo_despesa.update({
+  update(id: number, updateTipoDespesaDto: UpdateTipoDespesaDto) {
+    return this.prisma.tipo_despesa.update({
       where: { id },
       data: updateTipoDespesaDto,
     });
   }
 
-  async remove(remove(id: number) {): Promise<any> {
-    return this.prismaTenant.prisma.tipo_despesa.delete({ where: { id } });
+  remove(id: number) {
+    return this.prisma.tipo_despesa.delete({ where: { id } });
   }
 }

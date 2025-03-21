@@ -1,30 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePedidoAlmoxarifadoDto } from './dto/create-pedido-almoxarifado.dto';
 import { UpdatePedidoAlmoxarifadoDto } from './dto/update-pedido-almoxarifado.dto';
-import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
+import { PrismaService } from 'src/database/prisma.service';
 
 @Injectable()
 export class PedidoAlmoxarifadosService {
-  constructor(private prismaTenant: PrismaTenantService) {}
+  constructor(private prisma: PrismaService) {}
 
-  async create(create(createPedidoAlmoxarifadoDto: CreatePedidoAlmoxarifadoDto) {): Promise<any> {
-    return this.prismaTenant.prisma.pedido_almoxarifado.create({
+  create(createPedidoAlmoxarifadoDto: CreatePedidoAlmoxarifadoDto) {
+    return this.prisma.pedido_almoxarifado.create({
       data: createPedidoAlmoxarifadoDto,
     });
   }
 
-  async findAll(): Promise<any[]> {
-    return this.prismaTenant.prisma.pedido_almoxarifado.findMany();
+  findAll() {
+    return this.prisma.pedido_almoxarifado.findMany();
   }
 
   findSituacao(status: string) {
-    return this.prismaTenant.prisma.pedido_almoxarifado.findMany({
-      where: { status },
-    });
+    return this.prisma.pedido_almoxarifado.findMany({ where: { status } });
   }
 
-  async findOne(findOne(id: number) {): Promise<any | null> {
-    return this.prismaTenant.prisma.pedido_almoxarifado.findUnique({
+  findOne(id: number) {
+    return this.prisma.pedido_almoxarifado.findUnique({
       where: { id },
       include: {
         itens_pedido_almoxarifado: true,
@@ -32,16 +30,14 @@ export class PedidoAlmoxarifadosService {
     });
   }
 
-  async update(update(id: number, updatePedidoAlmoxarifadoDto: UpdatePedidoAlmoxarifadoDto) {): Promise<any> {
-    return this.prismaTenant.prisma.pedido_almoxarifado.update({
+  update(id: number, updatePedidoAlmoxarifadoDto: UpdatePedidoAlmoxarifadoDto) {
+    return this.prisma.pedido_almoxarifado.update({
       where: { id },
       data: updatePedidoAlmoxarifadoDto,
     });
   }
 
-  async remove(remove(id: number) {): Promise<any> {
-    return this.prismaTenant.prisma.pedido_almoxarifado.delete({
-      where: { id },
-    });
+  remove(id: number) {
+    return this.prisma.pedido_almoxarifado.delete({ where: { id } });
   }
 }

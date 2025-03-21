@@ -1,24 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { CreateHistoricoPontoDto } from './dto/create-historico-ponto.dto';
 import { UpdateHistoricoPontoDto } from './dto/update-historico-ponto.dto';
-import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
+import { PrismaService } from 'src/database/prisma.service';
 
 @Injectable()
 export class HistoricoPontosService {
-  constructor(private prismaTenant: PrismaTenantService) {}
+  constructor(private prisma: PrismaService) {}
 
-  async create(create(createHistoricoPontoDto: CreateHistoricoPontoDto) {): Promise<any> {
-    return this.prismaTenant.prisma.historico_ponto.create({
+  create(createHistoricoPontoDto: CreateHistoricoPontoDto) {
+    return this.prisma.historico_ponto.create({
       data: createHistoricoPontoDto,
     });
   }
 
-  async findAll(): Promise<any[]> {
-    return this.prismaTenant.prisma.historico_ponto.findMany();
+  findAll() {
+    return this.prisma.historico_ponto.findMany();
   }
 
-  async findOne(findOne(id: number) {): Promise<any | null> {
-    return this.prismaTenant.prisma.historico_ponto.findUnique({
+  findOne(id: number) {
+    return this.prisma.historico_ponto.findUnique({
       where: { id },
       include: {
         ponto: true,
@@ -26,14 +26,14 @@ export class HistoricoPontosService {
     });
   }
 
-  async update(update(id: number, updateHistoricoPontoDto: UpdateHistoricoPontoDto) {): Promise<any> {
-    return this.prismaTenant.prisma.historico_ponto.update({
+  update(id: number, updateHistoricoPontoDto: UpdateHistoricoPontoDto) {
+    return this.prisma.historico_ponto.update({
       where: { id },
       data: updateHistoricoPontoDto,
     });
   }
 
-  async remove(remove(id: number) {): Promise<any> {
-    return this.prismaTenant.prisma.historico_ponto.delete({ where: { id } });
+  remove(id: number) {
+    return this.prisma.historico_ponto.delete({ where: { id } });
   }
 }

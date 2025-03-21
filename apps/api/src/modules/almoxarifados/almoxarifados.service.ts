@@ -1,24 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAlmoxarifadoDto } from './dto/create-almoxarifado.dto';
 import { UpdateAlmoxarifadoDto } from './dto/update-almoxarifado.dto';
-import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
+import { PrismaService } from 'src/database/prisma.service';
 
 @Injectable()
 export class AlmoxarifadosService {
-  constructor(private prismaTenant: PrismaTenantService) {}
+  constructor(private prisma: PrismaService) {}
 
-  async create(create(createAlmoxarifadoDto: CreateAlmoxarifadoDto) {): Promise<any> {
-    return this.prismaTenant.prisma.almoxarifado.create({
-      data: createAlmoxarifadoDto,
-    });
+  create(createAlmoxarifadoDto: CreateAlmoxarifadoDto) {
+    return this.prisma.almoxarifado.create({ data: createAlmoxarifadoDto });
   }
 
-  async findAll(): Promise<any[]> {
-    return this.prismaTenant.prisma.almoxarifado.findMany();
+  findAll() {
+    return this.prisma.almoxarifado.findMany();
   }
 
-  async findOne(findOne(id: number) {): Promise<any | null> {
-    return this.prismaTenant.prisma.almoxarifado.findUnique({
+  findOne(id: number) {
+    return this.prisma.almoxarifado.findUnique({
       where: { id },
       include: {
         itens_pedido_almoxarifado: true,
@@ -26,14 +24,14 @@ export class AlmoxarifadosService {
     });
   }
 
-  async update(update(id: number, updateAlmoxarifadoDto: UpdateAlmoxarifadoDto) {): Promise<any> {
-    return this.prismaTenant.prisma.almoxarifado.update({
+  update(id: number, updateAlmoxarifadoDto: UpdateAlmoxarifadoDto) {
+    return this.prisma.almoxarifado.update({
       where: { id },
       data: updateAlmoxarifadoDto,
     });
   }
 
-  async remove(remove(id: number) {): Promise<any> {
-    return this.prismaTenant.prisma.almoxarifado.delete({ where: { id } });
+  remove(id: number) {
+    return this.prisma.almoxarifado.delete({ where: { id } });
   }
 }

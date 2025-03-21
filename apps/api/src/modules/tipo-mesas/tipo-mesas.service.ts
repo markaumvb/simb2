@@ -1,22 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTipoMesaDto } from './dto/create-tipo-mesa.dto';
 import { UpdateTipoMesaDto } from './dto/update-tipo-mesa.dto';
-import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
+import { PrismaService } from 'src/database/prisma.service';
 
 @Injectable()
 export class TipoMesasService {
-  constructor(private prismaTenant: PrismaTenantService) {}
+  constructor(private prisma: PrismaService) {}
 
-  async create(create(data: CreateTipoMesaDto) {): Promise<any> {
-    return this.prismaTenant.prisma.tipo_mesa.create({ data });
+  create(data: CreateTipoMesaDto) {
+    return this.prisma.tipo_mesa.create({ data });
   }
 
-  async findAll(): Promise<any[]> {
-    return this.prismaTenant.prisma.tipo_mesa.findMany();
+  findAll() {
+    return this.prisma.tipo_mesa.findMany();
   }
 
-  async findOne(findOne(id: number) {): Promise<any | null> {
-    return this.prismaTenant.prisma.tipo_mesa.findUnique({
+  findOne(id: number) {
+    return this.prisma.tipo_mesa.findUnique({
       where: { id },
       include: {
         mesa: true,
@@ -24,14 +24,14 @@ export class TipoMesasService {
     });
   }
 
-  async update(update(id: number, updateTipoMesaDto: UpdateTipoMesaDto) {): Promise<any> {
-    return this.prismaTenant.prisma.tipo_mesa.update({
+  update(id: number, updateTipoMesaDto: UpdateTipoMesaDto) {
+    return this.prisma.tipo_mesa.update({
       where: { id },
       data: updateTipoMesaDto,
     });
   }
 
-  async remove(remove(id: number) {): Promise<any> {
-    return this.prismaTenant.prisma.tipo_mesa.delete({ where: { id } });
+  remove(id: number) {
+    return this.prisma.tipo_mesa.delete({ where: { id } });
   }
 }

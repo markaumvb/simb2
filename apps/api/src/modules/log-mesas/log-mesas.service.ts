@@ -1,26 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { CreateLogMesaDto } from './dto/create-log-mesa.dto';
 import { UpdateLogMesaDto } from './dto/update-log-mesa.dto';
-import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
+import { PrismaService } from 'src/database/prisma.service';
 
 @Injectable()
 export class LogMesasService {
-  constructor(private prismaTenant: PrismaTenantService) {}
+  constructor(private prisma: PrismaService) {}
 
-  async create(create(createLogMesaDto: CreateLogMesaDto) {): Promise<any> {
-    return this.prismaTenant.prisma.log_mesa.create({ data: createLogMesaDto });
+  create(createLogMesaDto: CreateLogMesaDto) {
+    return this.prisma.log_mesa.create({ data: createLogMesaDto });
   }
 
-  async findAll(): Promise<any[]> {
-    return this.prismaTenant.prisma.log_mesa.findMany();
+  findAll() {
+    return this.prisma.log_mesa.findMany();
   }
 
-  async findOne(findOne(id: number) {): Promise<any | null> {
-    return this.prismaTenant.prisma.log_mesa.findUnique({ where: { id } });
+  findOne(id: number) {
+    return this.prisma.log_mesa.findUnique({ where: { id } });
   }
 
   findMesa(mesa: number) {
-    return this.prismaTenant.prisma.log_mesa.findMany({
+    return this.prisma.log_mesa.findMany({
       where: { id_mesa: mesa },
       include: {
         mesa: true,
@@ -29,14 +29,14 @@ export class LogMesasService {
     });
   }
 
-  async update(update(id: number, updateLogMesaDto: UpdateLogMesaDto) {): Promise<any> {
-    return this.prismaTenant.prisma.log_mesa.update({
+  update(id: number, updateLogMesaDto: UpdateLogMesaDto) {
+    return this.prisma.log_mesa.update({
       where: { id },
       data: updateLogMesaDto,
     });
   }
 
-  async remove(remove(id: number) {): Promise<any> {
-    return this.prismaTenant.prisma.log_mesa.delete({ where: { id } });
+  remove(id: number) {
+    return this.prisma.log_mesa.delete({ where: { id } });
   }
 }

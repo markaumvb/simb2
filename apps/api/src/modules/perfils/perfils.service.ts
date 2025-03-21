@@ -1,32 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePerfilDto } from './dto/create-perfil.dto';
 import { UpdatePerfilDto } from './dto/update-perfil.dto';
-import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
+import { PrismaService } from 'src/database/prisma.service';
 
 @Injectable()
 export class PerfilsService {
-  constructor(private prismaTenant: PrismaTenantService) {}
+  constructor(private prisma: PrismaService) {}
 
-  async create(create(createPerfilDto: CreatePerfilDto) {): Promise<any> {
-    return this.prismaTenant.prisma.perfil.create({ data: createPerfilDto });
+  create(createPerfilDto: CreatePerfilDto) {
+    return this.prisma.perfil.create({ data: createPerfilDto });
   }
 
-  async findAll(): Promise<any[]> {
-    return this.prismaTenant.prisma.perfil.findMany();
+  findAll() {
+    return this.prisma.perfil.findMany();
   }
 
-  async findOne(findOne(id: number) {): Promise<any | null> {
-    return this.prismaTenant.prisma.perfil.findUnique({ where: { id } });
+  findOne(id: number) {
+    return this.prisma.perfil.findUnique({ where: { id } });
   }
 
-  async update(update(id: number, updatePerfilDto: UpdatePerfilDto) {): Promise<any> {
-    return this.prismaTenant.prisma.perfil.update({
-      where: { id },
-      data: updatePerfilDto,
-    });
+  update(id: number, updatePerfilDto: UpdatePerfilDto) {
+    return this.prisma.perfil.update({ where: { id }, data: updatePerfilDto });
   }
 
-  async remove(remove(id: number) {): Promise<any> {
-    return this.prismaTenant.prisma.perfil.delete({ where: { id } });
+  remove(id: number) {
+    return this.prisma.perfil.delete({ where: { id } });
   }
 }

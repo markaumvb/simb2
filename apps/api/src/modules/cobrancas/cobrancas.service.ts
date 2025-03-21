@@ -1,26 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCobrancaDto } from './dto/create-cobranca.dto';
 import { UpdateCobrancaDto } from './dto/update-cobranca.dto';
-import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
+import { PrismaService } from 'src/database/prisma.service';
 
 @Injectable()
 export class CobrancasService {
-  constructor(private prismaTenant: PrismaTenantService) {}
+  constructor(private prisma: PrismaService) {}
 
-  async create(create(data: CreateCobrancaDto) {): Promise<any> {
-    return this.prismaTenant.prisma.cobranca.create({ data });
+  create(data: CreateCobrancaDto) {
+    return this.prisma.cobranca.create({ data });
   }
 
-  async findAll(): Promise<any[]> {
-    return this.prismaTenant.prisma.cobranca.findMany();
+  findAll() {
+    return this.prisma.cobranca.findMany();
   }
 
-  async findOne(findOne(id: number) {): Promise<any | null> {
-    return this.prismaTenant.prisma.cobranca.findUnique({ where: { id: id } });
+  findOne(id: number) {
+    return this.prisma.cobranca.findUnique({ where: { id: id } });
   }
 
   findCobrancaMesa(mesa: number) {
-    return this.prismaTenant.prisma.cobranca.findMany({
+    return this.prisma.cobranca.findMany({
       where: { id_mesa: mesa },
       include: {
         mesa: true,
@@ -28,14 +28,14 @@ export class CobrancasService {
     });
   }
 
-  async update(update(id: number, updateCobrancaDto: UpdateCobrancaDto) {): Promise<any> {
-    return this.prismaTenant.prisma.cobranca.update({
+  update(id: number, updateCobrancaDto: UpdateCobrancaDto) {
+    return this.prisma.cobranca.update({
       where: { id },
       data: updateCobrancaDto,
     });
   }
 
-  async remove(remove(id: number) {): Promise<any> {
-    return this.prismaTenant.prisma.cobranca.delete({ where: { id } });
+  remove(id: number) {
+    return this.prisma.cobranca.delete({ where: { id } });
   }
 }

@@ -1,28 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { CreateDespesaDto } from './dto/create-despesa.dto';
 import { UpdateDespesaDto } from './dto/update-despesa.dto';
-import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
+import { PrismaService } from 'src/database/prisma.service';
 
 @Injectable()
 export class DespesasService {
-  constructor(private prismaTenant: PrismaTenantService) {}
+  constructor(private prisma: PrismaService) {}
 
-  async create(create(createDespesaDto: CreateDespesaDto) {): Promise<any> {
-    return this.prismaTenant.prisma.despesa.create({ data: createDespesaDto });
+  create(createDespesaDto: CreateDespesaDto) {
+    return this.prisma.despesa.create({ data: createDespesaDto });
   }
 
-  async findAll(): Promise<any[]> {
-    return this.prismaTenant.prisma.despesa.findMany();
+  findAll() {
+    return this.prisma.despesa.findMany();
   }
 
   findbyMovimentacao(id_movimentacao: number) {
-    return this.prismaTenant.prisma.despesa.findMany({
+    return this.prisma.despesa.findMany({
       where: { id_movimentacao },
     });
   }
 
-  async findOne(findOne(id: number) {): Promise<any | null> {
-    return this.prismaTenant.prisma.despesa.findUnique({
+  findOne(id: number) {
+    return this.prisma.despesa.findUnique({
       where: { id },
       include: {
         movimentacao: true,
@@ -31,14 +31,14 @@ export class DespesasService {
     });
   }
 
-  async update(update(id: number, updateDespesaDto: UpdateDespesaDto) {): Promise<any> {
-    return this.prismaTenant.prisma.despesa.update({
+  update(id: number, updateDespesaDto: UpdateDespesaDto) {
+    return this.prisma.despesa.update({
       where: { id },
       data: updateDespesaDto,
     });
   }
 
-  async remove(remove(id: number) {): Promise<any> {
-    return this.prismaTenant.prisma.despesa.delete({ where: { id } });
+  remove(id: number) {
+    return this.prisma.despesa.delete({ where: { id } });
   }
 }

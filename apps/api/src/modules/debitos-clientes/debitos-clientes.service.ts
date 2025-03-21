@@ -1,24 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { CreateDebitosClienteDto } from './dto/create-debitos-cliente.dto';
 import { UpdateDebitosClienteDto } from './dto/update-debitos-cliente.dto';
-import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
+import { PrismaService } from 'src/database/prisma.service';
 
 @Injectable()
 export class DebitosClientesService {
-  constructor(private prismaTenant: PrismaTenantService) {}
+  constructor(private prisma: PrismaService) {}
 
-  async create(create(createDebitosClienteDto: CreateDebitosClienteDto) {): Promise<any> {
-    return this.prismaTenant.prisma.debitos_cliente.create({
+  create(createDebitosClienteDto: CreateDebitosClienteDto) {
+    return this.prisma.debitos_cliente.create({
       data: createDebitosClienteDto,
     });
   }
 
-  async findAll(): Promise<any[]> {
-    return this.prismaTenant.prisma.debitos_cliente.findMany();
+  findAll() {
+    return this.prisma.debitos_cliente.findMany();
   }
 
-  async findOne(findOne(id: number) {): Promise<any | null> {
-    return this.prismaTenant.prisma.debitos_cliente.findUnique({
+  findOne(id: number) {
+    return this.prisma.debitos_cliente.findUnique({
       where: { id },
       include: {
         cliente: true,
@@ -26,14 +26,14 @@ export class DebitosClientesService {
     });
   }
 
-  async update(update(id: number, updateDebitosClienteDto: UpdateDebitosClienteDto) {): Promise<any> {
-    return this.prismaTenant.prisma.debitos_cliente.update({
+  update(id: number, updateDebitosClienteDto: UpdateDebitosClienteDto) {
+    return this.prisma.debitos_cliente.update({
       where: { id },
       data: updateDebitosClienteDto,
     });
   }
 
-  async remove(remove(id: number) {): Promise<any> {
-    return this.prismaTenant.prisma.debitos_cliente.delete({ where: { id } });
+  remove(id: number) {
+    return this.prisma.debitos_cliente.delete({ where: { id } });
   }
 }
