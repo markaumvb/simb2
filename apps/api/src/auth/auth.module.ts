@@ -14,9 +14,11 @@ import { refreshJwtStrategy } from './refreshToken.strategy';
   imports: [
     PrismaModule,
     PassportModule,
-    JwtModule.register({
-      secret: process.env.SECRETKEY,
-      signOptions: { expiresIn: process.env.EXPIRESIN },
+    JwtModule.registerAsync({
+      useFactory: () => ({
+        secret: process.env.SECRETKEY,
+        signOptions: { expiresIn: process.env.EXPIRESIN },
+      }),
     }),
     FuncionariosModule,
   ],
