@@ -1,32 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePermissaoUsuarioDto } from './dto/create-permissao-usuario.dto';
 import { UpdatePermissaoUsuarioDto } from './dto/update-permissao-usuario.dto';
-import { PrismaService } from 'src/database/prisma.service';
+import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 
 @Injectable()
 export class PermissaoUsuariosService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prismaTenant: PrismaTenantService) {}
 
   create(data: CreatePermissaoUsuarioDto) {
-    return this.prisma.permissoes_usuario.create({ data });
+    return this.prismaTenant.prisma.permissoes_usuario.create({ data });
   }
 
   findAll() {
-    return this.prisma.permissoes_usuario.findMany();
+    return this.prismaTenant.prisma.permissoes_usuario.findMany();
   }
 
   findOne(id: number) {
-    return this.prisma.permissoes_usuario.findUnique({ where: { id } });
+    return this.prismaTenant.prisma.permissoes_usuario.findUnique({ where: { id } });
   }
 
   update(id: number, data: UpdatePermissaoUsuarioDto) {
-    return this.prisma.permissoes_usuario.update({
+    return this.prismaTenant.prisma.permissoes_usuario.update({
       where: { id },
       data,
     });
   }
 
   remove(id: number) {
-    return this.prisma.permissoes_usuario.delete({ where: { id } });
+    return this.prismaTenant.prisma.permissoes_usuario.delete({ where: { id } });
   }
 }

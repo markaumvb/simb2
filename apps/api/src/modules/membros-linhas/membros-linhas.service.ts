@@ -1,22 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { CreateMembrosLinhaDto } from './dto/create-membros-linha.dto';
 import { UpdateMembrosLinhaDto } from './dto/update-membros-linha.dto';
-import { PrismaService } from 'src/database/prisma.service';
+import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 
 @Injectable()
 export class MembrosLinhasService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prismaTenant: PrismaTenantService) {}
 
   create(createMembrosLinhaDto: CreateMembrosLinhaDto) {
-    return this.prisma.membros_linha.create({ data: createMembrosLinhaDto });
+    return this.prismaTenant.prisma.membros_linha.create({ data: createMembrosLinhaDto });
   }
 
   findAll() {
-    return this.prisma.membros_linha.findMany();
+    return this.prismaTenant.prisma.membros_linha.findMany();
   }
 
   findOne(id: number) {
-    return this.prisma.membros_linha.findUnique({
+    return this.prismaTenant.prisma.membros_linha.findUnique({
       where: { id },
       include: {
         funcionario: true,
@@ -25,13 +25,13 @@ export class MembrosLinhasService {
   }
 
   update(id: number, updateMembrosLinhaDto: UpdateMembrosLinhaDto) {
-    return this.prisma.membros_linha.update({
+    return this.prismaTenant.prisma.membros_linha.update({
       where: { id },
       data: updateMembrosLinhaDto,
     });
   }
 
   remove(id: number) {
-    return this.prisma.membros_linha.delete({ where: { id } });
+    return this.prismaTenant.prisma.membros_linha.delete({ where: { id } });
   }
 }

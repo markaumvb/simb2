@@ -1,24 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAcertoFechamentoDto } from './dto/create-acerto-fechamento.dto';
 import { UpdateAcertoFechamentoDto } from './dto/update-acerto-fechamento.dto';
-import { PrismaService } from 'src/database/prisma.service';
+import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 
 @Injectable()
 export class AcertoFechamentosService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prismaTenant: PrismaTenantService) {}
 
   create(createAcertoFechamentoDto: CreateAcertoFechamentoDto) {
-    return this.prisma.acerto_fechamento.create({
+    return this.prismaTenant.prisma.acerto_fechamento.create({
       data: createAcertoFechamentoDto,
     });
   }
 
   findAll() {
-    return this.prisma.acerto_fechamento.findMany();
+    return this.prismaTenant.prisma.acerto_fechamento.findMany();
   }
 
   findOne(id: number) {
-    return this.prisma.acerto_fechamento.findUnique({
+    return this.prismaTenant.prisma.acerto_fechamento.findUnique({
       where: { id },
       include: {
         itens_acerto: true,
@@ -27,13 +27,13 @@ export class AcertoFechamentosService {
   }
 
   update(id: number, updateAcertoFechamentoDto: UpdateAcertoFechamentoDto) {
-    return this.prisma.acerto_fechamento.update({
+    return this.prismaTenant.prisma.acerto_fechamento.update({
       where: { id },
       data: updateAcertoFechamentoDto,
     });
   }
 
   remove(id: number) {
-    return this.prisma.acerto_fechamento.delete({ where: { id } });
+    return this.prismaTenant.prisma.acerto_fechamento.delete({ where: { id } });
   }
 }

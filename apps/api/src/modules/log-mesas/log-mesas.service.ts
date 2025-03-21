@@ -1,26 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { CreateLogMesaDto } from './dto/create-log-mesa.dto';
 import { UpdateLogMesaDto } from './dto/update-log-mesa.dto';
-import { PrismaService } from 'src/database/prisma.service';
+import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 
 @Injectable()
 export class LogMesasService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prismaTenant: PrismaTenantService) {}
 
   create(createLogMesaDto: CreateLogMesaDto) {
-    return this.prisma.log_mesa.create({ data: createLogMesaDto });
+    return this.prismaTenant.prisma.log_mesa.create({ data: createLogMesaDto });
   }
 
   findAll() {
-    return this.prisma.log_mesa.findMany();
+    return this.prismaTenant.prisma.log_mesa.findMany();
   }
 
   findOne(id: number) {
-    return this.prisma.log_mesa.findUnique({ where: { id } });
+    return this.prismaTenant.prisma.log_mesa.findUnique({ where: { id } });
   }
 
   findMesa(mesa: number) {
-    return this.prisma.log_mesa.findMany({
+    return this.prismaTenant.prisma.log_mesa.findMany({
       where: { id_mesa: mesa },
       include: {
         mesa: true,
@@ -30,13 +30,13 @@ export class LogMesasService {
   }
 
   update(id: number, updateLogMesaDto: UpdateLogMesaDto) {
-    return this.prisma.log_mesa.update({
+    return this.prismaTenant.prisma.log_mesa.update({
       where: { id },
       data: updateLogMesaDto,
     });
   }
 
   remove(id: number) {
-    return this.prisma.log_mesa.delete({ where: { id } });
+    return this.prismaTenant.prisma.log_mesa.delete({ where: { id } });
   }
 }

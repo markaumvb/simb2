@@ -1,32 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePontoClienteDto } from './dto/create-ponto-cliente.dto';
 import { UpdatePontoClienteDto } from './dto/update-ponto-cliente.dto';
-import { PrismaService } from 'src/database/prisma.service';
+import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 
 @Injectable()
 export class PontoClientesService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prismaTenant: PrismaTenantService) {}
 
   create(createPontoClienteDto: CreatePontoClienteDto) {
-    return this.prisma.ponto_cliente.create({ data: createPontoClienteDto });
+    return this.prismaTenant.prisma.ponto_cliente.create({ data: createPontoClienteDto });
   }
 
   findAll() {
-    return this.prisma.ponto_cliente.findMany();
+    return this.prismaTenant.prisma.ponto_cliente.findMany();
   }
 
   findOne(id: number) {
-    return this.prisma.ponto_cliente.findUnique({ where: { id } });
+    return this.prismaTenant.prisma.ponto_cliente.findUnique({ where: { id } });
   }
 
   update(id: number, updatePontoClienteDto: UpdatePontoClienteDto) {
-    return this.prisma.ponto_cliente.update({
+    return this.prismaTenant.prisma.ponto_cliente.update({
       where: { id },
       data: updatePontoClienteDto,
     });
   }
 
   remove(id: number) {
-    return this.prisma.ponto_cliente.delete({ where: { id } });
+    return this.prismaTenant.prisma.ponto_cliente.delete({ where: { id } });
   }
 }

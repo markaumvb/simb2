@@ -1,22 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { CreateLinhaDto } from './dto/create-linha.dto';
 import { UpdateLinhaDto } from './dto/update-linha.dto';
-import { PrismaService } from 'src/database/prisma.service';
+import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 
 @Injectable()
 export class LinhasService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prismaTenant: PrismaTenantService) {}
 
   create(createLinhaDto: CreateLinhaDto) {
-    return this.prisma.linha.create({ data: createLinhaDto });
+    return this.prismaTenant.prisma.linha.create({ data: createLinhaDto });
   }
 
   findAll() {
-    return this.prisma.linha.findMany();
+    return this.prismaTenant.prisma.linha.findMany();
   }
 
   findOne(id: number) {
-    return this.prisma.linha.findUnique({
+    return this.prismaTenant.prisma.linha.findUnique({
       where: { id },
       include: {
         movimentacao: true,
@@ -25,10 +25,10 @@ export class LinhasService {
   }
 
   update(id: number, updateLinhaDto: UpdateLinhaDto) {
-    return this.prisma.linha.update({ where: { id }, data: updateLinhaDto });
+    return this.prismaTenant.prisma.linha.update({ where: { id }, data: updateLinhaDto });
   }
 
   remove(id: number) {
-    return this.prisma.linha.delete({ where: { id } });
+    return this.prismaTenant.prisma.linha.delete({ where: { id } });
   }
 }

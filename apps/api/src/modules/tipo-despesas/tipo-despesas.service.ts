@@ -1,32 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTipoDespesaDto } from './dto/create-tipo-despesa.dto';
 import { UpdateTipoDespesaDto } from './dto/update-tipo-despesa.dto';
-import { PrismaService } from 'src/database/prisma.service';
+import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 
 @Injectable()
 export class TipoDespesasService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prismaTenant: PrismaTenantService) {}
 
   create(createTipoDespesaDto: CreateTipoDespesaDto) {
-    return this.prisma.tipo_despesa.create({ data: createTipoDespesaDto });
+    return this.prismaTenant.prisma.tipo_despesa.create({ data: createTipoDespesaDto });
   }
 
   findAll() {
-    return this.prisma.tipo_despesa.findMany();
+    return this.prismaTenant.prisma.tipo_despesa.findMany();
   }
 
   findOne(id: number) {
-    return this.prisma.tipo_despesa.findUnique({ where: { id } });
+    return this.prismaTenant.prisma.tipo_despesa.findUnique({ where: { id } });
   }
 
   update(id: number, updateTipoDespesaDto: UpdateTipoDespesaDto) {
-    return this.prisma.tipo_despesa.update({
+    return this.prismaTenant.prisma.tipo_despesa.update({
       where: { id },
       data: updateTipoDespesaDto,
     });
   }
 
   remove(id: number) {
-    return this.prisma.tipo_despesa.delete({ where: { id } });
+    return this.prismaTenant.prisma.tipo_despesa.delete({ where: { id } });
   }
 }

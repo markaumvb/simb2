@@ -9,7 +9,7 @@ import {
   IsString,
 } from 'class-validator';
 
-export class CreateLogMesaDto {
+export class CreateMesaDto {
   @IsNumber()
   @IsNotEmpty()
   @ApiProperty()

@@ -1,21 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { UpdateClienteDto } from './dto/update-cliente.dto';
-import { PrismaService } from 'src/database/prisma.service';
+import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 
 @Injectable()
 export class ClientesService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prismaTenant: PrismaTenantService) {}
   create(createClienteDto: CreateClienteDto) {
-    return this.prisma.cliente.create({ data: createClienteDto });
+    return this.prismaTenant.prisma.cliente.create({ data: createClienteDto });
   }
 
   async findAll() {
-    return await this.prisma.cliente.findMany();
+    return await this.prismaTenant.prisma.cliente.findMany();
   }
 
   findOne(id: number) {
-    return this.prisma.cliente.findUnique({
+    return this.prismaTenant.prisma.cliente.findUnique({
       where: { id },
       include: {
         cidade: true,
@@ -26,17 +26,17 @@ export class ClientesService {
   }
 
   findSituacao(ativo: boolean) {
-    return this.prisma.cliente.findMany({ where: { ativo: ativo } });
+    return this.prismaTenant.prisma.cliente.findMany({ where: { ativo: ativo } });
   }
 
   update(id: number, updateClienteDto: UpdateClienteDto) {
-    return this.prisma.cliente.update({
+    return this.prismaTenant.prisma.cliente.update({
       where: { id },
       data: updateClienteDto,
     });
   }
 
   remove(id: number) {
-    return this.prisma.cliente.delete({ where: { id } });
+    return this.prismaTenant.prisma.cliente.delete({ where: { id } });
   }
 }

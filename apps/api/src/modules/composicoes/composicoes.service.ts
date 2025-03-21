@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { CreateComposicoeDto } from './dto/create-composicoe.dto';
 import { UpdateComposicoeDto } from './dto/update-composicoe.dto';
-import { PrismaService } from 'src/database/prisma.service';
+import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 
 @Injectable()
 export class ComposicoesService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prismaTenant: PrismaTenantService) {}
 
   create(createComposicoeDto: CreateComposicoeDto) {
-    return this.prisma.composicao.create({ data: createComposicoeDto });
+    return this.prismaTenant.prisma.composicao.create({ data: createComposicoeDto });
   }
 
   findAll() {
-    return this.prisma.composicao.findMany({
+    return this.prismaTenant.prisma.composicao.findMany({
       include: {
         almoxarifado: true,
       },
@@ -20,7 +20,7 @@ export class ComposicoesService {
   }
 
   findOne(id: number) {
-    return this.prisma.composicao.findUnique({
+    return this.prismaTenant.prisma.composicao.findUnique({
       where: { id },
       include: {
         almoxarifado: true,
@@ -30,13 +30,13 @@ export class ComposicoesService {
   }
 
   update(id: number, updateComposicoeDto: UpdateComposicoeDto) {
-    return this.prisma.composicao.update({
+    return this.prismaTenant.prisma.composicao.update({
       where: { id },
       data: updateComposicoeDto,
     });
   }
 
   remove(id: number) {
-    return this.prisma.composicao.delete({ where: { id } });
+    return this.prismaTenant.prisma.composicao.delete({ where: { id } });
   }
 }

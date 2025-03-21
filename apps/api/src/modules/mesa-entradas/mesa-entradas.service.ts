@@ -1,22 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { CreateMesaEntradaDto } from './dto/create-mesa-entrada.dto';
 import { UpdateMesaEntradaDto } from './dto/update-mesa-entrada.dto';
-import { PrismaService } from 'src/database/prisma.service';
+import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 
 @Injectable()
 export class MesaEntradasService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prismaTenant: PrismaTenantService) {}
 
   create(createMesaEntradaDto: CreateMesaEntradaDto) {
-    return this.prisma.mesa_entrada.create({ data: createMesaEntradaDto });
+    return this.prismaTenant.prisma.mesa_entrada.create({ data: createMesaEntradaDto });
   }
 
   findAll() {
-    return this.prisma.mesa_entrada.findMany();
+    return this.prismaTenant.prisma.mesa_entrada.findMany();
   }
 
   findOne(id: number) {
-    return this.prisma.mesa_entrada.findUnique({
+    return this.prismaTenant.prisma.mesa_entrada.findUnique({
       where: { id },
       include: {
         mesa: true,
@@ -25,13 +25,13 @@ export class MesaEntradasService {
   }
 
   update(id: number, updateMesaEntradaDto: UpdateMesaEntradaDto) {
-    return this.prisma.mesa_entrada.update({
+    return this.prismaTenant.prisma.mesa_entrada.update({
       where: { id },
       data: updateMesaEntradaDto,
     });
   }
 
   remove(id: number) {
-    return this.prisma.mesa_entrada.delete({ where: { id } });
+    return this.prismaTenant.prisma.mesa_entrada.delete({ where: { id } });
   }
 }

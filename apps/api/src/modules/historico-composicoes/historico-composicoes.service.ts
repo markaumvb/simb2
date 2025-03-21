@@ -1,37 +1,37 @@
 import { Injectable } from '@nestjs/common';
 import { CreateHistoricoComposicoeDto } from './dto/create-historico-composicoe.dto';
 import { UpdateHistoricoComposicoeDto } from './dto/update-historico-composicoe.dto';
-import { PrismaService } from 'src/database/prisma.service';
+import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 
 @Injectable()
 export class HistoricoComposicoesService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prismaTenant: PrismaTenantService) {}
 
   create(createHistoricoComposicoeDto: CreateHistoricoComposicoeDto) {
-    return this.prisma.historico_composicao.create({
+    return this.prismaTenant.prisma.historico_composicao.create({
       data: createHistoricoComposicoeDto,
     });
   }
 
   findAll() {
-    return this.prisma.historico_composicao.findMany();
+    return this.prismaTenant.prisma.historico_composicao.findMany();
   }
 
   findOne(id: number) {
-    return this.prisma.historico_composicao.findUnique({ where: { id } });
+    return this.prismaTenant.prisma.historico_composicao.findUnique({ where: { id } });
   }
 
   update(
     id: number,
     updateHistoricoComposicoeDto: UpdateHistoricoComposicoeDto,
   ) {
-    return this.prisma.historico_composicao.update({
+    return this.prismaTenant.prisma.historico_composicao.update({
       where: { id },
       data: updateHistoricoComposicoeDto,
     });
   }
 
   remove(id: number) {
-    return this.prisma.historico_composicao.delete({ where: { id } });
+    return this.prismaTenant.prisma.historico_composicao.delete({ where: { id } });
   }
 }

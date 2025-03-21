@@ -1,35 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import { CreateMesaDto } from './dto/create-mesa.dto';
 import { UpdateMesaDto } from './dto/update-mesa.dto';
-import { PrismaService } from 'src/database/prisma.service';
+import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
 
 @Injectable()
 export class MesasService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prismaTenant: PrismaTenantService) {}
   create(data: CreateMesaDto) {
-    return this.prisma.mesa.create({ data });
+    return this.prismaTenant.prisma.mesa.create({ data });
   }
 
   async findLinha(linha: number) {
-    return await this.prisma.mesa.findMany({
+    return await this.prismaTenant.prisma.mesa.findMany({
       where: { id_linha: linha },
       orderBy: { id: 'asc' },
     });
   }
 
   async findStatus(status: string) {
-    return await this.prisma.mesa.findMany({
+    return await this.prismaTenant.prisma.mesa.findMany({
       where: { status },
       orderBy: { id: 'asc' },
     });
   }
 
   async findAll() {
-    return await this.prisma.mesa.findMany();
+    return await this.prismaTenant.prisma.mesa.findMany();
   }
 
   async findOne(id: number) {
-    const mesa = await this.prisma.mesa.findUnique({
+    const mesa = await this.prismaTenant.prisma.mesa.findUnique({
       where: { id },
       include: {
         composicao: true,
@@ -48,13 +48,13 @@ export class MesasService {
   }
 
   update(id: number, updateMesaDto: UpdateMesaDto) {
-    return this.prisma.mesa.update({
+    return this.prismaTenant.prisma.mesa.update({
       where: { id },
       data: updateMesaDto,
     });
   }
 
   remove(id: number) {
-    return this.prisma.mesa.delete({ where: { id } });
+    return this.prismaTenant.prisma.mesa.delete({ where: { id } });
   }
 }
