@@ -24,7 +24,7 @@
       "@database": [
         "../../packages/database"
       ],
-      "app/*": [
+      "@app/*": [
         "src/*"
       ]
     }

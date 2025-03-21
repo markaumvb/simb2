@@ -4,7 +4,6 @@ import { REQUEST } from '@nestjs/core';
 import { PrismaService } from '@app/database/prisma.service';
 import { Request } from 'express';
 import { PrismaClient } from '@prisma/client';
-s;
 
 @Injectable({ scope: Scope.REQUEST })
 export class PrismaTenantService {
