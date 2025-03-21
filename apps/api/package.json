@@ -42,6 +42,7 @@
     "compression": "^1.8.0",
     "database": "*",
     "helmet": "^8.1.0",
+    "module-alias": "^2.2.3",
     "nodemailer": "^6.9.2",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
@@ -78,6 +79,10 @@
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.0.4"
+  },
+  "_moduleAliases": {
+    "@app": "src",
+    "@database": "../../packages/database"
   },
   "jest": {
     "moduleFileExtensions": [
