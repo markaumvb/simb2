@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePermissaoUsuarioDto } from './dto/create-permissao-usuario.dto';
 import { UpdatePermissaoUsuarioDto } from './dto/update-permissao-usuario.dto';
-import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
+import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 
 @Injectable()
 export class PermissaoUsuariosService {

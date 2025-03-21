@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Cliente } from '@database';
 import { Type } from 'class-transformer';
-import { DebitosClienteEntity } from 'src/modules/debitos-clientes/entities/debitos-cliente.entity';
+import { DebitosClienteEntity } from '@app/modules/debitos-clientes/entities/debitos-cliente.entity';
 
 export class ClienteEntity implements Cliente {
   @ApiProperty()

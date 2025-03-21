@@ -19,8 +19,8 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { ItensAcertoEntity } from './entities/itens-acerto.entity';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { TenantGuard } from 'src/guards/tenant.guard';
+import { JwtAuthGuard } from '@app/auth/jwt-auth.guard';
+import { TenantGuard } from '@app/guards/tenant.guard';
 
 @ApiTags('Itens de Acertos')
 @Controller('itens-acertos')

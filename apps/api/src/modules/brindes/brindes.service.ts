@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBrindeDto } from './dto/create-brinde.dto';
 import { UpdateBrindeDto } from './dto/update-brinde.dto';
-import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
+import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 
 @Injectable()
 export class BrindesService {

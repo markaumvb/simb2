@@ -18,9 +18,9 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { JwtAuthGuard } from '@app/auth/jwt-auth.guard';
 import { HistoricoComposicoeEntity } from './entities/historico-composicoe.entity';
-import { TenantGuard } from 'src/guards/tenant.guard';
+import { TenantGuard } from '@app/guards/tenant.guard';
 
 @ApiTags('Histórico de composições')
 @Controller('historico-composicoes')

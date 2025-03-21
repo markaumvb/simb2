@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateMembrosLinhaDto } from './dto/create-membros-linha.dto';
 import { UpdateMembrosLinhaDto } from './dto/update-membros-linha.dto';
-import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
+import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 
 @Injectable()
 export class MembrosLinhasService {

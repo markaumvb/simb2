@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAcertoFechamentoDto } from './dto/create-acerto-fechamento.dto';
 import { UpdateAcertoFechamentoDto } from './dto/update-acerto-fechamento.dto';
-import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
+import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 
 @Injectable()
 export class AcertoFechamentosService {

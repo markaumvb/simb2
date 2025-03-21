@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateComposicoeDto } from './dto/create-composicoe.dto';
 import { UpdateComposicoeDto } from './dto/update-composicoe.dto';
-import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
+import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 
 @Injectable()
 export class ComposicoesService {

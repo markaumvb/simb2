@@ -19,9 +19,9 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { JwtAuthGuard } from '@app/auth/jwt-auth.guard';
 import { MesaEntity } from './entities/mesa.entity';
-import { TenantGuard } from 'src/guards/tenant.guard';
+import { TenantGuard } from '@app/guards/tenant.guard';
 
 @ApiTags('Mesas')
 @Controller('mesas')

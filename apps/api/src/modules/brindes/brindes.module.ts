@@ -4,6 +4,6 @@ import { BrindesController } from './brindes.controller';
 
 @Module({
   controllers: [BrindesController],
-  providers: [BrindesService]
+  providers: [BrindesService],
 })
 export class BrindesModule {}

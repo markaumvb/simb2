@@ -19,8 +19,8 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { LinhaEntity } from './entities/linha.entity';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { TenantGuard } from 'src/guards/tenant.guard';
+import { JwtAuthGuard } from '@app/auth/jwt-auth.guard';
+import { TenantGuard } from '@app/guards/tenant.guard';
 
 @ApiTags('Linha')
 @Controller('linhas')

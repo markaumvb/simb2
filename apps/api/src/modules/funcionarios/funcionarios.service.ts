@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateFuncionarioDto } from './dto/create-funcionario.dto';
 import { UpdateFuncionarioDto } from './dto/update-funcionario.dto';
-import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
+import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 import * as bcrypt from 'bcrypt';
 
 export const roundsOfHashing = 10; // fator de custo (aumentar a força do hash)

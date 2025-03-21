@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { PrismaModule } from 'src/database/prisma.module';
+import { PrismaModule } from '@app/database/prisma.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { FuncionariosModule } from 'src/modules/funcionarios/funcionarios.module';
+import { FuncionariosModule } from '@app/modules/funcionarios/funcionarios.module';
 import { JwtStrategy } from './jwt.strategy';
 import { refreshJwtStrategy } from './refreshToken.strategy';
 

@@ -20,9 +20,9 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { JwtAuthGuard } from '@app/auth/jwt-auth.guard';
 import { DespesaEntity } from './entities/despesa.entity';
-import { TenantGuard } from 'src/guards/tenant.guard';
+import { TenantGuard } from '@app/guards/tenant.guard';
 
 @ApiTags('Despesas')
 @Controller('despesas')

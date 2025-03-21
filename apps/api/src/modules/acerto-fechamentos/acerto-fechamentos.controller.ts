@@ -18,9 +18,9 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { JwtAuthGuard } from '@app/auth/jwt-auth.guard';
 import { AcertoFechamentoEntity } from './entities/acerto-fechamento.entity';
-import { TenantGuard } from 'src/guards/tenant.guard';
+import { TenantGuard } from '@app/guards/tenant.guard';
 
 @ApiTags('Acerto de fechamento de linha')
 @Controller('acerto-fechamentos')

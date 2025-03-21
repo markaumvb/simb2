@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Prisma, Composicao } from '@database';
 import { Transform, Type } from 'class-transformer';
-import { AlmoxarifadoEntity } from 'src/modules/almoxarifados/entities/almoxarifado.entity';
+import { AlmoxarifadoEntity } from '@app/modules/almoxarifados/entities/almoxarifado.entity';
 
 export class ComposicoeEntity implements Composicao {
   @ApiProperty()

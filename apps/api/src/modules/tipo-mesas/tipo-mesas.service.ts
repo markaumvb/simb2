@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTipoMesaDto } from './dto/create-tipo-mesa.dto';
 import { UpdateTipoMesaDto } from './dto/update-tipo-mesa.dto';
-import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
+import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 
 @Injectable()
 export class TipoMesasService {

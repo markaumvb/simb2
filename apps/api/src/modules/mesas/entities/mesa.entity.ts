@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Prisma, Mesa } from '@database';
 import { Transform, Type } from 'class-transformer';
-import { CobrancaEntitity } from 'src/modules/cobrancas/entities/cobranca.entity';
-import { ComposicoeEntity } from 'src/modules/composicoes/entities/composicoe.entity';
-import { PontoEntity } from 'src/modules/pontos/entities/ponto.entity';
-import { TipoMesaEntity } from 'src/modules/tipo-mesas/entities/tipo-mesa.entity';
+import { CobrancaEntitity } from '@app/modules/cobrancas/entities/cobranca.entity';
+import { ComposicoeEntity } from '@app/modules/composicoes/entities/composicoe.entity';
+import { PontoEntity } from '@app/modules/pontos/entities/ponto.entity';
+import { TipoMesaEntity } from '@app/modules/tipo-mesas/entities/tipo-mesa.entity';
 
 export class MesaEntity implements Mesa {
   @ApiProperty()

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Prisma, Log_mesa } from '@database';
 import { Transform, Type } from 'class-transformer';
-import { MesaEntity } from 'src/modules/mesas/entities/mesa.entity';
+import { MesaEntity } from '@app/modules/mesas/entities/mesa.entity';
 import { Decimal } from '@prisma/client/runtime/library';
 
 export class LogMesaEntity implements Log_mesa {

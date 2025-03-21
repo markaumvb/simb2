@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateHistoricoPontoDto } from './dto/create-historico-ponto.dto';
 import { UpdateHistoricoPontoDto } from './dto/update-historico-ponto.dto';
-import { PrismaTenantService } from 'src/providers/prisma-tenant.provider';
+import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 
 @Injectable()
 export class HistoricoPontosService {

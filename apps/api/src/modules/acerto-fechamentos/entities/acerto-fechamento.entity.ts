@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Acerto_fechamento } from '@database';
 import { Type } from 'class-transformer';
-import { ItensAcertoEntity } from 'src/modules/itens-acertos/entities/itens-acerto.entity';
+import { ItensAcertoEntity } from '@app/modules/itens-acertos/entities/itens-acerto.entity';
 
 export class AcertoFechamentoEntity implements Acerto_fechamento {
   @ApiProperty()

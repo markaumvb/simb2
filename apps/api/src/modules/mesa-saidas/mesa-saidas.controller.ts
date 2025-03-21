@@ -18,9 +18,9 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { JwtAuthGuard } from '@app/auth/jwt-auth.guard';
 import { MesaSaidaEntity } from './entities/mesa-saida.entity';
-import { TenantGuard } from 'src/guards/tenant.guard';
+import { TenantGuard } from '@app/guards/tenant.guard';
 
 @ApiTags('Saídas de Mesas em pontos')
 @Controller('mesa-saidas')

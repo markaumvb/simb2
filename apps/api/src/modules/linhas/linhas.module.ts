@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { LinhasService } from './linhas.service';
 import { LinhasController } from './linhas.controller';
-import { PrismaModule } from 'src/database/prisma.module';
+import { PrismaModule } from '@app/database/prisma.module';
 
 @Module({
   controllers: [LinhasController],
