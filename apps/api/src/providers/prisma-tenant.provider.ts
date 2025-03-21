@@ -3,17 +3,22 @@ import { Injectable, Scope, Inject } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { PrismaService } from '@app/database/prisma.service';
 import { Request } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 
 @Injectable({ scope: Scope.REQUEST })
 export class PrismaTenantService {
   constructor(
-    @Inject(REQUEST) private request: Request,
+    @Inject(REQUEST) private _request: Request,
     private prismaService: PrismaService,
   ) {}
 
-  get prisma(): PrismaClient {
-    const tenantId = this.request['tenantId'];
+  // Getter para request
+  get request(): Request {
+    return this._request;
+  }
+
+  get prisma(): any {
+    const tenantId = this._request['tenantId'];
 
     if (!tenantId) {
       // Se não encontrar tenantId, retorna o cliente prisma normal
@@ -46,11 +51,15 @@ export class PrismaTenantService {
               operation === 'create' &&
               !noTenantModels.includes(model)
             ) {
-              // Para operação create, adicionar tenant_id nos dados
+              // Para operação create, adicionar tenant_id e tenant
               if (args && 'data' in args) {
                 args.data = {
                   ...args.data,
-                  tenant_id: parseInt(tenantId),
+                  tenant: {
+                    connect: {
+                      id: parseInt(tenantId),
+                    },
+                  },
                 };
               }
             } else if (

@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNotEmpty, Length, IsOptional } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  Length,
+  IsOptional,
+  IsNumber,
+} from 'class-validator';
 
 export class CreateCidadeDto {
   @ApiProperty()
@@ -16,4 +22,10 @@ export class CreateCidadeDto {
   @ApiProperty()
   @IsOptional()
   dt_alteracao: Date;
+
+  // Novo campo
+  @ApiProperty({ required: false })
+  @IsNumber()
+  @IsOptional()
+  tenant_id?: number;
 }

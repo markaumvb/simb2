@@ -1,14 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCidadeDto } from './dto/create-cidade.dto';
 import { UpdateCidadeDto } from './dto/update-cidade.dto';
-import { PrismaTenantService } from '../../providers/prisma-tenant.provider';
+import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 
 @Injectable()
 export class CidadesService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
   create(createCidadeDto: CreateCidadeDto) {
-    return this.prismaTenant.prisma.cidade.create({ data: createCidadeDto });
+    return this.prismaTenant.prisma.cidade.create({
+      data: {
+        descricao: createCidadeDto.descricao,
+        uf: createCidadeDto.uf,
+        dt_alteracao: createCidadeDto.dt_alteracao,
+        // Referência ao tenant via connect
+        tenant: {
+          connect: {
+            id: this.prismaTenant.request['tenantId'],
+          },
+        },
+      },
+    });
   }
 
   async findAll() {
