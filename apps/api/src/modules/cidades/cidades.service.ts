@@ -9,29 +9,25 @@ export class CidadesService {
 
   create(createCidadeDto: CreateCidadeDto) {
     return this.prismaTenant.prisma.cidade.create({
-      data: {
-        descricao: createCidadeDto.descricao,
-        uf: createCidadeDto.uf,
-        dt_alteracao: createCidadeDto.dt_alteracao,
-        // Referência ao tenant via connect
-        tenant: {
-          connect: {
-            id: this.prismaTenant.request['tenantId'],
-          },
-        },
-      },
+      data: this.prismaTenant.addTenantToData(createCidadeDto),
     });
   }
 
   async findAll() {
-    const total = await this.prismaTenant.prisma.cidade.count();
-    const dados = await this.prismaTenant.prisma.cidade.findMany();
+    const total = await this.prismaTenant.prisma.cidade.count({
+      where: this.prismaTenant.addTenantToFilter(),
+    });
+
+    const dados = await this.prismaTenant.prisma.cidade.findMany({
+      where: this.prismaTenant.addTenantToFilter(),
+    });
+
     return { dados, total };
   }
 
   findOne(id: number) {
     return this.prismaTenant.prisma.cidade.findUnique({
-      where: { id },
+      where: this.prismaTenant.addTenantToFilter({ id }),
       include: {
         cliente: true,
       },
@@ -40,12 +36,14 @@ export class CidadesService {
 
   update(id: number, updateCidadeDto: UpdateCidadeDto) {
     return this.prismaTenant.prisma.cidade.update({
-      where: { id },
+      where: this.prismaTenant.addTenantToFilter({ id }),
       data: updateCidadeDto,
     });
   }
 
   remove(id: number) {
-    return this.prismaTenant.prisma.cidade.delete({ where: { id } });
+    return this.prismaTenant.prisma.cidade.delete({
+      where: this.prismaTenant.addTenantToFilter({ id }),
+    });
   }
 }

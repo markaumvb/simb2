@@ -1,3 +1,4 @@
+// src/modules/funcionarios/funcionarios.service.ts
 import { Injectable } from '@nestjs/common';
 import { CreateFuncionarioDto } from './dto/create-funcionario.dto';
 import { UpdateFuncionarioDto } from './dto/update-funcionario.dto';
@@ -15,21 +16,41 @@ export class FuncionariosService {
       createFuncionarioDto.senha,
       roundsOfHashing,
     );
-    createFuncionarioDto.senha = hashedpassword;
-    return this.prismaTenant.prisma.funcionario.create({ data: createFuncionarioDto });
+
+    // Criar uma cópia modificada do DTO
+    const funcionarioData = {
+      ...createFuncionarioDto,
+      senha: hashedpassword,
+      // Adicionar conexão explícita com cidade
+      cidade: {
+        connect: { id: createFuncionarioDto.id_cidade },
+      },
+    };
+
+    // Remover id_cidade do objeto principal para evitar conflito
+    delete funcionarioData.id_cidade;
+
+    // Aplicar tenant e criar o funcionário
+    return this.prismaTenant.prisma.funcionario.create({
+      data: this.prismaTenant.addTenantToData(funcionarioData),
+    });
   }
 
   findAll() {
-    return this.prismaTenant.prisma.funcionario.findMany();
+    return this.prismaTenant.prisma.funcionario.findMany({
+      where: this.prismaTenant.addTenantToFilter(),
+    });
   }
 
   findSituacao(ativo: boolean) {
-    return this.prismaTenant.prisma.funcionario.findMany({ where: { status: ativo } });
+    return this.prismaTenant.prisma.funcionario.findMany({
+      where: this.prismaTenant.addTenantToFilter({ status: ativo }),
+    });
   }
 
   findOne(id: number) {
     return this.prismaTenant.prisma.funcionario.findUnique({
-      where: { id },
+      where: this.prismaTenant.addTenantToFilter({ id }),
       include: {
         cidade: true,
         funcionario_perfil: true,
@@ -41,24 +62,38 @@ export class FuncionariosService {
 
   findEmail(email: string) {
     return this.prismaTenant.prisma.funcionario.findMany({
-      where: { email },
+      where: this.prismaTenant.addTenantToFilter({ email }),
     });
   }
 
   async update(id: number, updateFuncionarioDto: UpdateFuncionarioDto) {
-    if (updateFuncionarioDto.senha) {
-      updateFuncionarioDto.senha = await bcrypt.hash(
-        updateFuncionarioDto.senha,
+    const funcionarioData = { ...updateFuncionarioDto };
+
+    // Hash a senha se fornecida
+    if (funcionarioData.senha) {
+      funcionarioData.senha = await bcrypt.hash(
+        funcionarioData.senha,
         roundsOfHashing,
       );
     }
+
+    // Lidar com relação de cidade se o id_cidade foi fornecido
+    if (funcionarioData.id_cidade) {
+      funcionarioData.cidade = {
+        connect: { id: funcionarioData.id_cidade },
+      };
+      delete funcionarioData.id_cidade;
+    }
+
     return this.prismaTenant.prisma.funcionario.update({
-      where: { id },
-      data: updateFuncionarioDto,
+      where: this.prismaTenant.addTenantToFilter({ id }),
+      data: funcionarioData,
     });
   }
 
   remove(id: number) {
-    return this.prismaTenant.prisma.funcionario.delete({ where: { id } });
+    return this.prismaTenant.prisma.funcionario.delete({
+      where: this.prismaTenant.addTenantToFilter({ id }),
+    });
   }
 }

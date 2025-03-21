@@ -3,82 +3,51 @@ import { Injectable, Scope, Inject } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { PrismaService } from '@app/database/prisma.service';
 import { Request } from 'express';
-import { Prisma, PrismaClient } from '@prisma/client';
 
 @Injectable({ scope: Scope.REQUEST })
 export class PrismaTenantService {
   constructor(
     @Inject(REQUEST) private _request: Request,
-    private prismaService: PrismaService,
+    private readonly prismaService: PrismaService,
   ) {}
 
-  // Getter para request
-  get request(): Request {
-    return this._request;
+  // Retorna o cliente Prisma original (sem modificações)
+  get prisma() {
+    return this.prismaService;
   }
 
-  get prisma(): any {
-    const tenantId = this._request['tenantId'];
+  // Retorna o tenant atual
+  get currentTenantId(): number | null {
+    return this._request['tenantId'] ? Number(this._request['tenantId']) : null;
+  }
 
-    if (!tenantId) {
-      // Se não encontrar tenantId, retorna o cliente prisma normal
-      return this.prismaService;
+  // Método para adicionar tenant_id a filtros
+  addTenantToFilter(filter: any = {}): any {
+    const tenantId = this.currentTenantId;
+    if (tenantId === null) {
+      return filter;
+    }
+    return { ...filter, tenant_id: tenantId };
+  }
+
+  // Método para adicionar tenant_id a dados
+  addTenantToData(data: any = {}): any {
+    const tenantId = this.currentTenantId;
+    if (tenantId === null) {
+      return data;
     }
 
-    // Estende o cliente prisma com filtro de tenant
-    return this.prismaService.$extends({
-      query: {
-        $allModels: {
-          async $allOperations({ args, query, model, operation }) {
-            // Lista de modelos que não têm tenant_id
-            const noTenantModels = ['Tenant'];
+    // Criar uma cópia para não modificar o original
+    const newData = { ...data };
 
-            // Lista de operações que não têm 'where'
-            const noWhereOperations = ['create', 'createMany'];
+    // Adicionar tenant_id como campo numérico
+    newData.tenant_id = tenantId;
 
-            if (
-              !noTenantModels.includes(model) &&
-              !noWhereOperations.includes(operation)
-            ) {
-              // Operações que têm 'where' podem ter tenant_id adicionado
-              if (args && 'where' in args) {
-                args.where = {
-                  ...args.where,
-                  tenant_id: parseInt(tenantId),
-                };
-              }
-            } else if (
-              operation === 'create' &&
-              !noTenantModels.includes(model)
-            ) {
-              // Para operação create, adicionar tenant_id e tenant
-              if (args && 'data' in args) {
-                args.data = {
-                  ...args.data,
-                  tenant: {
-                    connect: {
-                      id: parseInt(tenantId),
-                    },
-                  },
-                };
-              }
-            } else if (
-              operation === 'createMany' &&
-              !noTenantModels.includes(model)
-            ) {
-              // Para operação createMany, adicionar tenant_id em cada item de dados
-              if (args && 'data' in args && Array.isArray(args.data)) {
-                args.data = args.data.map((item) => ({
-                  ...item,
-                  tenant_id: parseInt(tenantId),
-                }));
-              }
-            }
+    // Adicionar relação tenant para o Prisma
+    newData.tenant = {
+      connect: { id: tenantId },
+    };
 
-            return query(args);
-          },
-        },
-      },
-    });
+    return newData;
   }
 }
