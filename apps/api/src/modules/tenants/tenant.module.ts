@@ -1,13 +1,17 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { TenantController } from './tenant.controller';
 import { TenantService } from './tenant.service';
 import { PrismaModule } from '@app/database/prisma.module';
-import { PrismaTenantService } from '@app/providers/prisma-tenant.provider'; // Adicione este import
+import { PrismaTenantModule } from '@app/providers/prisma-tenant.module';
 
+@Global() // Torna o módulo global
 @Module({
-  imports: [PrismaModule],
+  imports: [
+    PrismaModule,
+    PrismaTenantModule, // Importa o módulo do PrismaTenantService
+  ],
   controllers: [TenantController],
-  providers: [TenantService, PrismaTenantService], // Adicione PrismaTenantService aqui
-  exports: [TenantService],
+  providers: [TenantService],
+  exports: [TenantService], // Exporta o TenantService para estar disponível em outros módulos
 })
 export class TenantModule {}
