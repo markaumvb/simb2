@@ -32,6 +32,9 @@ export class ItensAcertoEntity {
   @ApiProperty()
   id_item_acerto: number | null;
 
+  @ApiProperty()
+  tenant_id: number;
+
   constructor(partial: Partial<ItensAcertoEntity>) {
     Object.assign(this, partial);
   }
