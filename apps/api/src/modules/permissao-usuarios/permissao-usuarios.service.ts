@@ -8,7 +8,9 @@ export class PermissaoUsuariosService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
   create(data: CreatePermissaoUsuarioDto) {
-    return this.prismaTenant.prisma.client.permissoes_usuario.create({ data });
+    return this.prismaTenant.prisma.client.permissoes_usuario.create({
+      data: this.prismaTenant.addTenantToData(data),
+    });
   }
 
   findAll() {

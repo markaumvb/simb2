@@ -9,7 +9,7 @@ export class LogMesasService {
 
   create(createLogMesaDto: CreateLogMesaDto) {
     return this.prismaTenant.prisma.client.log_mesa.create({
-      data: createLogMesaDto,
+      data: this.prismaTenant.addTenantToData(createLogMesaDto),
     });
   }
 

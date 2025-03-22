@@ -9,7 +9,7 @@ export class ItensAcertosService {
 
   create(createItensAcertoDto: CreateItensAcertoDto) {
     return this.prismaTenant.prisma.client.itens_acerto.create({
-      data: createItensAcertoDto,
+      data: this.prismaTenant.addTenantToData(createItensAcertoDto),
     });
   }
 

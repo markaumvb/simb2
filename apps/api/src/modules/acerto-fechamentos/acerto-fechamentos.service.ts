@@ -8,17 +8,8 @@ export class AcertoFechamentosService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
   create(createAcertoFechamentoDto: CreateAcertoFechamentoDto) {
-    const { id_linha, id_movimentacao, id_funcionario, ...rest } =
-      createAcertoFechamentoDto;
-
     return this.prismaTenant.prisma.client.acerto_fechamento.create({
-      data: {
-        ...rest,
-        id_linha,
-        id_movimentacao,
-        id_funcionario,
-        tenant_id: this.prismaTenant.currentTenantId,
-      },
+      data: this.prismaTenant.addTenantToData(createAcertoFechamentoDto),
     });
   }
 

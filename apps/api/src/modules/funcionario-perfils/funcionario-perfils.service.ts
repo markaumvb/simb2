@@ -9,7 +9,7 @@ export class FuncionarioPerfilsService {
 
   create(createFuncionarioPerfilDto: CreateFuncionarioPerfilDto) {
     return this.prismaTenant.prisma.client.funcionario_perfil.create({
-      data: createFuncionarioPerfilDto,
+      data: this.prismaTenant.addTenantToData(createFuncionarioPerfilDto),
     });
   }
 

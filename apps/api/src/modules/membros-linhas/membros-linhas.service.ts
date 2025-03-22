@@ -9,7 +9,7 @@ export class MembrosLinhasService {
 
   create(createMembrosLinhaDto: CreateMembrosLinhaDto) {
     return this.prismaTenant.prisma.client.membros_linha.create({
-      data: createMembrosLinhaDto,
+      data: this.prismaTenant.addTenantToData(createMembrosLinhaDto),
     });
   }
 

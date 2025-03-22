@@ -9,7 +9,7 @@ export class HistoricoPontosService {
 
   create(createHistoricoPontoDto: CreateHistoricoPontoDto) {
     return this.prismaTenant.prisma.client.historico_ponto.create({
-      data: createHistoricoPontoDto,
+      data: this.prismaTenant.addTenantToData(createHistoricoPontoDto),
     });
   }
 

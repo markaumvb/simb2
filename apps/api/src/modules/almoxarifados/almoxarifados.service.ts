@@ -9,7 +9,7 @@ export class AlmoxarifadosService {
 
   create(createAlmoxarifadoDto: CreateAlmoxarifadoDto) {
     return this.prismaTenant.prisma.client.almoxarifado.create({
-      data: createAlmoxarifadoDto,
+      data: this.prismaTenant.addTenantToData(createAlmoxarifadoDto),
     });
   }
 

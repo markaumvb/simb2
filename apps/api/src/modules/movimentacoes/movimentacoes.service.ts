@@ -8,7 +8,9 @@ export class MovimentacoesService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
   create(data: CreateMovimentacoeDto) {
-    return this.prismaTenant.prisma.client.movimentacao.create({ data });
+    return this.prismaTenant.prisma.client.movimentacao.create({
+      data: this.prismaTenant.addTenantToData(data),
+    });
   }
 
   findAll() {

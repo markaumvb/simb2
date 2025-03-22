@@ -9,7 +9,7 @@ export class PontosService {
 
   create(createPontoDto: CreatePontoDto) {
     return this.prismaTenant.prisma.client.ponto.create({
-      data: createPontoDto,
+      data: this.prismaTenant.addTenantToData(createPontoDto),
     });
   }
 

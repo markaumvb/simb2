@@ -8,7 +8,9 @@ export class TipoMesasService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
   create(data: CreateTipoMesaDto) {
-    return this.prismaTenant.prisma.client.tipo_mesa.create({ data });
+    return this.prismaTenant.prisma.client.tipo_mesa.create({
+      data: this.prismaTenant.addTenantToData(data),
+    });
   }
 
   findAll() {

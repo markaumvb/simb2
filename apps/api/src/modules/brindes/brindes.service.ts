@@ -9,7 +9,7 @@ export class BrindesService {
 
   create(createBrindeDto: CreateBrindeDto) {
     return this.prismaTenant.prisma.client.brinde.create({
-      data: createBrindeDto,
+      data: this.prismaTenant.addTenantToData(createBrindeDto),
     });
   }
 

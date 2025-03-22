@@ -9,7 +9,7 @@ export class ComposicoesService {
 
   create(createComposicoeDto: CreateComposicoeDto) {
     return this.prismaTenant.prisma.client.composicao.create({
-      data: createComposicoeDto,
+      data: this.prismaTenant.addTenantToData(createComposicoeDto),
     });
   }
 

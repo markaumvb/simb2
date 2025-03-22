@@ -8,7 +8,9 @@ export class CobrancasService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
   create(data: CreateCobrancaDto) {
-    return this.prismaTenant.prisma.client.cobranca.create({ data });
+    return this.prismaTenant.prisma.client.cobranca.create({
+      data: this.prismaTenant.addTenantToData(data),
+    });
   }
 
   findAll() {

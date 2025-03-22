@@ -8,7 +8,9 @@ export class FuncaosService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
   create(data: CreateFuncaoDto) {
-    return this.prismaTenant.prisma.client.funcao.create({ data });
+    return this.prismaTenant.prisma.client.funcao.create({
+      data: this.prismaTenant.addTenantToData(data),
+    });
   }
 
   findAll() {

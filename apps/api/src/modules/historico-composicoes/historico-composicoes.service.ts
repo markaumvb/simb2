@@ -9,7 +9,7 @@ export class HistoricoComposicoesService {
 
   create(createHistoricoComposicoeDto: CreateHistoricoComposicoeDto) {
     return this.prismaTenant.prisma.client.historico_composicao.create({
-      data: createHistoricoComposicoeDto,
+      data: this.prismaTenant.addTenantToData(createHistoricoComposicoeDto),
     });
   }
 

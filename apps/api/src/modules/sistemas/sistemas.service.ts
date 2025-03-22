@@ -9,7 +9,7 @@ export class SistemasService {
 
   create(createSistemaDto: CreateSistemaDto) {
     return this.prismaTenant.prisma.client.sistema.create({
-      data: createSistemaDto,
+      data: this.prismaTenant.addTenantToData(createSistemaDto),
     });
   }
 

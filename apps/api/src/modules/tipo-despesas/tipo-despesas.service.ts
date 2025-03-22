@@ -9,7 +9,7 @@ export class TipoDespesasService {
 
   create(createTipoDespesaDto: CreateTipoDespesaDto) {
     return this.prismaTenant.prisma.client.tipo_despesa.create({
-      data: createTipoDespesaDto,
+      data: this.prismaTenant.addTenantToData(createTipoDespesaDto),
     });
   }
 

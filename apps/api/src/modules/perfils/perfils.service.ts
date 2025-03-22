@@ -9,7 +9,7 @@ export class PerfilsService {
 
   create(createPerfilDto: CreatePerfilDto) {
     return this.prismaTenant.prisma.client.perfil.create({
-      data: createPerfilDto,
+      data: this.prismaTenant.addTenantToData(createPerfilDto),
     });
   }
 

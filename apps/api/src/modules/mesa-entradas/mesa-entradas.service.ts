@@ -9,7 +9,7 @@ export class MesaEntradasService {
 
   create(createMesaEntradaDto: CreateMesaEntradaDto) {
     return this.prismaTenant.prisma.client.mesa_entrada.create({
-      data: createMesaEntradaDto,
+      data: this.prismaTenant.addTenantToData(createMesaEntradaDto),
     });
   }
 

@@ -6,9 +6,10 @@ import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 @Injectable()
 export class ClientesService {
   constructor(private prismaTenant: PrismaTenantService) {}
+
   create(createClienteDto: CreateClienteDto) {
     return this.prismaTenant.prisma.client.cliente.create({
-      data: createClienteDto,
+      data: this.prismaTenant.addTenantToData(createClienteDto),
     });
   }
 

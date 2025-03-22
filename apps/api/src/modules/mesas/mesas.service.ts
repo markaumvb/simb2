@@ -6,8 +6,11 @@ import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 @Injectable()
 export class MesasService {
   constructor(private prismaTenant: PrismaTenantService) {}
+
   create(data: CreateMesaDto) {
-    return this.prismaTenant.prisma.client.mesa.create({ data });
+    return this.prismaTenant.prisma.client.mesa.create({
+      data: this.prismaTenant.addTenantToData(data),
+    });
   }
 
   async findLinha(linha: number) {

@@ -8,7 +8,9 @@ export class DepositosService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
   create(data: CreateDepositoDto) {
-    return this.prismaTenant.prisma.client.deposito.create({ data });
+    return this.prismaTenant.prisma.client.deposito.create({
+      data: this.prismaTenant.addTenantToData(data),
+    });
   }
 
   findAll() {

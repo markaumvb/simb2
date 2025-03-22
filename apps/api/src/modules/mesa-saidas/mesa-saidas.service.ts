@@ -9,7 +9,7 @@ export class MesaSaidasService {
 
   create(createMesaSaidaDto: CreateMesaSaidaDto) {
     return this.prismaTenant.prisma.client.mesa_saida.create({
-      data: createMesaSaidaDto,
+      data: this.prismaTenant.addTenantToData(createMesaSaidaDto),
     });
   }
 
