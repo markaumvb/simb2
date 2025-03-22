@@ -4,7 +4,7 @@ import {
   ExecutionContext,
   UnauthorizedException,
 } from '@nestjs/common';
-import { TenantService } from '../modules/tenants/tenant.service';
+import { TenantService } from '@app/modules/tenants/tenant.service';
 
 @Injectable()
 export class TenantGuard implements CanActivate {
