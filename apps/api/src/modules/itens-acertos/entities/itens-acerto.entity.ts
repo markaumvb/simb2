@@ -12,7 +12,7 @@ export class ItensAcertoEntity {
     return Number(value);
   })
   @ApiProperty({ type: Number })
-  valor: number; // Mantenha como number, mas adicione Transform
+  valor: number;
 
   @ApiProperty()
   data: Date;
