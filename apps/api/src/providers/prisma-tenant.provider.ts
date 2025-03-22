@@ -1,4 +1,3 @@
-// src/providers/prisma-tenant.provider.ts
 import { Injectable, Scope, Inject } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { PrismaService } from '@app/database/prisma.service';

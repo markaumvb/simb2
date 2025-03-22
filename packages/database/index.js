@@ -18,6 +18,7 @@ exports.prisma = exports.Decimal = void 0;
 const client_1 = require("@prisma/client");
 const library_1 = require("@prisma/client/runtime/library");
 Object.defineProperty(exports, "Decimal", { enumerable: true, get: function () { return library_1.Decimal; } });
+// Re-exportar todos os tipos do Prisma
 __exportStar(require("@prisma/client"), exports);
+// Exportar o cliente Prisma
 exports.prisma = new client_1.PrismaClient();
-//# sourceMappingURL=index.js.map

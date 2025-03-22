@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
+import { Prisma } from '@database';
 
 export class ItensAcertoEntity {
   @ApiProperty()
@@ -9,10 +10,10 @@ export class ItensAcertoEntity {
   descricao: string;
 
   @Transform(({ value }) => {
-    return Number(value);
+    return value === null ? null : Number(value);
   })
   @ApiProperty({ type: Number })
-  valor: number;
+  valor: Prisma.Decimal | number; // Aceita ambos os tipos
 
   @ApiProperty()
   data: Date;
@@ -36,6 +37,18 @@ export class ItensAcertoEntity {
   tenant_id: number;
 
   constructor(partial: Partial<ItensAcertoEntity>) {
+    // Garantir que valores Decimal sejam convertidos para number
+    if (
+      partial &&
+      partial.valor &&
+      typeof partial.valor === 'object' &&
+      'toNumber' in partial.valor
+    ) {
+      partial = {
+        ...partial,
+        valor: Number(partial.valor),
+      };
+    }
     Object.assign(this, partial);
   }
 }

@@ -41,6 +41,7 @@ import { TenantModule } from './modules/tenants/tenant.module';
 import { TenantMiddleware } from './middleware/tenant.middleware';
 import { PrismaTenantService } from './providers/prisma-tenant.provider';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { PrismaTenantModule } from './providers/prisma-tenant.module';
 
 @Module({
   imports: [
@@ -108,6 +109,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
     TipoDespesasModule,
     ComposicoesModule,
     ItensAcertosModule,
+    PrismaTenantModule,
   ],
   controllers: [],
   providers: [
