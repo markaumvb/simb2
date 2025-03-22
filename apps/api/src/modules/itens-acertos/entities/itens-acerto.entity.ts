@@ -1,8 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-// Importe apenas Prisma, não o modelo específico
-import { Prisma } from '@database';
+import { Transform } from 'class-transformer';
 
-// Crie a interface manualmente
 export class ItensAcertoEntity {
   @ApiProperty()
   id: number;
@@ -10,9 +8,11 @@ export class ItensAcertoEntity {
   @ApiProperty()
   descricao: string;
 
-  // Use tipo de dados mais genérico para o Decimal
-  @ApiProperty({ type: Number, nullable: true })
-  valor: number;
+  @Transform(({ value }) => {
+    return Number(value);
+  })
+  @ApiProperty({ type: Number })
+  valor: number; // Mantenha como number, mas adicione Transform
 
   @ApiProperty()
   data: Date;
