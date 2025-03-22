@@ -1,7 +1,7 @@
 // src/providers/prisma-tenant.provider.ts
 import { Injectable, Scope, Inject } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
-import { PrismaService } from '@database';
+import { PrismaService } from '@app/database/prisma.service';
 
 @Injectable({ scope: Scope.REQUEST })
 export class PrismaTenantService {

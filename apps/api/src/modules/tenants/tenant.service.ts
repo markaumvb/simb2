@@ -8,36 +8,36 @@ export class TenantService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
   async create(createTenantDto: CreateTenantDto): Promise<any> {
-    return this.prismaTenant.prisma.tenant.create({
+    return this.prismaService.client.tenant.create({
       data: createTenantDto,
     });
   }
 
   async findAll(): Promise<any[]> {
-    return this.prismaTenant.prisma.tenant.findMany();
+    return this.prismaService.client.tenant.findMany();
   }
 
   async findOne(id: number): Promise<any | null> {
-    return this.prismaTenant.prisma.tenant.findUnique({
+    return this.prismaService.client.tenant.findUnique({
       where: { id },
     });
   }
 
   async findByCnpj(cnpj: string) {
-    return this.prismaTenant.prisma.tenant.findUnique({
+    return this.prismaService.client.tenant.findUnique({
       where: { cnpj },
     });
   }
 
   async update(id: number, updateTenantDto: UpdateTenantDto): Promise<any> {
-    return this.prismaTenant.prisma.tenant.update({
+    return this.prismaService.client.tenant.update({
       where: { id },
       data: updateTenantDto,
     });
   }
 
   async remove(id: number): Promise<any> {
-    return this.prismaTenant.prisma.tenant.delete({
+    return this.prismaService.client.tenant.delete({
       where: { id },
     });
   }
@@ -46,7 +46,7 @@ export class TenantService {
     usuarioId: number,
     tenantId: number,
   ): Promise<boolean> {
-    const funcionario = await this.prismaTenant.prisma.funcionario.findFirst({
+    const funcionario = await this.prismaService.client.funcionario.findFirst({
       where: {
         id: usuarioId,
         tenant_id: tenantId,
