@@ -7,15 +7,17 @@ import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 export class ClientesService {
   constructor(private prismaTenant: PrismaTenantService) {}
   create(createClienteDto: CreateClienteDto) {
-    return this.prismaTenant.prisma.cliente.create({ data: createClienteDto });
+    return this.prismaTenant.prisma.client.cliente.create({
+      data: createClienteDto,
+    });
   }
 
   async findAll() {
-    return await this.prismaTenant.prisma.cliente.findMany();
+    return await this.prismaTenant.prisma.client.cliente.findMany();
   }
 
   findOne(id: number) {
-    return this.prismaTenant.prisma.cliente.findUnique({
+    return this.prismaTenant.prisma.client.cliente.findUnique({
       where: { id },
       include: {
         cidade: true,
@@ -26,17 +28,19 @@ export class ClientesService {
   }
 
   findSituacao(ativo: boolean) {
-    return this.prismaTenant.prisma.cliente.findMany({ where: { ativo: ativo } });
+    return this.prismaTenant.prisma.client.cliente.findMany({
+      where: { ativo: ativo },
+    });
   }
 
   update(id: number, updateClienteDto: UpdateClienteDto) {
-    return this.prismaTenant.prisma.cliente.update({
+    return this.prismaTenant.prisma.client.cliente.update({
       where: { id },
       data: updateClienteDto,
     });
   }
 
   remove(id: number) {
-    return this.prismaTenant.prisma.cliente.delete({ where: { id } });
+    return this.prismaTenant.prisma.client.cliente.delete({ where: { id } });
   }
 }

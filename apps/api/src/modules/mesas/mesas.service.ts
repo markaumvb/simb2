@@ -7,29 +7,29 @@ import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 export class MesasService {
   constructor(private prismaTenant: PrismaTenantService) {}
   create(data: CreateMesaDto) {
-    return this.prismaTenant.prisma.mesa.create({ data });
+    return this.prismaTenant.prisma.client.mesa.create({ data });
   }
 
   async findLinha(linha: number) {
-    return await this.prismaTenant.prisma.mesa.findMany({
+    return await this.prismaTenant.prisma.client.mesa.findMany({
       where: { id_linha: linha },
       orderBy: { id: 'asc' },
     });
   }
 
   async findStatus(status: string) {
-    return await this.prismaTenant.prisma.mesa.findMany({
+    return await this.prismaTenant.prisma.client.mesa.findMany({
       where: { status },
       orderBy: { id: 'asc' },
     });
   }
 
   async findAll() {
-    return await this.prismaTenant.prisma.mesa.findMany();
+    return await this.prismaTenant.prisma.client.mesa.findMany();
   }
 
   async findOne(id: number) {
-    const mesa = await this.prismaTenant.prisma.mesa.findUnique({
+    const mesa = await this.prismaTenant.prisma.client.mesa.findUnique({
       where: { id },
       include: {
         composicao: true,
@@ -48,13 +48,13 @@ export class MesasService {
   }
 
   update(id: number, updateMesaDto: UpdateMesaDto) {
-    return this.prismaTenant.prisma.mesa.update({
+    return this.prismaTenant.prisma.client.mesa.update({
       where: { id },
       data: updateMesaDto,
     });
   }
 
   remove(id: number) {
-    return this.prismaTenant.prisma.mesa.delete({ where: { id } });
+    return this.prismaTenant.prisma.client.mesa.delete({ where: { id } });
   }
 }

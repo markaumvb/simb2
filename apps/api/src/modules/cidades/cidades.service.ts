@@ -8,17 +8,17 @@ export class CidadesService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
   create(createCidadeDto: CreateCidadeDto) {
-    return this.prismaTenant.prisma.cidade.create({
+    return this.prismaTenant.prisma.client.cidade.create({
       data: this.prismaTenant.addTenantToData(createCidadeDto),
     });
   }
 
   async findAll() {
-    const total = await this.prismaTenant.prisma.cidade.count({
+    const total = await this.prismaTenant.prisma.client.cidade.count({
       where: this.prismaTenant.addTenantToFilter(),
     });
 
-    const dados = await this.prismaTenant.prisma.cidade.findMany({
+    const dados = await this.prismaTenant.prisma.client.cidade.findMany({
       where: this.prismaTenant.addTenantToFilter(),
     });
 
@@ -26,7 +26,7 @@ export class CidadesService {
   }
 
   findOne(id: number) {
-    return this.prismaTenant.prisma.cidade.findUnique({
+    return this.prismaTenant.prisma.client.cidade.findUnique({
       where: this.prismaTenant.addTenantToFilter({ id }),
       include: {
         cliente: true,
@@ -35,14 +35,14 @@ export class CidadesService {
   }
 
   update(id: number, updateCidadeDto: UpdateCidadeDto) {
-    return this.prismaTenant.prisma.cidade.update({
+    return this.prismaTenant.prisma.client.cidade.update({
       where: this.prismaTenant.addTenantToFilter({ id }),
       data: updateCidadeDto,
     });
   }
 
   remove(id: number) {
-    return this.prismaTenant.prisma.cidade.delete({
+    return this.prismaTenant.prisma.client.cidade.delete({
       where: this.prismaTenant.addTenantToFilter({ id }),
     });
   }

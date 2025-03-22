@@ -8,17 +8,17 @@ export class AlmoxarifadosService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
   create(createAlmoxarifadoDto: CreateAlmoxarifadoDto) {
-    return this.prismaTenant.prisma.almoxarifado.create({
+    return this.prismaTenant.prisma.client.almoxarifado.create({
       data: createAlmoxarifadoDto,
     });
   }
 
   findAll() {
-    return this.prismaTenant.prisma.almoxarifado.findMany();
+    return this.prismaTenant.prisma.client.almoxarifado.findMany();
   }
 
   findOne(id: number) {
-    return this.prismaTenant.prisma.almoxarifado.findUnique({
+    return this.prismaTenant.prisma.client.almoxarifado.findUnique({
       where: { id },
       include: {
         itens_pedido_almoxarifado: true,
@@ -27,13 +27,15 @@ export class AlmoxarifadosService {
   }
 
   update(id: number, updateAlmoxarifadoDto: UpdateAlmoxarifadoDto) {
-    return this.prismaTenant.prisma.almoxarifado.update({
+    return this.prismaTenant.prisma.client.almoxarifado.update({
       where: { id },
       data: updateAlmoxarifadoDto,
     });
   }
 
   remove(id: number) {
-    return this.prismaTenant.prisma.almoxarifado.delete({ where: { id } });
+    return this.prismaTenant.prisma.client.almoxarifado.delete({
+      where: { id },
+    });
   }
 }

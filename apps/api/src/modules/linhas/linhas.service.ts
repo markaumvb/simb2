@@ -10,19 +10,19 @@ export class LinhasService {
 
   create(createLinhaDto: CreateLinhaDto) {
     // Usando o método addTenantToData para injetar o tenant_id corretamente
-    return this.prismaTenant.prisma.linha.create({
+    return this.prismaTenant.prisma.client.linha.create({
       data: this.prismaTenant.addTenantToData(createLinhaDto),
     });
   }
 
   findAll() {
-    return this.prismaTenant.prisma.linha.findMany({
+    return this.prismaTenant.prisma.client.linha.findMany({
       where: this.prismaTenant.addTenantToFilter(),
     });
   }
 
   findOne(id: number) {
-    return this.prismaTenant.prisma.linha.findUnique({
+    return this.prismaTenant.prisma.client.linha.findUnique({
       where: this.prismaTenant.addTenantToFilter({ id }),
       include: {
         movimentacao: true,
@@ -31,14 +31,14 @@ export class LinhasService {
   }
 
   update(id: number, updateLinhaDto: UpdateLinhaDto) {
-    return this.prismaTenant.prisma.linha.update({
+    return this.prismaTenant.prisma.client.linha.update({
       where: this.prismaTenant.addTenantToFilter({ id }),
       data: updateLinhaDto,
     });
   }
 
   remove(id: number) {
-    return this.prismaTenant.prisma.linha.delete({
+    return this.prismaTenant.prisma.client.linha.delete({
       where: this.prismaTenant.addTenantToFilter({ id }),
     });
   }

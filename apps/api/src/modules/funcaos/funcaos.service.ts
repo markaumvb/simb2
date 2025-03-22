@@ -8,15 +8,15 @@ export class FuncaosService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
   create(data: CreateFuncaoDto) {
-    return this.prismaTenant.prisma.funcao.create({ data });
+    return this.prismaTenant.prisma.client.funcao.create({ data });
   }
 
   findAll() {
-    return this.prismaTenant.prisma.funcao.findMany();
+    return this.prismaTenant.prisma.client.funcao.findMany();
   }
 
   findOne(id: number) {
-    return this.prismaTenant.prisma.funcao.findUnique({
+    return this.prismaTenant.prisma.client.funcao.findUnique({
       where: { id },
       include: {
         membros_linha: true,
@@ -25,13 +25,13 @@ export class FuncaosService {
   }
 
   update(id: number, updateFuncaoDto: UpdateFuncaoDto) {
-    return this.prismaTenant.prisma.funcao.update({
+    return this.prismaTenant.prisma.client.funcao.update({
       where: { id },
       data: updateFuncaoDto,
     });
   }
 
   remove(id: number) {
-    return this.prismaTenant.prisma.funcao.delete({ where: { id } });
+    return this.prismaTenant.prisma.client.funcao.delete({ where: { id } });
   }
 }

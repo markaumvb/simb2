@@ -8,30 +8,34 @@ export class HistoricoComposicoesService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
   create(createHistoricoComposicoeDto: CreateHistoricoComposicoeDto) {
-    return this.prismaTenant.prisma.historico_composicao.create({
+    return this.prismaTenant.prisma.client.historico_composicao.create({
       data: createHistoricoComposicoeDto,
     });
   }
 
   findAll() {
-    return this.prismaTenant.prisma.historico_composicao.findMany();
+    return this.prismaTenant.prisma.client.historico_composicao.findMany();
   }
 
   findOne(id: number) {
-    return this.prismaTenant.prisma.historico_composicao.findUnique({ where: { id } });
+    return this.prismaTenant.prisma.client.historico_composicao.findUnique({
+      where: { id },
+    });
   }
 
   update(
     id: number,
     updateHistoricoComposicoeDto: UpdateHistoricoComposicoeDto,
   ) {
-    return this.prismaTenant.prisma.historico_composicao.update({
+    return this.prismaTenant.prisma.client.historico_composicao.update({
       where: { id },
       data: updateHistoricoComposicoeDto,
     });
   }
 
   remove(id: number) {
-    return this.prismaTenant.prisma.historico_composicao.delete({ where: { id } });
+    return this.prismaTenant.prisma.client.historico_composicao.delete({
+      where: { id },
+    });
   }
 }

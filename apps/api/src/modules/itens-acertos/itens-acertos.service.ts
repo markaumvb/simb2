@@ -8,25 +8,31 @@ export class ItensAcertosService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
   create(createItensAcertoDto: CreateItensAcertoDto) {
-    return this.prismaTenant.prisma.itens_acerto.create({ data: createItensAcertoDto });
+    return this.prismaTenant.prisma.client.itens_acerto.create({
+      data: createItensAcertoDto,
+    });
   }
 
   findAll() {
-    return this.prismaTenant.prisma.itens_acerto.findMany();
+    return this.prismaTenant.prisma.client.itens_acerto.findMany();
   }
 
   findOne(id: number) {
-    return this.prismaTenant.prisma.itens_acerto.findUnique({ where: { id: id } });
+    return this.prismaTenant.prisma.client.itens_acerto.findUnique({
+      where: { id: id },
+    });
   }
 
   update(id: number, updateItensAcertoDto: UpdateItensAcertoDto) {
-    return this.prismaTenant.prisma.itens_acerto.update({
+    return this.prismaTenant.prisma.client.itens_acerto.update({
       where: { id: id },
       data: updateItensAcertoDto,
     });
   }
 
   remove(id: number) {
-    return this.prismaTenant.prisma.itens_acerto.delete({ where: { id: id } });
+    return this.prismaTenant.prisma.client.itens_acerto.delete({
+      where: { id: id },
+    });
   }
 }

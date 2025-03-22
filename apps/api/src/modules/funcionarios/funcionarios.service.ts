@@ -28,25 +28,25 @@ export class FuncionariosService {
       },
     };
 
-    return this.prismaTenant.prisma.funcionario.create({
+    return this.prismaTenant.prisma.client.funcionario.create({
       data: this.prismaTenant.addTenantToData(funcionarioData),
     });
   }
 
   findAll() {
-    return this.prismaTenant.prisma.funcionario.findMany({
+    return this.prismaTenant.prisma.client.funcionario.findMany({
       where: this.prismaTenant.addTenantToFilter(),
     });
   }
 
   findSituacao(ativo: boolean) {
-    return this.prismaTenant.prisma.funcionario.findMany({
+    return this.prismaTenant.prisma.client.funcionario.findMany({
       where: this.prismaTenant.addTenantToFilter({ status: ativo }),
     });
   }
 
   findOne(id: number) {
-    return this.prismaTenant.prisma.funcionario.findUnique({
+    return this.prismaTenant.prisma.client.funcionario.findUnique({
       where: this.prismaTenant.addTenantToFilter({ id }),
       include: {
         cidade: true,
@@ -58,7 +58,7 @@ export class FuncionariosService {
   }
 
   findEmail(email: string) {
-    return this.prismaTenant.prisma.funcionario.findMany({
+    return this.prismaTenant.prisma.client.funcionario.findMany({
       where: this.prismaTenant.addTenantToFilter({ email }),
     });
   }
@@ -81,14 +81,14 @@ export class FuncionariosService {
       };
     }
 
-    return this.prismaTenant.prisma.funcionario.update({
+    return this.prismaTenant.prisma.client.funcionario.update({
       where: this.prismaTenant.addTenantToFilter({ id }),
       data: funcionarioData,
     });
   }
 
   remove(id: number) {
-    return this.prismaTenant.prisma.funcionario.delete({
+    return this.prismaTenant.prisma.client.funcionario.delete({
       where: this.prismaTenant.addTenantToFilter({ id }),
     });
   }

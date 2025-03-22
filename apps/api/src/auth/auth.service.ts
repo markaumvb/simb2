@@ -18,7 +18,7 @@ export class AuthService {
 
   async login(email: string, password: string, tenantId: number) {
     // Primeiro passo: procurar por usuário através do e-mail informado
-    const user = await this.prisma.funcionario.findFirst({
+    const user = await this.prisma.client.funcionario.findFirst({
       where: {
         email: email,
         tenant_id: tenantId,
@@ -75,7 +75,7 @@ export class AuthService {
         tenantId: number;
       };
 
-      const user = await this.prisma.funcionario.findUnique({
+      const user = await this.prisma.client.funcionario.findUnique({
         where: {
           id: decoded.userId,
           tenant_id: decoded.tenantId,

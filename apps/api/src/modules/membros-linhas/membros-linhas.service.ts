@@ -8,15 +8,17 @@ export class MembrosLinhasService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
   create(createMembrosLinhaDto: CreateMembrosLinhaDto) {
-    return this.prismaTenant.prisma.membros_linha.create({ data: createMembrosLinhaDto });
+    return this.prismaTenant.prisma.client.membros_linha.create({
+      data: createMembrosLinhaDto,
+    });
   }
 
   findAll() {
-    return this.prismaTenant.prisma.membros_linha.findMany();
+    return this.prismaTenant.prisma.client.membros_linha.findMany();
   }
 
   findOne(id: number) {
-    return this.prismaTenant.prisma.membros_linha.findUnique({
+    return this.prismaTenant.prisma.client.membros_linha.findUnique({
       where: { id },
       include: {
         funcionario: true,
@@ -25,13 +27,15 @@ export class MembrosLinhasService {
   }
 
   update(id: number, updateMembrosLinhaDto: UpdateMembrosLinhaDto) {
-    return this.prismaTenant.prisma.membros_linha.update({
+    return this.prismaTenant.prisma.client.membros_linha.update({
       where: { id },
       data: updateMembrosLinhaDto,
     });
   }
 
   remove(id: number) {
-    return this.prismaTenant.prisma.membros_linha.delete({ where: { id } });
+    return this.prismaTenant.prisma.client.membros_linha.delete({
+      where: { id },
+    });
   }
 }

@@ -8,19 +8,23 @@ export class LogMesasService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
   create(createLogMesaDto: CreateLogMesaDto) {
-    return this.prismaTenant.prisma.log_mesa.create({ data: createLogMesaDto });
+    return this.prismaTenant.prisma.client.log_mesa.create({
+      data: createLogMesaDto,
+    });
   }
 
   findAll() {
-    return this.prismaTenant.prisma.log_mesa.findMany();
+    return this.prismaTenant.prisma.client.log_mesa.findMany();
   }
 
   findOne(id: number) {
-    return this.prismaTenant.prisma.log_mesa.findUnique({ where: { id } });
+    return this.prismaTenant.prisma.client.log_mesa.findUnique({
+      where: { id },
+    });
   }
 
   findMesa(mesa: number) {
-    return this.prismaTenant.prisma.log_mesa.findMany({
+    return this.prismaTenant.prisma.client.log_mesa.findMany({
       where: { id_mesa: mesa },
       include: {
         mesa: true,
@@ -30,13 +34,13 @@ export class LogMesasService {
   }
 
   update(id: number, updateLogMesaDto: UpdateLogMesaDto) {
-    return this.prismaTenant.prisma.log_mesa.update({
+    return this.prismaTenant.prisma.client.log_mesa.update({
       where: { id },
       data: updateLogMesaDto,
     });
   }
 
   remove(id: number) {
-    return this.prismaTenant.prisma.log_mesa.delete({ where: { id } });
+    return this.prismaTenant.prisma.client.log_mesa.delete({ where: { id } });
   }
 }

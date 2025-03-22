@@ -8,22 +8,27 @@ export class PerfilsService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
   create(createPerfilDto: CreatePerfilDto) {
-    return this.prismaTenant.prisma.perfil.create({ data: createPerfilDto });
+    return this.prismaTenant.prisma.client.perfil.create({
+      data: createPerfilDto,
+    });
   }
 
   findAll() {
-    return this.prismaTenant.prisma.perfil.findMany();
+    return this.prismaTenant.prisma.client.perfil.findMany();
   }
 
   findOne(id: number) {
-    return this.prismaTenant.prisma.perfil.findUnique({ where: { id } });
+    return this.prismaTenant.prisma.client.perfil.findUnique({ where: { id } });
   }
 
   update(id: number, updatePerfilDto: UpdatePerfilDto) {
-    return this.prismaTenant.prisma.perfil.update({ where: { id }, data: updatePerfilDto });
+    return this.prismaTenant.prisma.client.perfil.update({
+      where: { id },
+      data: updatePerfilDto,
+    });
   }
 
   remove(id: number) {
-    return this.prismaTenant.prisma.perfil.delete({ where: { id } });
+    return this.prismaTenant.prisma.client.perfil.delete({ where: { id } });
   }
 }

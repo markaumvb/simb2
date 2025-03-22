@@ -8,27 +8,31 @@ export class FuncionarioPerfilsService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
   create(createFuncionarioPerfilDto: CreateFuncionarioPerfilDto) {
-    return this.prismaTenant.prisma.funcionario_perfil.create({
+    return this.prismaTenant.prisma.client.funcionario_perfil.create({
       data: createFuncionarioPerfilDto,
     });
   }
 
   findAll() {
-    return this.prismaTenant.prisma.funcionario_perfil.findMany();
+    return this.prismaTenant.prisma.client.funcionario_perfil.findMany();
   }
 
   findOne(id: number) {
-    return this.prismaTenant.prisma.funcionario_perfil.findUnique({ where: { id: id } });
+    return this.prismaTenant.prisma.client.funcionario_perfil.findUnique({
+      where: { id: id },
+    });
   }
 
   update(id: number, updateFuncionarioPerfilDto: UpdateFuncionarioPerfilDto) {
-    return this.prismaTenant.prisma.funcionario_perfil.update({
+    return this.prismaTenant.prisma.client.funcionario_perfil.update({
       where: { id },
       data: updateFuncionarioPerfilDto,
     });
   }
 
   remove(id: number) {
-    return this.prismaTenant.prisma.funcionario_perfil.delete({ where: { id: id } });
+    return this.prismaTenant.prisma.client.funcionario_perfil.delete({
+      where: { id: id },
+    });
   }
 }

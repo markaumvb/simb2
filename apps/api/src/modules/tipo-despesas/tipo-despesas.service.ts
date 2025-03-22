@@ -8,25 +8,31 @@ export class TipoDespesasService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
   create(createTipoDespesaDto: CreateTipoDespesaDto) {
-    return this.prismaTenant.prisma.tipo_despesa.create({ data: createTipoDespesaDto });
+    return this.prismaTenant.prisma.client.tipo_despesa.create({
+      data: createTipoDespesaDto,
+    });
   }
 
   findAll() {
-    return this.prismaTenant.prisma.tipo_despesa.findMany();
+    return this.prismaTenant.prisma.client.tipo_despesa.findMany();
   }
 
   findOne(id: number) {
-    return this.prismaTenant.prisma.tipo_despesa.findUnique({ where: { id } });
+    return this.prismaTenant.prisma.client.tipo_despesa.findUnique({
+      where: { id },
+    });
   }
 
   update(id: number, updateTipoDespesaDto: UpdateTipoDespesaDto) {
-    return this.prismaTenant.prisma.tipo_despesa.update({
+    return this.prismaTenant.prisma.client.tipo_despesa.update({
       where: { id },
       data: updateTipoDespesaDto,
     });
   }
 
   remove(id: number) {
-    return this.prismaTenant.prisma.tipo_despesa.delete({ where: { id } });
+    return this.prismaTenant.prisma.client.tipo_despesa.delete({
+      where: { id },
+    });
   }
 }

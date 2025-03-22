@@ -8,19 +8,21 @@ export class CobrancasService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
   create(data: CreateCobrancaDto) {
-    return this.prismaTenant.prisma.cobranca.create({ data });
+    return this.prismaTenant.prisma.client.cobranca.create({ data });
   }
 
   findAll() {
-    return this.prismaTenant.prisma.cobranca.findMany();
+    return this.prismaTenant.prisma.client.cobranca.findMany();
   }
 
   findOne(id: number) {
-    return this.prismaTenant.prisma.cobranca.findUnique({ where: { id: id } });
+    return this.prismaTenant.prisma.client.cobranca.findUnique({
+      where: { id: id },
+    });
   }
 
   findCobrancaMesa(mesa: number) {
-    return this.prismaTenant.prisma.cobranca.findMany({
+    return this.prismaTenant.prisma.client.cobranca.findMany({
       where: { id_mesa: mesa },
       include: {
         mesa: true,
@@ -29,13 +31,13 @@ export class CobrancasService {
   }
 
   update(id: number, updateCobrancaDto: UpdateCobrancaDto) {
-    return this.prismaTenant.prisma.cobranca.update({
+    return this.prismaTenant.prisma.client.cobranca.update({
       where: { id },
       data: updateCobrancaDto,
     });
   }
 
   remove(id: number) {
-    return this.prismaTenant.prisma.cobranca.delete({ where: { id } });
+    return this.prismaTenant.prisma.client.cobranca.delete({ where: { id } });
   }
 }

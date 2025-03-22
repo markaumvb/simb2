@@ -8,31 +8,35 @@ export class MovimentacoesService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
   create(data: CreateMovimentacoeDto) {
-    return this.prismaTenant.prisma.movimentacao.create({ data });
+    return this.prismaTenant.prisma.client.movimentacao.create({ data });
   }
 
   findAll() {
-    return this.prismaTenant.prisma.movimentacao.findMany();
+    return this.prismaTenant.prisma.client.movimentacao.findMany();
   }
 
   findSituacao(status: boolean) {
-    return this.prismaTenant.prisma.movimentacao.findMany({ where: { status } });
+    return this.prismaTenant.prisma.client.movimentacao.findMany({
+      where: { status },
+    });
   }
 
   async findOne(id: number) {
-    return await this.prismaTenant.prisma.movimentacao.findUnique({
+    return await this.prismaTenant.prisma.client.movimentacao.findUnique({
       where: { id },
     });
   }
 
   update(id: number, updateMovimentacoeDto: UpdateMovimentacoeDto) {
-    return this.prismaTenant.prisma.movimentacao.update({
+    return this.prismaTenant.prisma.client.movimentacao.update({
       where: { id },
       data: updateMovimentacoeDto,
     });
   }
 
   remove(id: number) {
-    return this.prismaTenant.prisma.movimentacao.delete({ where: { id } });
+    return this.prismaTenant.prisma.client.movimentacao.delete({
+      where: { id },
+    });
   }
 }

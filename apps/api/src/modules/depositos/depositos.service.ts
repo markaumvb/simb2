@@ -8,25 +8,27 @@ export class DepositosService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
   create(data: CreateDepositoDto) {
-    return this.prismaTenant.prisma.deposito.create({ data });
+    return this.prismaTenant.prisma.client.deposito.create({ data });
   }
 
   findAll() {
-    return this.prismaTenant.prisma.deposito.findMany();
+    return this.prismaTenant.prisma.client.deposito.findMany();
   }
 
   findOne(id: number) {
-    return this.prismaTenant.prisma.deposito.findUnique({ where: { id } });
+    return this.prismaTenant.prisma.client.deposito.findUnique({
+      where: { id },
+    });
   }
 
   update(id: number, data: UpdateDepositoDto) {
-    return this.prismaTenant.prisma.deposito.update({
+    return this.prismaTenant.prisma.client.deposito.update({
       where: { id },
       data: data,
     });
   }
 
   remove(id: number) {
-    return this.prismaTenant.prisma.deposito.delete({ where: { id } });
+    return this.prismaTenant.prisma.client.deposito.delete({ where: { id } });
   }
 }

@@ -8,15 +8,17 @@ export class MesaEntradasService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
   create(createMesaEntradaDto: CreateMesaEntradaDto) {
-    return this.prismaTenant.prisma.mesa_entrada.create({ data: createMesaEntradaDto });
+    return this.prismaTenant.prisma.client.mesa_entrada.create({
+      data: createMesaEntradaDto,
+    });
   }
 
   findAll() {
-    return this.prismaTenant.prisma.mesa_entrada.findMany();
+    return this.prismaTenant.prisma.client.mesa_entrada.findMany();
   }
 
   findOne(id: number) {
-    return this.prismaTenant.prisma.mesa_entrada.findUnique({
+    return this.prismaTenant.prisma.client.mesa_entrada.findUnique({
       where: { id },
       include: {
         mesa: true,
@@ -25,13 +27,15 @@ export class MesaEntradasService {
   }
 
   update(id: number, updateMesaEntradaDto: UpdateMesaEntradaDto) {
-    return this.prismaTenant.prisma.mesa_entrada.update({
+    return this.prismaTenant.prisma.client.mesa_entrada.update({
       where: { id },
       data: updateMesaEntradaDto,
     });
   }
 
   remove(id: number) {
-    return this.prismaTenant.prisma.mesa_entrada.delete({ where: { id } });
+    return this.prismaTenant.prisma.client.mesa_entrada.delete({
+      where: { id },
+    });
   }
 }

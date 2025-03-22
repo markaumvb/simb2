@@ -8,25 +8,29 @@ export class PermissaoUsuariosService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
   create(data: CreatePermissaoUsuarioDto) {
-    return this.prismaTenant.prisma.permissoes_usuario.create({ data });
+    return this.prismaTenant.prisma.client.permissoes_usuario.create({ data });
   }
 
   findAll() {
-    return this.prismaTenant.prisma.permissoes_usuario.findMany();
+    return this.prismaTenant.prisma.client.permissoes_usuario.findMany();
   }
 
   findOne(id: number) {
-    return this.prismaTenant.prisma.permissoes_usuario.findUnique({ where: { id } });
+    return this.prismaTenant.prisma.client.permissoes_usuario.findUnique({
+      where: { id },
+    });
   }
 
   update(id: number, data: UpdatePermissaoUsuarioDto) {
-    return this.prismaTenant.prisma.permissoes_usuario.update({
+    return this.prismaTenant.prisma.client.permissoes_usuario.update({
       where: { id },
       data,
     });
   }
 
   remove(id: number) {
-    return this.prismaTenant.prisma.permissoes_usuario.delete({ where: { id } });
+    return this.prismaTenant.prisma.client.permissoes_usuario.delete({
+      where: { id },
+    });
   }
 }
