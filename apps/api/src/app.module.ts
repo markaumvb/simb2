@@ -60,14 +60,7 @@ import { PrismaTenantModule } from './providers/prisma-tenant.module';
       envFilePath: '.env',
     }),
 
-    // Módulo do Prisma para acesso ao banco de dados
     PrismaModule,
-
-    // Configuração do JwtModule para autenticação
-    JwtModule.register({
-      secret: process.env.SECRETKEY,
-      signOptions: { expiresIn: process.env.EXPIRESIN },
-    }),
 
     // Configuração do CacheModule para melhorar a performance
     CacheModule.register({
