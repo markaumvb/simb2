@@ -59,6 +59,7 @@ import { PrismaTenantModule } from './providers/prisma-tenant.module';
       envFilePath: '.env',
     }),
 
+    AuthModule,
     PrismaModule,
 
     // Configuração do CacheModule para melhorar a performance
@@ -68,7 +69,7 @@ import { PrismaTenantModule } from './providers/prisma-tenant.module';
     }),
 
     // Módulos da aplicação
-    AuthModule,
+
     TenantModule,
     CidadesModule,
     LinhasModule,

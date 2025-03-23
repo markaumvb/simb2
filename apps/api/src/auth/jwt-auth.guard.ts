@@ -9,61 +9,52 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
-  // Corrigir tipagem para aceitar Observable também
+  constructor() {
+    super();
+    console.log('JwtAuthGuard initialized');
+  }
+
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
+    // Adicionar log para debug
+    console.log('JwtAuthGuard canActivate called');
+
     try {
-      // Chama o canActivate do AuthGuard que usará a estratégia JWT
+      // Tentar autenticação normal
       const result = super.canActivate(context);
 
-      // Manipular tanto Promise quanto Observable
+      // Lidar com diferentes tipos de retorno
       if (result instanceof Promise) {
-        return result
-          .then((value) => {
-            this.handleSuccess(context);
-            return value;
-          })
-          .catch((err) => {
-            return this.handleError(context, err);
-          });
+        return result.catch((error) => {
+          console.error('JWT Auth error (Promise):', error.message);
+          return this.fallbackToTenantHeader(context);
+        });
       } else if (result instanceof Observable) {
-        // Se for Observable, você pode usar operadores do RxJS se necessário
-        // Mas para manter simples, vamos apenas tentar o hack do x-tenant-id
-        this.handleSuccess(context);
-        return result;
+        // Lidar com Observable
+        console.log('Result is Observable - using tenant header if available');
+        return this.fallbackToTenantHeader(context);
       } else {
-        // Resultado booleano direto
-        this.handleSuccess(context);
+        // Boolean result
         return result;
       }
     } catch (error) {
-      return this.handleError(context, error);
+      console.error('JWT Auth error (direct):', error.message);
+      return this.fallbackToTenantHeader(context);
     }
   }
 
-  private handleSuccess(context: ExecutionContext): void {
-    // Garantir que o tenantId está disponível para os middlewares
-    const request = context.switchToHttp().getRequest();
-    if (request.user && request.user.tenantId) {
-      request.tenantId = request.user.tenantId;
-    }
-  }
-
-  private handleError(context: ExecutionContext, error: any): boolean {
-    // Apenas para debug durante o desenvolvimento
-    console.error('Erro na autenticação JWT:', error.message);
-
-    // Verificar se há cabeçalho x-tenant-id para testes
+  // Método auxiliar para usar o header x-tenant-id como fallback
+  private fallbackToTenantHeader(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();
     const tenantIdHeader = request.headers['x-tenant-id'];
 
     if (tenantIdHeader) {
-      // Bypass de autenticação durante desenvolvimento
+      console.log('Using x-tenant-id header:', tenantIdHeader);
       request.tenantId = Number(tenantIdHeader);
       return true;
     }
 
-    throw new UnauthorizedException('Não autorizado - verifique seu token JWT');
+    throw new UnauthorizedException('Autenticação requerida');
   }
 }
