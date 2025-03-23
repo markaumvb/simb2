@@ -7,21 +7,26 @@ import { JwtModule } from '@nestjs/jwt';
 import { FuncionariosModule } from '@app/modules/funcionarios/funcionarios.module';
 import { JwtStrategy } from './jwt.strategy';
 import { refreshJwtStrategy } from './refreshToken.strategy';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
     PrismaModule,
+    FuncionariosModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
-      useFactory: () => ({
-        secret: process.env.SECRETKEY,
-        signOptions: { expiresIn: process.env.EXPIRESIN },
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.get('SECRETKEY'),
+        signOptions: {
+          expiresIn: configService.get('EXPIRESIN', '60s'),
+        },
       }),
     }),
-    FuncionariosModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, refreshJwtStrategy],
-  exports: [JwtStrategy, PassportModule, JwtModule], // Adicione JwtModule aqui
+  exports: [AuthService, JwtStrategy, JwtModule, PassportModule],
 })
 export class AuthModule {}

@@ -28,6 +28,7 @@ export class FuncionariosService {
       },
     };
 
+    // Usar o método que adiciona automaticamente o tenant do contexto atual
     return this.prismaTenant.prisma.client.funcionario.create({
       data: this.prismaTenant.addTenantToData(funcionarioData),
     });

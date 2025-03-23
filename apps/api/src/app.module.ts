@@ -36,7 +36,6 @@ import { ComposicoesModule } from './modules/composicoes/composicoes.module';
 import { ItensAcertosModule } from './modules/itens-acertos/itens-acertos.module';
 import { CacheModule, CacheInterceptor } from '@nestjs/cache-manager';
 import { ConfigModule } from '@nestjs/config';
-import { JwtModule } from '@nestjs/jwt';
 import { TenantModule } from './modules/tenants/tenant.module';
 import { TenantMiddleware } from './middleware/tenant.middleware';
 import { PrismaTenantService } from './providers/prisma-tenant.provider';
@@ -69,8 +68,8 @@ import { PrismaTenantModule } from './providers/prisma-tenant.module';
     }),
 
     // Módulos da aplicação
-    TenantModule,
     AuthModule,
+    TenantModule,
     CidadesModule,
     LinhasModule,
     FuncionariosModule,
