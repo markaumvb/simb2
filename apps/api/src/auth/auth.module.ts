@@ -11,7 +11,7 @@ import { refreshJwtStrategy } from './refreshToken.strategy';
 @Module({
   imports: [
     PrismaModule,
-    PassportModule.register({ defaultStrategy: 'jwt' }), // Especificar a estratégia padrão
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       useFactory: () => ({
         secret: process.env.SECRETKEY,
@@ -22,6 +22,6 @@ import { refreshJwtStrategy } from './refreshToken.strategy';
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, refreshJwtStrategy],
-  exports: [JwtStrategy, PassportModule], // Exportar a estratégia
+  exports: [JwtStrategy, PassportModule, JwtModule], // Adicione JwtModule aqui
 })
 export class AuthModule {}
