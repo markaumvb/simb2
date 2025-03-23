@@ -26,10 +26,14 @@ export class FuncionariosService {
       cidade: {
         connect: { id: id_cidade },
       },
+      // Adicionar explicitamente a conexão com o tenant
+      tenant: {
+        connect: { id: 1 }, // Use o ID do tenant que você sabe que existe
+      },
     };
 
     return this.prismaTenant.prisma.client.funcionario.create({
-      data: this.prismaTenant.addTenantToData(funcionarioData),
+      data: funcionarioData,
     });
   }
 
