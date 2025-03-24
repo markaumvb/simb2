@@ -1,3 +1,4 @@
+// apps/api/src/auth/auth.controller.ts
 import {
   Body,
   Controller,
@@ -10,9 +11,9 @@ import { AuthService } from './auth.service';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { AuthEntity } from './entity/auth.entity';
 import { LoginDto } from './dto/login.dto';
-import { RefreshJwtAuthGuard } from './refrsh-jwt-auth.guard';
+import { RefreshJwtGuard } from './refresh-jwt.guard';
 
-@ApiTags('_Auth')
+@ApiTags('Autenticação')
 @Controller('autenticacao')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -25,7 +26,7 @@ export class AuthController {
   }
 
   @Post('refresh')
-  @UseGuards(RefreshJwtAuthGuard)
+  @UseGuards(RefreshJwtGuard)
   async refreshToken(@Body('refresh') refreshToken: string) {
     return await this.authService.refreshToken(refreshToken);
   }

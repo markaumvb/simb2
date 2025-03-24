@@ -134,13 +134,9 @@ export class AppModule implements NestModule {
   private readonly logger = new Logger('AppModule');
 
   constructor() {
-    this.logger.log('🔥🔥🔥 AppModule constructed');
-    this.logger.log(`🔥🔥🔥 NODE_ENV: ${process.env.NODE_ENV}`);
-    this.logger.log(
-      `🔥🔥🔥 Using env file: ${
-        process.env.NODE_ENV === 'development' ? '.env.development' : '.env'
-      }`,
-    );
+    console.log('🚀 AppModule inicializado');
+    console.log('🌎 NODE_ENV:', process.env.NODE_ENV);
+    console.log('🔑 SECRETKEY configurada:', !!process.env.SECRETKEY);
   }
 
   configure(consumer: MiddlewareConsumer) {
