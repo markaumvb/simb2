@@ -1,3 +1,4 @@
+// src/auth/auth.module.ts
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
@@ -12,12 +13,10 @@ import { refreshJwtStrategy } from './refreshToken.strategy';
   imports: [
     PrismaModule,
     FuncionariosModule,
-    // Simplificar a configuração do PassportModule
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    // Simplificar configuração do JwtModule
     JwtModule.register({
-      secret: process.env.SECRETKEY || 'zjP9h6ZI5LoSKCRjasv', // Adicionar fallback
-      signOptions: { expiresIn: '1h' }, // Aumentar para testes
+      secret: process.env.SECRETKEY || 'zjP9h6ZI5LoSKCRjasv',
+      signOptions: { expiresIn: process.env.EXPIRESIN || '1h' },
     }),
   ],
   controllers: [AuthController],

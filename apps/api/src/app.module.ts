@@ -64,9 +64,8 @@ export function setupPassport() {
       isGlobal: true,
       envFilePath: '.env',
     }),
-
-    AuthModule,
     PrismaModule,
+    AuthModule,
 
     // Configuração do CacheModule para melhorar a performance
     CacheModule.register({

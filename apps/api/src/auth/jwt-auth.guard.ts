@@ -1,30 +1,37 @@
 // src/auth/jwt-auth.guard.ts
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import {
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class JwtAuthGuard implements CanActivate {
-  constructor() {
-    console.log('Simplified JwtAuthGuard initialized');
-  }
-
+export class JwtAuthGuard extends AuthGuard('jwt') {
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
-    console.log('Simplified JwtAuthGuard canActivate called');
-    const request = context.switchToHttp().getRequest();
+    console.log('JwtAuthGuard canActivate called');
 
-    // MÉTODO SIMPLIFICADO: Usar x-tenant-id header ou padrão=1
+    // Primeiro tenta o header x-tenant-id para desenvolvimento
+    const request = context.switchToHttp().getRequest();
     const tenantIdHeader = request.headers['x-tenant-id'];
+
     if (tenantIdHeader) {
-      console.log('Using x-tenant-id header:', tenantIdHeader);
+      console.log('Development mode: using x-tenant-id header');
       request.tenantId = Number(tenantIdHeader);
-    } else {
-      // Para desenvolvimento, assumir tenant_id = 1
-      console.log('Using default tenant ID = 1');
-      request.tenantId = 1;
+      return true;
     }
 
-    return true; // Sempre permite acesso durante o desenvolvimento
+    // Caso contrário, usa autenticação normal
+    return super.canActivate(context);
+  }
+
+  handleRequest(err, user, info) {
+    if (err || !user) {
+      throw err || new UnauthorizedException('Autenticação requerida');
+    }
+    return user;
   }
 }
