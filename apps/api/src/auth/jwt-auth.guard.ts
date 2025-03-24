@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Observable } from 'rxjs';
-import * as passport from 'passport'; // Importar corretamente o passport
+import * as passport from 'passport';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
@@ -35,7 +35,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       this.logger.error('Error checking passport strategies:', e);
     }
 
-    // Comportamento padrão - sem usuário falso
+    // Comportamento padrão
     return super.canActivate(context);
   }
 

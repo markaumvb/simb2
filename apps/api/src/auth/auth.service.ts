@@ -18,17 +18,7 @@ export class AuthService {
     private prisma: PrismaService,
     private jwtService: JwtService,
     private configService: ConfigService,
-  ) {
-    // Verificar no construtor se a chave está disponível
-    const secretKey = this.configService.get<string>('SECRETKEY');
-    if (!secretKey) {
-      this.logger.error(
-        'SECRETKEY não definida! Autenticação não funcionará corretamente.',
-      );
-    } else {
-      this.logger.log('SECRETKEY configurada corretamente.');
-    }
-  }
+  ) {}
 
   async login(email: string, password: string, tenantId: number) {
     // Primeiro passo: procurar por usuário através do e-mail informado
@@ -66,22 +56,8 @@ export class AuthService {
       'REFRESH_TOKEN_SECRET',
     );
 
-    // Log para debug
-    this.logger.debug(`SECRETKEY: ${secretKey ? 'Presente' : 'Ausente'}`);
-    this.logger.debug(
-      `REFRESH_TOKEN_SECRET: ${refreshTokenSecret ? 'Presente' : 'Ausente'}`,
-    );
-
-    if (!secretKey) {
-      throw new Error(
-        'SECRETKEY não está configurada. Verifique as variáveis de ambiente.',
-      );
-    }
-
-    if (!refreshTokenSecret) {
-      throw new Error(
-        'REFRESH_TOKEN_SECRET não está configurada. Verifique as variáveis de ambiente.',
-      );
+    if (!secretKey || !refreshTokenSecret) {
+      throw new Error('Chaves de autenticação não configuradas');
     }
 
     // Gerar token com tenantId
@@ -91,7 +67,11 @@ export class AuthService {
       tenantId: user.tenant_id,
     };
 
-    // Gerar token especificando a chave secreta
+    // Log para depuração
+    console.log('Creating JWT with payload:', payload);
+    console.log('Using SECRETKEY:', secretKey.substring(0, 5) + '...');
+
+    // Gerar token sem valores hardcoded
     const accessToken = this.jwtService.sign(payload, { secret: secretKey });
     const refreshToken = jwt.sign(payload, refreshTokenSecret, {
       expiresIn: '7d',
@@ -107,5 +87,51 @@ export class AuthService {
     };
   }
 
-  // Resto do código permanece o mesmo...
+  async refreshToken(refreshToken: string) {
+    try {
+      // Acessar a variável de ambiente via ConfigService
+      const refreshTokenSecret = this.configService.get<string>(
+        'REFRESH_TOKEN_SECRET',
+      );
+      if (!refreshTokenSecret) {
+        throw new Error('REFRESH_TOKEN_SECRET não configurado');
+      }
+
+      const decoded = jwt.verify(refreshToken, refreshTokenSecret) as {
+        userId: number;
+        tenantId: number;
+      };
+
+      const user = await this.prisma.client.funcionario.findUnique({
+        where: {
+          id: decoded.userId,
+          tenant_id: decoded.tenantId,
+        },
+      });
+
+      if (!user) {
+        throw new NotFoundException('Usuário não encontrado');
+      }
+
+      const payload = {
+        userId: user.id,
+        email: user.email,
+        tenantId: user.tenant_id,
+      };
+
+      // Acessar a variável de ambiente via ConfigService
+      const secretKey = this.configService.get<string>('SECRETKEY');
+      if (!secretKey) {
+        throw new Error('SECRETKEY não configurado');
+      }
+
+      const accessToken = this.jwtService.sign(payload, { secret: secretKey });
+
+      return {
+        token: accessToken,
+      };
+    } catch (error) {
+      throw new UnauthorizedException('Token de atualização inválido');
+    }
+  }
 }

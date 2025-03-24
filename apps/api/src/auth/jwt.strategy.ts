@@ -28,15 +28,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     });
 
     this.logger.log('JwtStrategy inicializada com sucesso');
-    console.log('🔥🔥🔥 JwtStrategy constructor completed');
-    console.log(
-      '🔥🔥🔥 Secret key (first 5 chars):',
-      secretKey.substring(0, 5),
-    );
-    console.log(
-      '🔥🔥🔥 ExpireIn:',
-      configService.get<string>('EXPIRESIN') || '1h',
-    );
   }
 
   async validate(payload: any) {

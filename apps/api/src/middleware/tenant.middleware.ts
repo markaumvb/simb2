@@ -1,9 +1,4 @@
-import {
-  Injectable,
-  NestMiddleware,
-  Logger,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, NestMiddleware, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request, Response, NextFunction } from 'express';
 import { ConfigService } from '@nestjs/config';
@@ -19,9 +14,9 @@ export class TenantMiddleware implements NestMiddleware {
   ) {
     this.secretKey = this.configService.get<string>('SECRETKEY');
     if (!this.secretKey) {
-      throw new Error(
-        'SECRETKEY não definida no ambiente. A aplicação não funcionará corretamente.',
-      );
+      const error = 'SECRETKEY não definida no ambiente!';
+      this.logger.error(error);
+      throw new Error(error);
     }
   }
 
@@ -33,16 +28,13 @@ export class TenantMiddleware implements NestMiddleware {
     // Ignorar rotas de autenticação
     if (
       req.path.includes('/autenticacao/login') ||
-      req.path.includes('/autenticacao/refresh') ||
-      req.path.includes('/api') // Ignorar também rotas do Swagger
+      req.path.includes('/autenticacao/refresh')
     ) {
-      this.logger.log(
-        'Ignorando extração de tenant para rota de auth ou API docs',
-      );
+      this.logger.log('Skipping tenant extraction for auth path');
       return next();
     }
 
-    // 1. Tentar extrair do header específico
+    // 1. Tentar extrair do header específico (útil para desenvolvimento)
     const headerTenantId = req.headers['x-tenant-id'];
     if (headerTenantId) {
       req['tenantId'] = Number(headerTenantId);
@@ -64,15 +56,12 @@ export class TenantMiddleware implements NestMiddleware {
           this.logger.log(`Tenant ID extraído do token: ${req['tenantId']}`);
         } else {
           this.logger.warn('Token não contém tenantId');
-          // Sem valor padrão - você deve especificar o tenant
         }
       } catch (error) {
         this.logger.error(`Erro ao verificar token: ${error.message}`);
-        // Sem valor padrão para produção ou desenvolvimento
       }
     } else {
       this.logger.warn('Nenhum token de autorização encontrado');
-      // Sem valor padrão
     }
 
     next();

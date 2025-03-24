@@ -1,4 +1,3 @@
-// src/guards/tenant.guard.ts
 import {
   Injectable,
   CanActivate,
@@ -21,27 +20,16 @@ export class TenantGuard implements CanActivate {
     this.logger.log(`TenantGuard verificando tenantId: ${tenantId}`);
 
     if (!tenantId) {
-      // Em desenvolvimento, permitir sem tenant
-      if (process.env.NODE_ENV === 'development') {
-        this.logger.warn(
-          'Nenhum tenant especificado, mas permitindo no modo desenvolvimento',
-        );
-        request.tenantId = 1; // Usar tenant padrão
-        return true;
-      }
-
       throw new UnauthorizedException('Tenant não especificado');
     }
 
-    // Verificar se o tenant existe - skip em dev para performance
-    if (process.env.NODE_ENV !== 'development') {
-      const tenant = await this.tenantService.findOne(tenantId);
-      if (!tenant) {
-        throw new UnauthorizedException(`Tenant ${tenantId} não existe`);
-      }
+    // Verificar se o tenant existe
+    const tenant = await this.tenantService.findOne(tenantId);
+    if (!tenant) {
+      throw new UnauthorizedException(`Tenant ${tenantId} não existe`);
     }
 
-    // Em desenvolvimento, ignorar verificação de acesso
+    // Se estamos em ambiente de desenvolvimento, podemos pular verificações adicionais
     if (process.env.NODE_ENV === 'development') {
       this.logger.log(
         'Modo desenvolvimento: pulando verificação de acesso ao tenant',

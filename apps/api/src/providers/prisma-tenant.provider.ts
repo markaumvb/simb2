@@ -1,4 +1,3 @@
-// src/providers/prisma-tenant.provider.ts
 import { Injectable, Scope, Inject, Logger } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { PrismaService } from '@app/database/prisma.service';
@@ -24,14 +23,6 @@ export class PrismaTenantService {
 
     this.logger.log(`Current tenantId: ${tenantId}`);
 
-    // Para desenvolvimento, nunca retornar null
-    if (tenantId === null && process.env.NODE_ENV === 'development') {
-      this.logger.warn(
-        'TenantId nulo em ambiente de desenvolvimento, usando padrão: 1',
-      );
-      return 1;
-    }
-
     return tenantId;
   }
 
@@ -42,10 +33,6 @@ export class PrismaTenantService {
       this.logger.warn(
         'Tentando adicionar tenant a filtro, mas tenantId é nulo',
       );
-      if (process.env.NODE_ENV === 'development') {
-        this.logger.warn('Usando tenant padrão para desenvolvimento');
-        return { ...filter, tenant_id: 1 };
-      }
       return filter;
     }
 
@@ -53,16 +40,13 @@ export class PrismaTenantService {
     return { ...filter, tenant_id: tenantId };
   }
 
+  // Adiciona tenant_id aos dados
   addTenantToData(data: any = {}): any {
     const tenantId = this.currentTenantId;
     if (tenantId === null) {
       this.logger.warn(
         'Tentando adicionar tenant a dados, mas tenantId é nulo',
       );
-      if (process.env.NODE_ENV === 'development') {
-        this.logger.warn('Usando tenant padrão para desenvolvimento');
-        return { ...data, tenant_id: 1 };
-      }
       return data;
     }
 
