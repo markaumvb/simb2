@@ -126,6 +126,15 @@ import { PassportModule } from '@nestjs/passport';
   exports: [PrismaTenantService], // Exporta o PrismaTenantService para ser usado em outros módulos
 })
 export class AppModule implements NestModule {
+  constructor() {
+    console.log('❌❌❌ AppModule constructed');
+    console.log(`❌❌❌ NODE_ENV: ${process.env.NODE_ENV}`);
+    console.log(
+      `❌❌❌ Using env file: ${
+        process.env.NODE_ENV === 'development' ? '.env.development' : '.env'
+      }`,
+    );
+  }
   configure(consumer: MiddlewareConsumer) {
     // Aplica o middleware de tenant a todas as rotas
     consumer.apply(TenantMiddleware).forRoutes('*');

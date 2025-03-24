@@ -1,20 +1,30 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, Logger } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { FuncionariosService } from '@app/modules/funcionarios/funcionarios.service';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
+  private readonly logger = new Logger('JwtStrategy');
+
   constructor(private funcionarioService: FuncionariosService) {
+    console.log('❌❌❌ JwtStrategy - CONSTRUCTOR STARTED');
+
+    // Log detalhado das configurações
+    const secretKey = process.env.SECRETKEY || 'zjP9h6ZI5LoSKCRjasv';
+    console.log(
+      `❌❌❌ JwtStrategy - Using secretKey: ${secretKey.substring(0, 3)}...`,
+    );
+    console.log(`❌❌❌ JwtStrategy - EXPIRESIN: ${process.env.EXPIRESIN}`);
+
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: process.env.SECRETKEY || 'zjP9h6ZI5LoSKCRjasv',
+      secretOrKey: secretKey,
     });
-    console.log('JwtStrategy constructed');
-  }
 
-  // Remova o método onModuleInit pois pode estar causando confusão no ciclo de vida
+    console.log('❌❌❌ JwtStrategy - CONSTRUCTOR COMPLETED');
+  }
 
   async validate(payload: any) {
     console.log('JwtStrategy.validate called with payload:', payload);

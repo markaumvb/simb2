@@ -2,12 +2,21 @@ import 'module-alias/register';
 import { HttpAdapterHost, NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { ValidationPipe, ClassSerializerInterceptor } from '@nestjs/common';
+import {
+  ValidationPipe,
+  ClassSerializerInterceptor,
+  Logger,
+} from '@nestjs/common';
 import { PrismaClientExceptionFilter } from './prisma-client-exception/prisma-client-exception.filter';
 import helmet from 'helmet';
 import * as compression from 'compression';
+import { JwtStrategy } from './auth/jwt.strategy';
 
 async function bootstrap() {
+  const logger = new Logger('Bootstrap');
+  logger.log('❌❌❌ Starting application bootstrap');
+  logger.log(`❌❌❌ NODE_ENV: ${process.env.NODE_ENV}`);
+
   const app = await NestFactory.create(AppModule);
 
   app.use(helmet());
@@ -23,6 +32,24 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
   app.enableCors();
+
+  // Verificar se JwtStrategy foi registrado
+  try {
+    const jwtStrategy = app.get(JwtStrategy);
+    logger.log(
+      `❌❌❌ JwtStrategy instance: ${!!jwtStrategy ? 'FOUND' : 'NOT FOUND'}`,
+    );
+  } catch (error) {
+    logger.error(`❌❌❌ Failed to retrieve JwtStrategy: ${error.message}`);
+  }
+
+  // Verificar módulos carregados
+  const modules = app.get(Reflector).get('modules', AppModule);
+  logger.log(
+    `❌❌❌ Loaded modules: ${
+      modules ? JSON.stringify(Object.keys(modules)) : 'unknown'
+    }`,
+  );
 
   const config = new DocumentBuilder()
     .setTitle('SIMB API')
@@ -44,6 +71,9 @@ async function bootstrap() {
   const { httpAdapter } = app.get(HttpAdapterHost);
   app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
 
+  logger.log('❌❌❌ Application initialized, starting to listen');
   await app.listen(3000);
 }
-bootstrap();
+bootstrap().catch((err) => {
+  console.error('❌❌❌ Failed to start application:', err);
+});
