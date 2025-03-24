@@ -1,4 +1,4 @@
-import { Module, Logger } from '@nestjs/common';
+import { Global, Module, OnModuleInit, Logger } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { PrismaModule } from '@app/database/prisma.module';
@@ -7,12 +7,13 @@ import { JwtModule } from '@nestjs/jwt';
 import { FuncionariosModule } from '@app/modules/funcionarios/funcionarios.module';
 import { JwtStrategy } from './jwt.strategy';
 import { refreshJwtStrategy } from './refreshToken.strategy';
+import * as passport from 'passport';
 
+@Global()
 @Module({
   imports: [
     PrismaModule,
     FuncionariosModule,
-    // IMPORTANTE: Configure o PassportModule corretamente
     PassportModule.register({
       defaultStrategy: 'jwt',
     }),
@@ -23,23 +24,41 @@ import { refreshJwtStrategy } from './refreshToken.strategy';
   ],
   controllers: [AuthController],
   providers: [
-    // CRÍTICO: Certifique-se de que o JwtStrategy e o refreshJwtStrategy estão incluídos aqui
     AuthService,
     JwtStrategy,
     refreshJwtStrategy,
+    {
+      provide: 'AUTH_LOGGER',
+      useValue: new Logger('AuthModule'),
+    },
   ],
   exports: [
     AuthService,
     JwtModule,
     PassportModule,
-    // CRÍTICO: Exporte também o JwtStrategy
     JwtStrategy,
+    refreshJwtStrategy,
   ],
 })
-export class AuthModule {
-  private readonly logger = new Logger(AuthModule.name);
+export class AuthModule implements OnModuleInit {
+  private readonly logger = new Logger('AuthModule');
 
-  constructor() {
-    this.logger.log('AuthModule initialized');
+  constructor(
+    private readonly jwtStrategy: JwtStrategy,
+    private readonly refreshJwtStrategy: refreshJwtStrategy,
+  ) {
+    this.logger.log('AuthModule constructor called');
+  }
+
+  onModuleInit() {
+    this.logger.log('🔐 Registering Passport strategies...');
+
+    // Registrar estratégias diretamente no Passport
+    passport.use(this.jwtStrategy);
+    passport.use('jwt-refresh', this.refreshJwtStrategy);
+
+    // Verificar registro
+    const strategies = Object.keys((passport as any)._strategies || {});
+    this.logger.log(`🔐 Registered strategies: ${strategies.join(', ')}`);
   }
 }

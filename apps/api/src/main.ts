@@ -46,24 +46,6 @@ async function bootstrap() {
 
   app.enableCors();
 
-  // Verificar se JwtStrategy foi registrado
-  try {
-    const jwtStrategy = app.get(JwtStrategy);
-    logger.log(
-      `🔥🔥🔥 JwtStrategy instance: ${!!jwtStrategy ? 'FOUND' : 'NOT FOUND'}`,
-    );
-  } catch (error) {
-    logger.error(`🔥🔥🔥 Failed to retrieve JwtStrategy: ${error.message}`);
-
-    // Tentar encontrar o módulo AuthModule
-    try {
-      const authModule = app.select(AuthModule);
-      logger.log(`🔥🔥🔥 AuthModule: ${!!authModule ? 'FOUND' : 'NOT FOUND'}`);
-    } catch (err) {
-      logger.error(`🔥🔥🔥 Failed to find AuthModule: ${err.message}`);
-    }
-  }
-
   // Verificar estratégias registradas em passport - CORRIGIDO
   try {
     // Usar o passport importado no topo do arquivo

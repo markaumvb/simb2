@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, Logger } from '@nestjs/common';
 import { CidadesModule } from './modules/cidades/cidades.module';
 import { PrismaModule } from './database/prisma.module';
 import { LinhasModule } from './modules/linhas/linhas.module';
@@ -41,7 +41,7 @@ import { TenantMiddleware } from './middleware/tenant.middleware';
 import { PrismaTenantService } from './providers/prisma-tenant.provider';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { PrismaTenantModule } from './providers/prisma-tenant.module';
-import { Logger } from '@nestjs/common';
+import { PermissaoUsuariosModule } from './modules/permissao-usuarios/permissao-usuarios.module';
 
 @Module({
   imports: [
@@ -52,7 +52,7 @@ import { Logger } from '@nestjs/common';
           limit: 100,
         },
       ],
-    }) as any,
+    }),
 
     // Configuração global do ConfigModule para variáveis de ambiente
     ConfigModule.forRoot({
@@ -99,6 +99,7 @@ import { Logger } from '@nestjs/common';
     ComposicoesModule,
     ItensAcertosModule,
     PrismaTenantModule,
+    PermissaoUsuariosModule,
 
     // Configuração do CacheModule para melhorar a performance
     CacheModule.register({
@@ -124,9 +125,7 @@ import { Logger } from '@nestjs/common';
     {
       provide: 'LOGGER',
       useFactory: () => {
-        const logger = new Logger('AppModule');
-        logger.log('🔥🔥🔥 App providers initialized');
-        return logger;
+        return new Logger('AppModule');
       },
     },
   ],

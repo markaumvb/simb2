@@ -5,7 +5,6 @@ import {
   Logger,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { Observable } from 'rxjs';
 import * as passport from 'passport';
 
 @Injectable()
@@ -14,72 +13,43 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
 
   constructor() {
     super();
-    this.logger.log('JwtAuthGuard constructor called');
+
+    // Debug disponível em tempo de execução
+    const strategies = Object.keys((passport as any)._strategies || {});
+    this.logger.log(
+      `JwtAuthGuard created. Available strategies: ${JSON.stringify(
+        strategies,
+      )}`,
+    );
   }
 
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
-    this.logger.log('❌❌❌ JwtAuthGuard canActivate called');
-    this.logger.log('❌❌❌ Using strategy: jwt');
+  canActivate(context: ExecutionContext) {
+    this.logger.log('JwtAuthGuard canActivate called');
 
-    // Listar estratégias registradas - usando uma abordagem segura para TypeScript
-    try {
-      // Usando any para evitar erros de tipagem com propriedades internas
-      const passportInstance = passport as any;
-      const strategies = passportInstance._strategies
-        ? Object.keys(passportInstance._strategies)
-        : ['No strategies found'];
+    // Verifica se a estratégia jwt está registrada
+    const strategies = Object.keys((passport as any)._strategies || {});
 
-      this.logger.log(
-        `❌❌❌ Available strategies: ${JSON.stringify(strategies)}`,
+    if (!strategies.includes('jwt')) {
+      this.logger.error(
+        'JWT strategy not found! Available: ' + strategies.join(', '),
       );
 
-      if (!strategies.includes('jwt')) {
-        this.logger.error('❌❌❌ JWT strategy is NOT registered in Passport!');
-
-        // SOLUÇÃO TEMPORÁRIA: Em desenvolvimento, permita acesso mesmo sem JWT
-        if (process.env.NODE_ENV === 'development') {
-          this.logger.log(
-            '❌❌❌ Development mode: allowing access without JWT validation',
-          );
-
-          // Extrai o usuário do request (se existir)
-          const request = context.switchToHttp().getRequest();
-          const tenantIdHeader = request.headers['x-tenant-id'];
-
-          if (tenantIdHeader) {
-            request.tenantId = Number(tenantIdHeader);
-            request.user = { tenantId: Number(tenantIdHeader) };
-            this.logger.log(`❌❌❌ Set tenant ID: ${request.tenantId}`);
-          }
-
-          return true; // Permite acesso
-        }
+      if (process.env.NODE_ENV === 'development') {
+        // Permitir bypass em desenvolvimento
+        const request = context.switchToHttp().getRequest();
+        request.user = { tenantId: request.tenantId || 1 };
+        return true;
       }
-    } catch (error) {
-      this.logger.error(`❌❌❌ Error listing strategies: ${error.message}`);
     }
 
-    this.logger.log('❌❌❌ Calling parent AuthGuard.canActivate');
     return super.canActivate(context);
   }
 
   handleRequest(err, user, info) {
-    this.logger.log(`❌❌❌ JwtAuthGuard handleRequest called`);
-
-    if (err) {
-      this.logger.error(`❌❌❌ Authentication error: ${err.message}`);
-      throw err;
-    }
-
-    if (!user) {
-      const message = info?.message || 'Unknown reason';
-      this.logger.error(`❌❌❌ No user found: ${message}`);
+    if (err || !user) {
+      this.logger.error(`Auth error: ${err?.message || 'No user found'}`);
       throw new UnauthorizedException('Autenticação requerida');
     }
-
-    this.logger.log('❌❌❌ User authenticated successfully');
     return user;
   }
 }
