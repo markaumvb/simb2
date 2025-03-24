@@ -1,66 +1,33 @@
-// apps/api/src/auth/auth.module.ts
-import { Global, Module, OnModuleInit } from '@nestjs/common';
+// src/auth/auth.module.ts
+import { Module } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { PrismaModule } from '@app/database/prisma.module';
-import { PassportModule } from '@nestjs/passport';
-import { JwtModule } from '@nestjs/jwt';
+import { JwtStrategy } from './strategies/jwt.strategy';
+import { RefreshTokenStrategy } from './strategies/refresh-token.strategy';
 import { FuncionariosModule } from '@app/modules/funcionarios/funcionarios.module';
-import { JwtStrategy } from './jwt.strategy';
-import { RefreshJwtStrategy } from './refresh-jwt.strategy';
-import * as passport from 'passport';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
-@Global()
 @Module({
   imports: [
-    PrismaModule,
-    FuncionariosModule,
     PassportModule.register({
       defaultStrategy: 'jwt',
     }),
-    JwtModule.register({
-      secret: process.env.SECRETKEY || 'zjP9h6ZI5LoSKCRjasv', // Fallback apenas para dev
-      signOptions: { expiresIn: process.env.EXPIRESIN || '1h' },
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get('SECRETKEY'),
+        signOptions: {
+          expiresIn: configService.get('EXPIRESIN', '1h'),
+        },
+      }),
     }),
+    FuncionariosModule,
   ],
   controllers: [AuthController],
-  providers: [
-    AuthService,
-    JwtStrategy,
-    RefreshJwtStrategy,
-    {
-      provide: 'PASSPORT_SETUP',
-      useFactory: () => {
-        // Isso vai garantir que o setup seja executado no início
-        console.log('🔐 Configurando estratégias Passport...');
-        return true;
-      },
-    },
-  ],
-  exports: [
-    AuthService,
-    JwtModule,
-    PassportModule,
-    JwtStrategy,
-    RefreshJwtStrategy,
-  ],
+  providers: [AuthService, JwtStrategy, RefreshTokenStrategy],
+  exports: [AuthService, JwtModule],
 })
-export class AuthModule implements OnModuleInit {
-  constructor(
-    private jwtStrategy: JwtStrategy,
-    private refreshJwtStrategy: RefreshJwtStrategy,
-  ) {}
-
-  onModuleInit() {
-    // Registrar estratégias diretamente aqui
-    console.log('⭐ Registrando estratégias JWT no Passport...');
-    passport.use('jwt', this.jwtStrategy);
-    passport.use('jwt-refresh', this.refreshJwtStrategy);
-
-    // Verificar se foi registrado corretamente
-    console.log(
-      '⭐ Estratégias disponíveis:',
-      Object.keys(passport['_strategies'] || {}),
-    );
-  }
-}
+export class AuthModule {}

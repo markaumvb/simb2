@@ -1,39 +1,52 @@
-// apps/api/src/middleware/tenant.middleware.ts
-import { Injectable, NestMiddleware, Logger } from '@nestjs/common';
+// src/middleware/tenant.middleware.ts
+import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request, Response, NextFunction } from 'express';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class TenantMiddleware implements NestMiddleware {
-  private readonly logger = new Logger('TenantMiddleware');
+  private readonly logger = new Logger(TenantMiddleware.name);
+  private readonly secretKey: string;
 
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
+  ) {
+    this.secretKey = this.configService.get<string>('SECRETKEY');
+    if (!this.secretKey) {
+      throw new Error('SECRETKEY não está configurado no ambiente');
+    }
+  }
 
   use(req: Request, res: Response, next: NextFunction) {
-    // Ignorar rotas de autenticação e docs
-    if (
-      req.path.includes('/autenticacao') ||
-      req.path.includes('/api') // Swagger
-    ) {
+    // Ignorar rotas de autenticação e documentação
+    if (req.path.startsWith('/auth') || req.path.startsWith('/api')) {
       return next();
     }
 
-    // Extrair do header X-Tenant-ID
+    // Extrair tenant do cabeçalho
     const headerTenantId = req.headers['x-tenant-id'];
     if (headerTenantId) {
       req['tenantId'] = Number(headerTenantId);
+      this.logger.log(`Tenant ID extraído do cabeçalho: ${req['tenantId']}`);
       return next();
     }
 
-    // Extrair do token JWT
+    // Extrair tenant do token JWT
     const authHeader = req.headers.authorization;
     if (authHeader?.startsWith('Bearer ')) {
       try {
         const token = authHeader.substring(7);
-        const decoded = this.jwtService.verify(token);
+        const decoded = this.jwtService.verify(token, {
+          secret: this.secretKey,
+        });
 
         if (decoded.tenantId) {
           req['tenantId'] = Number(decoded.tenantId);
+          this.logger.debug(`Tenant ID extraído do token: ${req['tenantId']}`);
+        } else {
+          this.logger.warn('Token sem tenantId');
         }
       } catch (error) {
         this.logger.error(`Erro ao verificar token: ${error.message}`);

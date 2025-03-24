@@ -4,7 +4,6 @@ import { PrismaModule } from './database/prisma.module';
 import { LinhasModule } from './modules/linhas/linhas.module';
 import { FuncionariosModule } from './modules/funcionarios/funcionarios.module';
 import { AlmoxarifadosModule } from './modules/almoxarifados/almoxarifados.module';
-import { AuthModule } from './auth/auth.module';
 import { ClientesModule } from './modules/clientes/clientes.module';
 import { TipoMesasModule } from './modules/tipo-mesas/tipo-mesas.module';
 import { MesasModule } from './modules/mesas/mesas.module';
@@ -37,11 +36,12 @@ import { ItensAcertosModule } from './modules/itens-acertos/itens-acertos.module
 import { CacheModule, CacheInterceptor } from '@nestjs/cache-manager';
 import { ConfigModule } from '@nestjs/config';
 import { TenantModule } from './modules/tenants/tenant.module';
-import { TenantMiddleware } from './middleware/tenant.middleware';
 import { PrismaTenantService } from './providers/prisma-tenant.provider';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { PrismaTenantModule } from './providers/prisma-tenant.module';
 import { PermissaoUsuariosModule } from './modules/permissao-usuarios/permissao-usuarios.module';
+import { TenantMiddleware } from './middleware/tenant.middleware';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [

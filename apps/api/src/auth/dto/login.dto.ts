@@ -1,3 +1,4 @@
+// src/auth/dto/login.dto.ts
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail,
@@ -10,17 +11,23 @@ import {
 export class LoginDto {
   @IsEmail()
   @IsNotEmpty()
-  @ApiProperty()
+  @ApiProperty({
+    example: 'usuario@exemplo.com',
+    description: 'Email do usuário',
+  })
   readonly email: string;
 
   @IsString()
   @IsNotEmpty()
   @MinLength(6)
-  @ApiProperty()
+  @ApiProperty({
+    example: 'senha123',
+    description: 'Senha do usuário (min 6 caracteres)',
+  })
   readonly password: string;
 
   @IsNumber()
   @IsNotEmpty()
-  @ApiProperty()
+  @ApiProperty({ example: 1, description: 'ID do tenant' })
   readonly tenantId: number;
 }
