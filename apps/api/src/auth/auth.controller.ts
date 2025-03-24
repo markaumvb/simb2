@@ -31,6 +31,8 @@ export class AuthController {
       loginDto.password,
       loginDto.tenantId,
     );
+    console.log('Token gerado:', result.token);
+    return result;
   }
 
   @Post('refresh')

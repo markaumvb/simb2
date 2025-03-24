@@ -1,13 +1,21 @@
-// src/middleware/tenant.middleware.ts
-import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { Request, Response, NextFunction } from 'express';
+import { Injectable, NestMiddleware, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
+import { NextFunction } from 'express';
 
+// src/middleware/tenant.middleware.ts
 @Injectable()
 export class TenantMiddleware implements NestMiddleware {
   private readonly logger = new Logger(TenantMiddleware.name);
   private readonly secretKey: string;
+
+  // Lista de rotas que não precisam verificar tenant
+  private readonly publicPaths = [
+    '/auth/login',
+    '/auth/refresh',
+    '/api',
+    // outras rotas públicas que não precisam de tenant
+  ];
 
   constructor(
     private readonly jwtService: JwtService,
@@ -20,8 +28,8 @@ export class TenantMiddleware implements NestMiddleware {
   }
 
   use(req: Request, res: Response, next: NextFunction) {
-    // Ignorar rotas de autenticação e documentação
-    if (req.path.startsWith('/auth') || req.path.startsWith('/api')) {
+    // Melhor verificação de rotas públicas
+    if (this.isPublicPath(req.path)) {
       return next();
     }
 
@@ -50,9 +58,14 @@ export class TenantMiddleware implements NestMiddleware {
         }
       } catch (error) {
         this.logger.error(`Erro ao verificar token: ${error.message}`);
+        // Não bloqueamos aqui para permitir que o JwtAuthGuard faça isso adequadamente
       }
     }
 
     next();
+  }
+
+  private isPublicPath(path: string): boolean {
+    return this.publicPaths.some((publicPath) => path.startsWith(publicPath));
   }
 }
