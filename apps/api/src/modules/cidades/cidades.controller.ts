@@ -19,7 +19,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { CidadeEntity } from './entities/cidade.entity';
-import { JwtAuthGuard } from '@app/auth/jwt-auth.guard';
+import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
 import { TenantGuard } from '@app/guards/tenant.guard';
 
 @ApiTags('Cidade')

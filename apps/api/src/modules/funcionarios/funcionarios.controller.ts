@@ -21,7 +21,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { FuncionarioEntity } from './entities/funcionario.entity';
-import { JwtAuthGuard } from '@app/auth/jwt-auth.guard';
+
 import { TenantGuard } from '@app/guards/tenant.guard';
 
 @ApiTags('Funcionario')

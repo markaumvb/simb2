@@ -18,7 +18,7 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { JwtAuthGuard } from '@app/auth/jwt-auth.guard';
+
 import { DepositoEntity } from './entities/deposito.entity';
 import { TenantGuard } from '@app/guards/tenant.guard';
 

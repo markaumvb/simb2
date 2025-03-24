@@ -19,7 +19,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { PedidoAlmoxarifadoEntity } from './entities/pedido-almoxarifado.entity';
-import { JwtAuthGuard } from '@app/auth/jwt-auth.guard';
+
 import { TenantGuard } from '@app/guards/tenant.guard';
 
 @ApiTags('Pedidos de almoxarifado')
