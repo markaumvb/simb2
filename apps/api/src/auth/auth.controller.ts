@@ -2,6 +2,8 @@
 import {
   Body,
   Controller,
+  Get,
+  Headers,
   HttpCode,
   HttpStatus,
   Logger,
@@ -16,6 +18,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
+import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
 import { AuthEntity } from './entity/auth.entity';
 import { RefreshTokenGuard } from './guards/refresh-token.guard';
@@ -25,7 +28,10 @@ import { RefreshTokenGuard } from './guards/refresh-token.guard';
 export class AuthController {
   private readonly logger = new Logger(AuthController.name);
 
-  constructor(private readonly authService: AuthService) {
+  constructor(
+    private readonly authService: AuthService,
+    private readonly jwtService: JwtService,
+  ) {
     this.logger.log('AuthController inicializado');
   }
 
@@ -135,6 +141,50 @@ export class AuthController {
     } catch (error) {
       this.logger.error(`Falha ao atualizar token: ${error.message}`);
       throw error;
+    }
+  }
+
+  @Get('verify-token')
+  @ApiOperation({ summary: 'Verificar token para debug' })
+  async verifyToken(@Headers('authorization') auth: string) {
+    this.logger.debug(`verify-token recebeu: ${auth}`);
+
+    if (!auth) {
+      return { valid: false, message: 'Token não fornecido' };
+    }
+
+    // Extrair o token, lidando com diferentes formatos
+    let token = auth;
+
+    // Remover o prefixo "Bearer " se presente
+    if (token.startsWith('Bearer ')) {
+      token = token.substring(7);
+    }
+
+    // Se ainda tiver "Bearer", talvez tenha sido inserido erroneamente
+    if (token.startsWith('Bearer ')) {
+      token = token.substring(7);
+    }
+
+    this.logger.debug(`Token extraído: ${token.substring(0, 20)}...`);
+
+    try {
+      const decoded = this.jwtService.verify(token);
+      this.logger.debug(
+        `Token verificado com sucesso: ${JSON.stringify(decoded)}`,
+      );
+      return {
+        valid: true,
+        decoded,
+        message: 'Token válido',
+      };
+    } catch (error) {
+      this.logger.error(`Erro na verificação do token: ${error.message}`);
+      return {
+        valid: false,
+        error: error.message,
+        message: 'Token inválido',
+      };
     }
   }
 }

@@ -5,6 +5,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
 import { AuthService } from '../auth.service';
 
+// src/auth/strategies/jwt.strategy.ts
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   private readonly logger = new Logger(JwtStrategy.name);
@@ -14,37 +15,38 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     private readonly authService: AuthService,
   ) {
     const secretKey = configService.get<string>('SECRETKEY');
-
-    if (!secretKey) {
-      throw new Error('SECRETKEY não está configurado');
-    }
-
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
       secretOrKey: secretKey,
     });
-
-    this.logger.log('JWT Strategy inicializada com sucesso');
+    this.logger.log('JwtStrategy inicializado');
   }
 
   async validate(payload: any) {
-    this.logger.debug(`Validando payload: ${JSON.stringify(payload)}`);
-
-    const user = await this.authService.validateUser(
-      payload.userId,
-      payload.tenantId,
+    this.logger.debug(
+      `JwtStrategy validando payload: ${JSON.stringify(payload)}`,
     );
 
-    if (!user) {
-      throw new UnauthorizedException('Não autorizado');
-    }
+    try {
+      const user = await this.authService.validateUser(payload.userId);
 
-    // Retorna os dados que serão acessíveis em req.user
-    return {
-      id: payload.userId,
-      email: payload.email,
-      tenantId: payload.tenantId,
-    };
+      if (!user) {
+        this.logger.warn(`Usuário ${payload.userId} não encontrado ou inativo`);
+        throw new UnauthorizedException('Não autorizado');
+      }
+
+      this.logger.debug(`Usuário ${payload.userId} validado com sucesso`);
+
+      // Retorna os dados que serão acessíveis em req.user
+      return {
+        id: payload.userId,
+        email: payload.email,
+        tenantId: payload.tenantId,
+      };
+    } catch (error) {
+      this.logger.error(`Erro na validação JWT: ${error.message}`);
+      throw new UnauthorizedException('Erro de autenticação');
+    }
   }
 }

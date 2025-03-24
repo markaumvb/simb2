@@ -7,28 +7,14 @@ import { NextFunction } from 'express';
 @Injectable()
 export class TenantMiddleware implements NestMiddleware {
   private readonly logger = new Logger(TenantMiddleware.name);
-  private readonly secretKey: string;
-
-  // Lista de rotas que não precisam verificar tenant
-  private readonly publicPaths = [
-    '/auth/login',
-    '/auth/refresh',
-    '/api',
-    // outras rotas públicas que não precisam de tenant
-  ];
 
   constructor(
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
-  ) {
-    this.secretKey = this.configService.get<string>('SECRETKEY');
-    if (!this.secretKey) {
-      throw new Error('SECRETKEY não está configurado no ambiente');
-    }
-  }
+  ) {}
 
   use(req: Request, res: Response, next: NextFunction) {
-    // Melhor verificação de rotas públicas
+    // Verificar rotas públicas
     if (this.isPublicPath(req.url)) {
       return next();
     }
@@ -41,24 +27,27 @@ export class TenantMiddleware implements NestMiddleware {
       return next();
     }
 
-    // Extrair tenant do token JWT
+    // Extrair tenant do token JWT - MUDANÇA CRÍTICA AQUI
     const authHeader = req.headers['authorization'];
     if (authHeader?.startsWith('Bearer ')) {
       try {
+        // Use decode em vez de verify - ISSO É CRÍTICO
         const token = authHeader.substring(7);
-        const decoded = this.jwtService.verify(token, {
-          secret: this.secretKey,
-        });
 
-        if (decoded.tenantId) {
+        // Adicione um log do token recebido para debug
+        this.logger.debug(`Token recebido: ${token.substring(0, 20)}...`);
+
+        // AQUI ESTÁ A MUDANÇA: decode em vez de verify
+        const decoded = this.jwtService.decode(token);
+
+        if (decoded && decoded.tenantId) {
           req['tenantId'] = Number(decoded.tenantId);
           this.logger.debug(`Tenant ID extraído do token: ${req['tenantId']}`);
         } else {
-          this.logger.warn('Token sem tenantId');
+          this.logger.warn('Token sem tenantId ou inválido');
         }
       } catch (error) {
-        this.logger.error(`Erro ao verificar token: ${error.message}`);
-        // Não bloqueamos aqui para permitir que o JwtAuthGuard faça isso adequadamente
+        this.logger.error(`Erro ao processar token: ${error.message}`);
       }
     }
 
@@ -66,6 +55,7 @@ export class TenantMiddleware implements NestMiddleware {
   }
 
   private isPublicPath(path: string): boolean {
-    return this.publicPaths.some((publicPath) => path.startsWith(publicPath));
+    const publicPaths = ['/auth/login', '/auth/refresh', '/api'];
+    return publicPaths.some((publicPath) => path.startsWith(publicPath));
   }
 }

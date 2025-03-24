@@ -9,6 +9,7 @@ import { RefreshTokenStrategy } from './strategies/refresh-token.strategy';
 import { FuncionariosModule } from '@app/modules/funcionarios/funcionarios.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
+// src/auth/auth.module.ts
 @Module({
   imports: [
     PassportModule.register({
@@ -28,6 +29,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, RefreshTokenStrategy],
-  exports: [AuthService, JwtModule],
+  exports: [AuthService, JwtModule], // Adicione JwtModule aqui para exportar o JwtService
 })
 export class AuthModule {}

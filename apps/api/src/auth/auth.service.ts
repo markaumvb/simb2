@@ -21,35 +21,33 @@ export class AuthService {
     private readonly prisma: PrismaService,
   ) {}
 
-  async validateUser(userId: number, tenantId?: number): Promise<any> {
-    this.logger.debug(
-      `Validando usuário ID: ${userId}, Tenant ID: ${tenantId}`,
-    );
+  async validateUser(userId: number): Promise<any> {
+    this.logger.debug(`Validando usuário ID: ${userId}`);
 
-    const whereClause: any = { id: userId };
+    try {
+      // Primeiro tentamos buscar exatamente pelo ID
+      const user = await this.prisma.client.funcionario.findUnique({
+        where: { id: userId },
+      });
 
-    // Adicionar tenant_id ao filtro se disponível
-    if (tenantId !== undefined) {
-      whereClause.tenant_id = tenantId;
-    }
+      if (!user) {
+        this.logger.warn(`Usuário ID ${userId} não encontrado`);
+        return null;
+      }
 
-    const user = await this.prisma.client.funcionario.findFirst({
-      where: whereClause,
-    });
+      if (!user.status) {
+        this.logger.warn(`Usuário ID ${userId} está inativo`);
+        return null;
+      }
 
-    if (!user) {
-      this.logger.warn(`Usuário ID ${userId} não encontrado`);
+      // Remover a senha da resposta
+      const { senha, ...result } = user;
+      this.logger.debug(`Usuário ${userId} validado com sucesso`);
+      return result;
+    } catch (error) {
+      this.logger.error(`Erro ao validar usuário: ${error.message}`);
       return null;
     }
-
-    if (!user.status) {
-      this.logger.warn(`Usuário ID ${userId} está inativo`);
-      return null;
-    }
-
-    // Remover a senha da resposta
-    const { senha, ...result } = user;
-    return result;
   }
 
   async login(email: string, password: string, tenantId: number) {
