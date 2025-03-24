@@ -14,16 +14,12 @@ import { refreshJwtStrategy } from './refreshToken.strategy';
     FuncionariosModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
-      secret: process.env.SECRETKEY || 'zjP9h6ZI5LoSKCRjasv',
-      signOptions: { expiresIn: process.env.EXPIRESIN || '1h' },
+      secret: process.env.SECRETKEY,
+      signOptions: { expiresIn: process.env.EXPIRESIN },
     }),
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, refreshJwtStrategy],
-  exports: [
-    AuthService,
-    JwtModule,
-    PassportModule, // Certifique-se de exportar o PassportModule
-  ],
+  exports: [AuthService, JwtModule, PassportModule],
 })
 export class AuthModule {}

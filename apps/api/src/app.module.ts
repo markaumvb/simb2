@@ -57,7 +57,8 @@ import { PassportModule } from '@nestjs/passport';
     // Configuração global do ConfigModule para variáveis de ambiente
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
+      envFilePath:
+        process.env.NODE_ENV === 'development' ? '.env.development' : '.env',
     }),
     AuthModule,
     PassportModule.register({ defaultStrategy: 'jwt' }), // Adicione isso
