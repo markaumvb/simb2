@@ -41,7 +41,7 @@ import { TenantMiddleware } from './middleware/tenant.middleware';
 import { PrismaTenantService } from './providers/prisma-tenant.provider';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { PrismaTenantModule } from './providers/prisma-tenant.module';
-import { PassportModule } from '@nestjs/passport';
+import { Logger } from '@nestjs/common';
 
 @Module({
   imports: [
@@ -60,19 +60,12 @@ import { PassportModule } from '@nestjs/passport';
       envFilePath:
         process.env.NODE_ENV === 'development' ? '.env.development' : '.env',
     }),
-    AuthModule,
-    PassportModule.register({ defaultStrategy: 'jwt' }), // Adicione isso
 
-    PrismaModule,
-
-    // Configuração do CacheModule para melhorar a performance
-    CacheModule.register({
-      isGlobal: true,
-      ttl: 30, // 30 segundos de tempo de cache padrão
-    }),
+    // IMPORTANTE: Ordem dos módulos - AuthModule deve vir primeiro
+    AuthModule, // Primeiro AuthModule
+    PrismaModule, // Depois PrismaModule
 
     // Módulos da aplicação
-
     TenantModule,
     CidadesModule,
     LinhasModule,
@@ -106,6 +99,12 @@ import { PassportModule } from '@nestjs/passport';
     ComposicoesModule,
     ItensAcertosModule,
     PrismaTenantModule,
+
+    // Configuração do CacheModule para melhorar a performance
+    CacheModule.register({
+      isGlobal: true,
+      ttl: 30, // 30 segundos de tempo de cache padrão
+    }),
   ],
   controllers: [],
   providers: [
@@ -122,19 +121,30 @@ import { PassportModule } from '@nestjs/passport';
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
     },
+    {
+      provide: 'LOGGER',
+      useFactory: () => {
+        const logger = new Logger('AppModule');
+        logger.log('🔥🔥🔥 App providers initialized');
+        return logger;
+      },
+    },
   ],
   exports: [PrismaTenantService], // Exporta o PrismaTenantService para ser usado em outros módulos
 })
 export class AppModule implements NestModule {
+  private readonly logger = new Logger('AppModule');
+
   constructor() {
-    console.log('❌❌❌ AppModule constructed');
-    console.log(`❌❌❌ NODE_ENV: ${process.env.NODE_ENV}`);
-    console.log(
-      `❌❌❌ Using env file: ${
+    this.logger.log('🔥🔥🔥 AppModule constructed');
+    this.logger.log(`🔥🔥🔥 NODE_ENV: ${process.env.NODE_ENV}`);
+    this.logger.log(
+      `🔥🔥🔥 Using env file: ${
         process.env.NODE_ENV === 'development' ? '.env.development' : '.env'
       }`,
     );
   }
+
   configure(consumer: MiddlewareConsumer) {
     // Aplica o middleware de tenant a todas as rotas
     consumer.apply(TenantMiddleware).forRoutes('*');

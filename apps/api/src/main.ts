@@ -11,11 +11,24 @@ import { PrismaClientExceptionFilter } from './prisma-client-exception/prisma-cl
 import helmet from 'helmet';
 import * as compression from 'compression';
 import { JwtStrategy } from './auth/jwt.strategy';
+import { AuthModule } from './auth/auth.module';
+import * as passport from 'passport'; // Importe passport no topo do arquivo
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
-  logger.log('❌❌❌ Starting application bootstrap');
-  logger.log(`❌❌❌ NODE_ENV: ${process.env.NODE_ENV}`);
+  logger.log('🔥🔥🔥 Starting application bootstrap');
+  logger.log(`🔥🔥🔥 NODE_ENV: ${process.env.NODE_ENV}`);
+  logger.log(
+    `🔥🔥🔥 ENV File: ${
+      process.env.NODE_ENV === 'development' ? '.env.development' : '.env'
+    }`,
+  );
+
+  // Verificar variáveis de ambiente importantes
+  logger.log(
+    `🔥🔥🔥 SECRETKEY: ${process.env.SECRETKEY ? 'Defined' : 'UNDEFINED'}`,
+  );
+  logger.log(`🔥🔥🔥 EXPIRESIN: ${process.env.EXPIRESIN || 'UNDEFINED'}`);
 
   const app = await NestFactory.create(AppModule);
 
@@ -37,19 +50,36 @@ async function bootstrap() {
   try {
     const jwtStrategy = app.get(JwtStrategy);
     logger.log(
-      `❌❌❌ JwtStrategy instance: ${!!jwtStrategy ? 'FOUND' : 'NOT FOUND'}`,
+      `🔥🔥🔥 JwtStrategy instance: ${!!jwtStrategy ? 'FOUND' : 'NOT FOUND'}`,
     );
   } catch (error) {
-    logger.error(`❌❌❌ Failed to retrieve JwtStrategy: ${error.message}`);
+    logger.error(`🔥🔥🔥 Failed to retrieve JwtStrategy: ${error.message}`);
+
+    // Tentar encontrar o módulo AuthModule
+    try {
+      const authModule = app.select(AuthModule);
+      logger.log(`🔥🔥🔥 AuthModule: ${!!authModule ? 'FOUND' : 'NOT FOUND'}`);
+    } catch (err) {
+      logger.error(`🔥🔥🔥 Failed to find AuthModule: ${err.message}`);
+    }
   }
 
-  // Verificar módulos carregados
-  const modules = app.get(Reflector).get('modules', AppModule);
-  logger.log(
-    `❌❌❌ Loaded modules: ${
-      modules ? JSON.stringify(Object.keys(modules)) : 'unknown'
-    }`,
-  );
+  // Verificar estratégias registradas em passport - CORRIGIDO
+  try {
+    // Usar o passport importado no topo do arquivo
+    const passportInstance = passport as any;
+    if (passportInstance._strategies) {
+      logger.log(
+        `🔥🔥🔥 Passport strategies: ${JSON.stringify(
+          Object.keys(passportInstance._strategies),
+        )}`,
+      );
+    } else {
+      logger.warn('🔥🔥🔥 No passport strategies found');
+    }
+  } catch (error) {
+    logger.error(`🔥🔥🔥 Error checking passport strategies: ${error.message}`);
+  }
 
   const config = new DocumentBuilder()
     .setTitle('SIMB API')
@@ -71,9 +101,10 @@ async function bootstrap() {
   const { httpAdapter } = app.get(HttpAdapterHost);
   app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
 
-  logger.log('❌❌❌ Application initialized, starting to listen');
+  logger.log('🔥🔥🔥 Application initialized, starting to listen');
   await app.listen(3000);
 }
+
 bootstrap().catch((err) => {
-  console.error('❌❌❌ Failed to start application:', err);
+  console.error('🔥🔥🔥 Failed to start application:', err);
 });

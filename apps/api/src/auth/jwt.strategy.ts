@@ -5,29 +5,28 @@ import { FuncionariosService } from '@app/modules/funcionarios/funcionarios.serv
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
-  private readonly logger = new Logger('JwtStrategy');
+  private readonly logger = new Logger(JwtStrategy.name);
 
   constructor(private funcionarioService: FuncionariosService) {
-    console.log('❌❌❌ JwtStrategy - CONSTRUCTOR STARTED');
-
-    // Log detalhado das configurações
-    const secretKey = process.env.SECRETKEY || 'zjP9h6ZI5LoSKCRjasv';
-    console.log(
-      `❌❌❌ JwtStrategy - Using secretKey: ${secretKey.substring(0, 3)}...`,
-    );
-    console.log(`❌❌❌ JwtStrategy - EXPIRESIN: ${process.env.EXPIRESIN}`);
+    // Log antes de chamar super() para ver se está chegando aqui
+    console.log('🔥🔥🔥 JwtStrategy constructor start');
 
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: secretKey,
+      secretOrKey: process.env.SECRETKEY || 'zjP9h6ZI5LoSKCRjasv',
     });
 
-    console.log('❌❌❌ JwtStrategy - CONSTRUCTOR COMPLETED');
+    console.log('🔥🔥🔥 JwtStrategy constructor completed');
+    console.log(
+      '🔥🔥🔥 Secret key (first 5 chars):',
+      (process.env.SECRETKEY || 'zjP9h6ZI5LoSKCRjasv').substring(0, 5),
+    );
+    console.log('🔥🔥🔥 ExpireIn:', process.env.EXPIRESIN || '1h');
   }
 
   async validate(payload: any) {
-    console.log('JwtStrategy.validate called with payload:', payload);
+    this.logger.log(`Validating JWT payload: ${JSON.stringify(payload)}`);
 
     const userId = payload.userId;
     if (!userId) {
@@ -46,7 +45,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
         tenantId: payload.tenantId || user.tenant_id,
       };
     } catch (error) {
-      console.error('Error validating user:', error);
+      this.logger.error(`Error validating user: ${error.message}`);
       throw new UnauthorizedException('Falha na validação do usuário');
     }
   }
