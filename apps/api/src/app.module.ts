@@ -60,12 +60,12 @@ import { PermissaoUsuariosModule } from './modules/permissao-usuarios/permissao-
       envFilePath:
         process.env.NODE_ENV === 'development' ? '.env.development' : '.env',
     }),
-
-    AuthModule, // Primeiro AuthModule
-    PrismaModule, // Depois PrismaModule
+    PrismaModule,
+    AuthModule,
 
     // Módulos da aplicação
     TenantModule,
+    PrismaTenantModule,
     CidadesModule,
     LinhasModule,
     FuncionariosModule,
@@ -97,7 +97,7 @@ import { PermissaoUsuariosModule } from './modules/permissao-usuarios/permissao-
     TipoDespesasModule,
     ComposicoesModule,
     ItensAcertosModule,
-    PrismaTenantModule,
+
     PermissaoUsuariosModule,
 
     // Configuração do CacheModule para melhorar a performance

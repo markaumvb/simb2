@@ -1,3 +1,4 @@
+// src/auth/jwt-auth.guard.ts
 import {
   ExecutionContext,
   Injectable,
@@ -5,7 +6,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import * as passport from 'passport';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
@@ -13,42 +14,56 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
 
   constructor() {
     super();
-
-    // Debug disponível em tempo de execução
-    const strategies = Object.keys((passport as any)._strategies || {});
-    this.logger.log(
-      `JwtAuthGuard created. Available strategies: ${JSON.stringify(
-        strategies,
-      )}`,
-    );
   }
 
-  canActivate(context: ExecutionContext) {
+  canActivate(
+    context: ExecutionContext,
+  ): boolean | Promise<boolean> | Observable<boolean> {
     this.logger.log('JwtAuthGuard canActivate called');
 
-    // Verifica se a estratégia jwt está registrada
-    const strategies = Object.keys((passport as any)._strategies || {});
+    // Em ambiente de desenvolvimento, permitir acesso sem autenticação completa
+    if (process.env.NODE_ENV === 'development') {
+      try {
+        return super.canActivate(context);
+      } catch (error) {
+        this.logger.warn(
+          `Auth falhou em modo desenvolvimento: ${error.message}`,
+        );
 
-    if (!strategies.includes('jwt')) {
-      this.logger.error(
-        'JWT strategy not found! Available: ' + strategies.join(', '),
-      );
-
-      if (process.env.NODE_ENV === 'development') {
-        // Permitir bypass em desenvolvimento
+        // Definir usuário falso para desenvolvimento
         const request = context.switchToHttp().getRequest();
-        request.user = { tenantId: request.tenantId || 1 };
+
+        // Se já tiver tenantId do middleware, usar esse
+        const tenantId = request.tenantId || 1;
+
+        request.user = {
+          id: 999,
+          email: 'dev@example.com',
+          tenantId,
+        };
+
         return true;
       }
     }
 
+    // Em produção, comportamento padrão
     return super.canActivate(context);
   }
 
   handleRequest(err, user, info) {
     if (err || !user) {
       this.logger.error(`Auth error: ${err?.message || 'No user found'}`);
-      throw new UnauthorizedException('Autenticação requerida');
+
+      if (process.env.NODE_ENV === 'development') {
+        // Em dev, retornar usuário falso
+        return {
+          id: 999,
+          email: 'dev@example.com',
+          tenantId: 1,
+        };
+      }
+
+      throw err || new UnauthorizedException('Autenticação requerida');
     }
     return user;
   }
