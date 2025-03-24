@@ -21,12 +21,29 @@ export class AuthService {
     private readonly prisma: PrismaService,
   ) {}
 
-  async validateUser(userId: number): Promise<any> {
-    const user = await this.prisma.client.funcionario.findUnique({
-      where: { id: userId },
+  async validateUser(userId: number, tenantId?: number): Promise<any> {
+    this.logger.debug(
+      `Validando usuário ID: ${userId}, Tenant ID: ${tenantId}`,
+    );
+
+    const whereClause: any = { id: userId };
+
+    // Adicionar tenant_id ao filtro se disponível
+    if (tenantId !== undefined) {
+      whereClause.tenant_id = tenantId;
+    }
+
+    const user = await this.prisma.client.funcionario.findFirst({
+      where: whereClause,
     });
 
-    if (!user || !user.status) {
+    if (!user) {
+      this.logger.warn(`Usuário ID ${userId} não encontrado`);
+      return null;
+    }
+
+    if (!user.status) {
+      this.logger.warn(`Usuário ID ${userId} está inativo`);
       return null;
     }
 
