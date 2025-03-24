@@ -1,4 +1,3 @@
-// src/auth/jwt-auth.guard.ts
 import {
   ExecutionContext,
   Injectable,
@@ -14,34 +13,31 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   ): boolean | Promise<boolean> | Observable<boolean> {
     console.log('JwtAuthGuard canActivate called');
 
-    // Primeiro tenta o header x-tenant-id para desenvolvimento
+    // Para desenvolvimento, permite uso do header x-tenant-id
     const request = context.switchToHttp().getRequest();
     const tenantIdHeader = request.headers['x-tenant-id'];
 
     if (tenantIdHeader && process.env.NODE_ENV === 'development') {
       console.log('Development mode: using x-tenant-id header');
       request.tenantId = Number(tenantIdHeader);
+      // Em desenvolvimento, ainda valida o JWT se disponível
+      if (request.headers.authorization) {
+        return super.canActivate(context);
+      }
       return true; // Permite acesso sem JWT em desenvolvimento
     }
 
-    // Caso contrário, usa autenticação normal JWT
     return super.canActivate(context);
   }
 
   handleRequest(err, user, info) {
-    // Verificar possíveis erros e logs
-    if (err) {
-      console.error('JWT authentication error:', err);
-      throw err;
+    if (err || !user) {
+      console.error(
+        'JWT authentication failed:',
+        err?.message || info?.message || 'No user found',
+      );
+      throw err || new UnauthorizedException('Autenticação requerida');
     }
-    if (!user) {
-      console.error('JWT user not found:', info?.message);
-      throw new UnauthorizedException('Autenticação requerida');
-    }
-
-    // Log do user retornado pelo JwtStrategy
-    console.log('JWT authenticated user:', user);
-
     return user;
   }
 }

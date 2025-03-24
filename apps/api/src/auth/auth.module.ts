@@ -1,4 +1,3 @@
-// src/auth/auth.module.ts
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
@@ -13,6 +12,7 @@ import { refreshJwtStrategy } from './refreshToken.strategy';
   imports: [
     PrismaModule,
     FuncionariosModule,
+    // Registre o PassportModule com a estratégia default explicitamente
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secret: process.env.SECRETKEY || 'zjP9h6ZI5LoSKCRjasv',
@@ -20,7 +20,20 @@ import { refreshJwtStrategy } from './refreshToken.strategy';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, refreshJwtStrategy],
-  exports: [AuthService, JwtStrategy, JwtModule, PassportModule],
+  providers: [
+    AuthService,
+    JwtStrategy, // Certifique-se de que o JwtStrategy está listado como provider
+    refreshJwtStrategy,
+  ],
+  exports: [
+    AuthService,
+    JwtStrategy,
+    JwtModule,
+    PassportModule, // Exporte o PassportModule para usar em outros módulos
+  ],
 })
-export class AuthModule {}
+export class AuthModule {
+  constructor() {
+    console.log('AuthModule initialized');
+  }
+}
