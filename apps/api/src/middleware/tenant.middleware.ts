@@ -29,7 +29,7 @@ export class TenantMiddleware implements NestMiddleware {
 
   use(req: Request, res: Response, next: NextFunction) {
     // Melhor verificação de rotas públicas
-    if (this.isPublicPath(req.path)) {
+    if (this.isPublicPath(req.url)) {
       return next();
     }
 
@@ -42,7 +42,7 @@ export class TenantMiddleware implements NestMiddleware {
     }
 
     // Extrair tenant do token JWT
-    const authHeader = req.headers.authorization;
+    const authHeader = req.headers['authorization'];
     if (authHeader?.startsWith('Bearer ')) {
       try {
         const token = authHeader.substring(7);

@@ -25,14 +25,18 @@ export class AuthController {
     description: 'Autentica um usuário e retorna token JWT',
   })
   @ApiBody({ type: LoginDto })
-  async login(@Body() loginDto: LoginDto): Promise<AuthEntity> {
-    return this.authService.login(
+  @Post('login')
+  async login(@Body() loginDto: LoginDto) {
+    const authResult = await this.authService.login(
       loginDto.email,
       loginDto.password,
       loginDto.tenantId,
     );
-    console.log('Token gerado:', result.token);
-    return result;
+
+    // Log temporário para debug do token
+    console.log('Token gerado:', authResult.token);
+
+    return authResult;
   }
 
   @Post('refresh')

@@ -16,7 +16,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     const secretKey = configService.get<string>('SECRETKEY');
 
     if (!secretKey) {
-      throw new Error('JWT_SECRET não está configurado');
+      throw new Error('SECRETKEY não está configurado');
     }
 
     super({
