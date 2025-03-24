@@ -1,3 +1,4 @@
+// auth.module.ts
 import { Global, Module, OnModuleInit, Logger } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
@@ -7,7 +8,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { FuncionariosModule } from '@app/modules/funcionarios/funcionarios.module';
 import { JwtStrategy } from './jwt.strategy';
 import { refreshJwtStrategy } from './refreshToken.strategy';
-import { setupPassport } from './setup-passport';
+import * as passport from 'passport';
+import { ConfigService, ConfigModule } from '@nestjs/config';
 
 @Global()
 @Module({
@@ -17,10 +19,26 @@ import { setupPassport } from './setup-passport';
     PassportModule.register({
       defaultStrategy: 'jwt',
     }),
-    JwtModule.register({
-      global: true,
-      secret: process.env.SECRETKEY,
-      signOptions: { expiresIn: process.env.EXPIRESIN || '1h' },
+    // Usar registerAsync para garantir que o ConfigService esteja disponível
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => {
+        const secretKey = configService.get<string>('SECRETKEY');
+        if (!secretKey) {
+          throw new Error(
+            'SECRETKEY não está configurada nas variáveis de ambiente!',
+          );
+        }
+
+        return {
+          global: true,
+          secret: secretKey,
+          signOptions: {
+            expiresIn: configService.get<string>('EXPIRESIN') || '1h',
+          },
+        };
+      },
     }),
   ],
   controllers: [AuthController],
@@ -36,7 +54,17 @@ import { setupPassport } from './setup-passport';
       ) => {
         const logger = new Logger('PassportSetup');
         logger.log('Configurando estratégias do Passport...');
-        return setupPassport(jwtStrategy, refreshStrategy);
+        // Registrar estratégias manualmente
+        passport.use('jwt', jwtStrategy);
+        passport.use('jwt-refresh', refreshStrategy);
+
+        // Verificar registro
+        const strategies = Object.keys((passport as any)._strategies || {});
+        logger.log(
+          `Estratégias Passport registradas: ${strategies.join(', ')}`,
+        );
+
+        return passport;
       },
       inject: [JwtStrategy, refreshJwtStrategy],
     },
