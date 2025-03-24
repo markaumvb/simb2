@@ -19,7 +19,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { PerfilEntity } from './entities/perfil.entity';
-
+import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
 import { TenantGuard } from '@app/guards/tenant.guard';
 
 @ApiTags('Perfil para usuários')

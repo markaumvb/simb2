@@ -22,7 +22,7 @@ import {
 
 import { MesaEntity } from './entities/mesa.entity';
 import { TenantGuard } from '@app/guards/tenant.guard';
-
+import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
 @ApiTags('Mesas')
 @Controller('mesas')
 export class MesasController {

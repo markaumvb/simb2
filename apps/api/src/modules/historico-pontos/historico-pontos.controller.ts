@@ -6,7 +6,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { HistoricoPontosService } from './historico-pontos.service';
-
+import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
 import { HistoricoPontoEntity } from './entities/historico-ponto.entity';

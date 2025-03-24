@@ -18,7 +18,7 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
-
+import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
 import { MesaSaidaEntity } from './entities/mesa-saida.entity';
 import { TenantGuard } from '@app/guards/tenant.guard';
 

@@ -19,7 +19,7 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
-
+import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
 import { TenantEntity } from './tenant.entity';
 import { TenantGuard } from '@app/guards/tenant.guard';
 

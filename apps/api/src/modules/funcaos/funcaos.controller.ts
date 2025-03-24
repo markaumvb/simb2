@@ -22,7 +22,7 @@ import {
 
 import { FuncaoEntity } from './entities/funcao.entity';
 import { TenantGuard } from '@app/guards/tenant.guard';
-
+import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
 @ApiTags('Funções de usuários')
 @Controller('funcaos')
 export class FuncaosController {

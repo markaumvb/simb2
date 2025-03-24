@@ -21,7 +21,7 @@ import {
 
 import { DepositoEntity } from './entities/deposito.entity';
 import { TenantGuard } from '@app/guards/tenant.guard';
-
+import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
 @ApiTags('Depósitos')
 @Controller('depositos')
 export class DepositosController {

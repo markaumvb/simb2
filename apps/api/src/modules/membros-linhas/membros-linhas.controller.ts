@@ -18,7 +18,7 @@ import {
 } from '@nestjs/swagger';
 import { CreateMembrosLinhaDto } from './dto/create-membros-linha.dto';
 import { UpdateMembrosLinhaDto } from './dto/update-membros-linha.dto';
-
+import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
 import { MembrosLinhaEntity } from './entities/membros-linha.entity';
 import { TenantGuard } from '@app/guards/tenant.guard';
 

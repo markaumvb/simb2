@@ -20,7 +20,7 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
-
+import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
 import { TenantGuard } from '@app/guards/tenant.guard';
 
 @ApiTags('Almoxarifado')

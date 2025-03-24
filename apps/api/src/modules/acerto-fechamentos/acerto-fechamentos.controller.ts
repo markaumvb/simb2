@@ -18,7 +18,7 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { JwtAuthGuard } from '@app/auth/jwt-auth.guard';
+import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
 import { AcertoFechamentoEntity } from './entities/acerto-fechamento.entity';
 import { TenantGuard } from '@app/guards/tenant.guard';
 
