@@ -1,5 +1,4 @@
-// src/auth/auth.module.ts
-import { Global, Module, OnModuleInit } from '@nestjs/common';
+import { Global, Module, OnModuleInit, Logger } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { PrismaModule } from '@app/database/prisma.module';
@@ -8,7 +7,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { FuncionariosModule } from '@app/modules/funcionarios/funcionarios.module';
 import { JwtStrategy } from './jwt.strategy';
 import { refreshJwtStrategy } from './refreshToken.strategy';
-import * as passport from 'passport';
+import { setupPassport } from './setup-passport';
 
 @Global()
 @Module({
@@ -19,13 +18,29 @@ import * as passport from 'passport';
       defaultStrategy: 'jwt',
     }),
     JwtModule.register({
-      global: true, // Importante para tornar o JWT disponível globalmente
-      secret: process.env.SECRETKEY || 'zjP9h6ZI5LoSKCRjasv',
+      global: true,
+      secret: process.env.SECRETKEY,
       signOptions: { expiresIn: process.env.EXPIRESIN || '1h' },
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, refreshJwtStrategy],
+  providers: [
+    AuthService,
+    JwtStrategy,
+    refreshJwtStrategy,
+    {
+      provide: 'PASSPORT_SETUP',
+      useFactory: (
+        jwtStrategy: JwtStrategy,
+        refreshStrategy: refreshJwtStrategy,
+      ) => {
+        const logger = new Logger('PassportSetup');
+        logger.log('Configurando estratégias do Passport...');
+        return setupPassport(jwtStrategy, refreshStrategy);
+      },
+      inject: [JwtStrategy, refreshJwtStrategy],
+    },
+  ],
   exports: [
     AuthService,
     JwtModule,
@@ -34,24 +49,4 @@ import * as passport from 'passport';
     refreshJwtStrategy,
   ],
 })
-export class AuthModule implements OnModuleInit {
-  constructor(
-    private readonly jwtStrategy: JwtStrategy,
-    private readonly refreshJwtStrategy: refreshJwtStrategy,
-  ) {}
-
-  onModuleInit() {
-    // Registrar estratégias manualmente
-    passport.use(this.jwtStrategy);
-    passport.use(this.refreshJwtStrategy);
-
-    // Verificar registro
-    console.log(
-      'Estratégias registradas:',
-      Object.keys(passport['_strategies'] || {}),
-    );
-  }
-  catch(error) {
-    console.error('Erro ao registrar estratégias Passport:', error);
-  }
-}
+export class AuthModule {}

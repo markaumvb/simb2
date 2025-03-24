@@ -12,10 +12,12 @@ export function setupPassport(
   logger.log('🔐 Setting up Passport strategies...');
 
   // Registrar estratégias manualmente
-  passport.use(jwtStrategy);
-  passport.use(refreshStrategy);
+  passport.use('jwt', jwtStrategy);
+  passport.use('jwt-refresh', refreshStrategy);
 
   // Verificar registro
   const strategies = Object.keys((passport as any)._strategies || {});
   logger.log(`🔐 Registered Passport strategies: ${strategies.join(', ')}`);
+
+  return passport;
 }

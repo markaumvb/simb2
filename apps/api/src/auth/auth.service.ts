@@ -7,6 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '@app/database/prisma.service';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
@@ -41,6 +42,14 @@ export class AuthService {
     if (!isFuncionarioAtivo) {
       throw new UnauthorizedException('Usuário não está ativo no sistema');
     }
+    const secretKey = this.configService.get<string>('SECRETKEY');
+    const refreshTokenSecret = this.configService.get<string>(
+      'REFRESH_TOKEN_SECRET',
+    );
+
+    if (!secretKey || !refreshTokenSecret) {
+      throw new Error('Chaves de autenticação não configuradas');
+    }
 
     // Gerar token com tenantId
     const payload = {
@@ -48,11 +57,6 @@ export class AuthService {
       email: user.email,
       tenantId: user.tenant_id,
     };
-
-    // Certifique-se de usar as configurações corretas
-    const secretKey = process.env.SECRETKEY || 'zjP9h6ZI5LoSKCRjasv';
-    const refreshTokenSecret =
-      process.env.REFRESH_TOKEN_SECRET || 'zjP9h6ZI5LtregEawdsRj12sv';
 
     // Log para depuração
     console.log('Creating JWT with payload:', payload);
