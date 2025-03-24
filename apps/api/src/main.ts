@@ -10,14 +10,31 @@ import {
 import { PrismaClientExceptionFilter } from './prisma-client-exception/prisma-client-exception.filter';
 import helmet from 'helmet';
 import * as compression from 'compression';
-import { JwtStrategy } from './auth/jwt.strategy';
-import { AuthModule } from './auth/auth.module';
-import * as passport from 'passport'; // Importe passport no topo do arquivo
+import * as passport from 'passport';
+import * as fs from 'fs';
+import * as path from 'path';
+
+// Debug para verificar configuração de ambiente
+const envFile =
+  process.env.NODE_ENV === 'development' ? '.env.development' : '.env';
+const envPath = path.join(process.cwd(), envFile);
+console.log(`Verificando arquivo de ambiente em: ${envPath}`);
+console.log(`Arquivo existe? ${fs.existsSync(envPath) ? 'SIM' : 'NÃO'}`);
+if (fs.existsSync(envPath)) {
+  console.log(`Conteúdo do arquivo (primeiras linhas):`);
+  const content = fs
+    .readFileSync(envPath, 'utf8')
+    .split('\n')
+    .slice(0, 5)
+    .join('\n');
+  console.log(content);
+}
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
   logger.log('🔥🔥🔥 Starting application bootstrap');
   logger.log(`🔥🔥🔥 NODE_ENV: ${process.env.NODE_ENV}`);
+  logger.log(`🔥🔥🔥 Current working directory: ${process.cwd()}`);
   logger.log(
     `🔥🔥🔥 ENV File: ${
       process.env.NODE_ENV === 'development' ? '.env.development' : '.env'
@@ -29,6 +46,11 @@ async function bootstrap() {
     `🔥🔥🔥 SECRETKEY: ${process.env.SECRETKEY ? 'Defined' : 'UNDEFINED'}`,
   );
   logger.log(`🔥🔥🔥 EXPIRESIN: ${process.env.EXPIRESIN || 'UNDEFINED'}`);
+  logger.log(
+    `🔥🔥🔥 REFRESH_TOKEN_SECRET: ${
+      process.env.REFRESH_TOKEN_SECRET ? 'Defined' : 'UNDEFINED'
+    }`,
+  );
 
   const app = await NestFactory.create(AppModule);
 
@@ -46,9 +68,8 @@ async function bootstrap() {
 
   app.enableCors();
 
-  // Verificar estratégias registradas em passport - CORRIGIDO
+  // Verificar estratégias registradas em passport
   try {
-    // Usar o passport importado no topo do arquivo
     const passportInstance = passport as any;
     if (passportInstance._strategies) {
       logger.log(
@@ -70,7 +91,6 @@ async function bootstrap() {
     .addBearerAuth()
     .build();
 
-  // Corrija a incompatibilidade de tipos com um cast explícito
   const document = SwaggerModule.createDocument(app as any, config);
   SwaggerModule.setup('api', app as any, document, {
     customSiteTitle: 'API DO SIMB',

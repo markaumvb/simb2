@@ -61,7 +61,6 @@ import { PermissaoUsuariosModule } from './modules/permissao-usuarios/permissao-
         process.env.NODE_ENV === 'development' ? '.env.development' : '.env',
     }),
 
-    // IMPORTANTE: Ordem dos módulos - AuthModule deve vir primeiro
     AuthModule, // Primeiro AuthModule
     PrismaModule, // Depois PrismaModule
 

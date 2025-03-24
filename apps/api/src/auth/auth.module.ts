@@ -48,6 +48,10 @@ export class AuthModule implements OnModuleInit {
     private readonly refreshJwtStrategy: refreshJwtStrategy,
   ) {
     this.logger.log('AuthModule constructor called');
+    // Log para diagnóstico
+    this.logger.log(
+      `Secret key: ${process.env.SECRETKEY ? 'Defined' : 'UNDEFINED'}`,
+    );
   }
 
   onModuleInit() {

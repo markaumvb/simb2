@@ -10,11 +10,7 @@ import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class AuthService {
-  private refreshTokenSecret: string;
-
-  constructor(private prisma: PrismaService, private jwtService: JwtService) {
-    this.refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET;
-  }
+  constructor(private prisma: PrismaService, private jwtService: JwtService) {}
 
   async login(email: string, password: string, tenantId: number) {
     // Primeiro passo: procurar por usuário através do e-mail informado
@@ -55,8 +51,15 @@ export class AuthService {
 
     console.log('Creating JWT with payload:', payload);
 
-    const accessToken = this.jwtService.sign(payload);
-    const refreshToken = jwt.sign(payload, this.refreshTokenSecret, {
+    // Acessar as variáveis de ambiente diretamente no momento do uso
+    const secretKey = process.env.SECRETKEY || 'zjP9h6ZI5LoSKCRjasv';
+    const refreshTokenSecret =
+      process.env.REFRESH_TOKEN_SECRET || 'zjP9h6ZI5LtregEawdsRj12sv';
+
+    console.log('Using SECRETKEY:', secretKey.substring(0, 5) + '...');
+
+    const accessToken = this.jwtService.sign(payload, { secret: secretKey });
+    const refreshToken = jwt.sign(payload, refreshTokenSecret, {
       expiresIn: '7d',
     });
 
@@ -72,7 +75,11 @@ export class AuthService {
 
   async refreshToken(refreshToken: string) {
     try {
-      const decoded = jwt.verify(refreshToken, this.refreshTokenSecret) as {
+      // Acessar a variável de ambiente diretamente
+      const refreshTokenSecret =
+        process.env.REFRESH_TOKEN_SECRET || 'zjP9h6ZI5LtregEawdsRj12sv';
+
+      const decoded = jwt.verify(refreshToken, refreshTokenSecret) as {
         userId: number;
         tenantId: number;
       };
@@ -94,7 +101,9 @@ export class AuthService {
         tenantId: user.tenant_id,
       };
 
-      const accessToken = this.jwtService.sign(payload);
+      // Acessar a variável de ambiente diretamente
+      const secretKey = process.env.SECRETKEY || 'zjP9h6ZI5LoSKCRjasv';
+      const accessToken = this.jwtService.sign(payload, { secret: secretKey });
 
       return {
         token: accessToken,
