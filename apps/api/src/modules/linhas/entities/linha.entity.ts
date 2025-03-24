@@ -8,6 +8,9 @@ export class LinhaEntity implements Linha {
   @ApiProperty()
   status: string;
 
+  @ApiProperty({ required: true })
+  descricao: string | null;
+
   @ApiProperty()
   dt_alteracao: Date;
 

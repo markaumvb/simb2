@@ -509,7 +509,7 @@ model Linha {
   status              String                @default("Ativo") @db.VarChar(7)
   dt_alteracao        DateTime?             @default(now())
   dt_inclusao         DateTime?             @default(now())
-  
+  descricao           String                @db.VarChar(50)
   // Campo de tenant
   tenant_id           Int
   tenant              Tenant                @relation(fields: [tenant_id], references: [id])

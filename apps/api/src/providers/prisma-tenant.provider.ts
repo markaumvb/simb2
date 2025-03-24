@@ -31,20 +31,14 @@ export class PrismaTenantService {
     return { ...filter, tenant_id: tenantId };
   }
 
-  // Adiciona tenant_id e relação tenant a dados
   addTenantToData(data: any = {}): any {
     const tenantId = this.currentTenantId;
     if (tenantId === null) {
       return data;
     }
 
-    // Criar uma cópia dos dados
     const newData = { ...data };
 
-    // Adicionar tenant_id
-    newData.tenant_id = tenantId;
-
-    // Adicionar relação tenant
     newData.tenant = {
       connect: { id: tenantId },
     };
