@@ -42,6 +42,12 @@ import { PrismaTenantService } from './providers/prisma-tenant.provider';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { PrismaTenantModule } from './providers/prisma-tenant.module';
 
+export function setupPassport() {
+  console.log('Setting up passport strategies...');
+  // Não estamos realmente fazendo nada aqui, apenas garantindo que o código seja executado
+  // antes do uso das estratégias
+}
+
 @Module({
   imports: [
     ThrottlerModule.forRoot({
@@ -130,6 +136,9 @@ import { PrismaTenantModule } from './providers/prisma-tenant.module';
   exports: [PrismaTenantService], // Exporta o PrismaTenantService para ser usado em outros módulos
 })
 export class AppModule implements NestModule {
+  constructor() {
+    setupPassport();
+  }
   configure(consumer: MiddlewareConsumer) {
     // Aplica o middleware de tenant a todas as rotas
     consumer.apply(TenantMiddleware).forRoutes('*');

@@ -1,8 +1,8 @@
-import { Injectable, Injectable, NestMiddleware } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { NextFunction } from 'express';
-
 // src/middleware/tenant.middleware.ts
+import { Injectable, NestMiddleware } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { Request, Response, NextFunction } from 'express';
+
 @Injectable()
 export class TenantMiddleware implements NestMiddleware {
   constructor(private readonly jwtService: JwtService) {
