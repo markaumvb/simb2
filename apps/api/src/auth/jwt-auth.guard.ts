@@ -24,7 +24,26 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     // Em ambiente de desenvolvimento, permitir acesso sem autenticação completa
     if (process.env.NODE_ENV === 'development') {
       try {
-        return super.canActivate(context);
+        // Tente autenticação normal
+        const canActivateResult = super.canActivate(context);
+
+        // Se for uma promessa
+        if (canActivateResult instanceof Promise) {
+          return canActivateResult.catch((error) => {
+            this.logger.warn(
+              `Auth falhou em modo desenvolvimento: ${error.message}`,
+            );
+
+            // Definir usuário falso para desenvolvimento
+            const request = context.switchToHttp().getRequest();
+            const tenantId = request.tenantId || 1;
+            request.user = { id: 999, email: 'dev@example.com', tenantId };
+
+            return true;
+          });
+        }
+
+        return canActivateResult;
       } catch (error) {
         this.logger.warn(
           `Auth falhou em modo desenvolvimento: ${error.message}`,
@@ -32,15 +51,8 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
 
         // Definir usuário falso para desenvolvimento
         const request = context.switchToHttp().getRequest();
-
-        // Se já tiver tenantId do middleware, usar esse
         const tenantId = request.tenantId || 1;
-
-        request.user = {
-          id: 999,
-          email: 'dev@example.com',
-          tenantId,
-        };
+        request.user = { id: 999, email: 'dev@example.com', tenantId };
 
         return true;
       }

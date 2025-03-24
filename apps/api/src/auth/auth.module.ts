@@ -42,13 +42,16 @@ export class AuthModule implements OnModuleInit {
 
   onModuleInit() {
     // Registrar estratégias manualmente
-    passport.use('jwt', this.jwtStrategy);
-    passport.use('jwt-refresh', this.refreshJwtStrategy);
+    passport.use(this.jwtStrategy);
+    passport.use(this.refreshJwtStrategy);
 
     // Verificar registro
     console.log(
       'Estratégias registradas:',
       Object.keys(passport['_strategies'] || {}),
     );
+  }
+  catch(error) {
+    console.error('Erro ao registrar estratégias Passport:', error);
   }
 }

@@ -49,16 +49,17 @@ export class AuthService {
       tenantId: user.tenant_id,
     };
 
-    console.log('Creating JWT with payload:', payload);
-
-    // Acessar as variáveis de ambiente diretamente no momento do uso
+    // Certifique-se de usar as configurações corretas
     const secretKey = process.env.SECRETKEY || 'zjP9h6ZI5LoSKCRjasv';
     const refreshTokenSecret =
       process.env.REFRESH_TOKEN_SECRET || 'zjP9h6ZI5LtregEawdsRj12sv';
 
+    // Log para depuração
+    console.log('Creating JWT with payload:', payload);
     console.log('Using SECRETKEY:', secretKey.substring(0, 5) + '...');
 
-    const accessToken = this.jwtService.sign(payload, { secret: secretKey });
+    // Gerar token sem personalizar opções adicionais
+    const accessToken = this.jwtService.sign(payload);
     const refreshToken = jwt.sign(payload, refreshTokenSecret, {
       expiresIn: '7d',
     });
