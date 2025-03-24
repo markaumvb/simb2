@@ -59,8 +59,9 @@ import { PassportModule } from '@nestjs/passport';
       isGlobal: true,
       envFilePath: '.env',
     }),
+    AuthModule,
     PassportModule.register({ defaultStrategy: 'jwt' }), // Adicione isso
-    AuthModule, // Coloque primeiro na lista
+
     PrismaModule,
 
     // Configuração do CacheModule para melhorar a performance
