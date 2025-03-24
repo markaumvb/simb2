@@ -12,7 +12,6 @@ import { refreshJwtStrategy } from './refreshToken.strategy';
   imports: [
     PrismaModule,
     FuncionariosModule,
-    // Registre o PassportModule com a estratégia default explicitamente
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secret: process.env.SECRETKEY || 'zjP9h6ZI5LoSKCRjasv',
@@ -20,20 +19,11 @@ import { refreshJwtStrategy } from './refreshToken.strategy';
     }),
   ],
   controllers: [AuthController],
-  providers: [
-    AuthService,
-    JwtStrategy, // Certifique-se de que o JwtStrategy está listado como provider
-    refreshJwtStrategy,
-  ],
+  providers: [AuthService, JwtStrategy, refreshJwtStrategy],
   exports: [
     AuthService,
-    JwtStrategy,
     JwtModule,
-    PassportModule, // Exporte o PassportModule para usar em outros módulos
+    PassportModule, // Certifique-se de exportar o PassportModule
   ],
 })
-export class AuthModule {
-  constructor() {
-    console.log('AuthModule initialized');
-  }
-}
+export class AuthModule {}

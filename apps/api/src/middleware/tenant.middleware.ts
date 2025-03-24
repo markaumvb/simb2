@@ -27,8 +27,10 @@ export class TenantMiddleware implements NestMiddleware {
     // 2. Tenta extrair do token JWT
     const authHeader = req.headers.authorization;
     if (authHeader) {
+      console.log('Authorization header found:', authHeader);
       const token = authHeader.split(' ')[1];
       if (token) {
+        console.log('JWT token extracted:', token.substring(0, 10) + '...');
         try {
           const decoded = this.jwtService.verify(token, {
             secret: process.env.SECRETKEY || 'zjP9h6ZI5LoSKCRjasv',
@@ -44,13 +46,22 @@ export class TenantMiddleware implements NestMiddleware {
           }
         } catch (error) {
           console.error('JWT verification failed:', error.message);
+          // Tente decodificar sem verificar para debug
+          try {
+            const parts = token.split('.');
+            if (parts.length === 3) {
+              const payload = JSON.parse(
+                Buffer.from(parts[1], 'base64').toString(),
+              );
+              console.log('JWT payload decoded without verification:', payload);
+            }
+          } catch (e) {
+            console.error('Failed to parse JWT token:', e.message);
+          }
         }
+      } else {
+        console.warn('Authorization header format incorrect');
       }
-    }
-
-    // Se chegou aqui sem um tenantId, log para depuração
-    if (!req['tenantId']) {
-      console.warn('No tenantId found in request for path:', req.path);
     }
 
     next();

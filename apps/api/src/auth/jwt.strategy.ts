@@ -11,11 +11,10 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
       ignoreExpiration: false,
       secretOrKey: process.env.SECRETKEY || 'zjP9h6ZI5LoSKCRjasv',
     });
-    console.log('JwtStrategy initialized with secret key');
+    console.log('JwtStrategy constructed');
   }
-  onModuleInit() {
-    console.log('JwtStrategy initialized with name: jwt');
-  }
+
+  // Remova o método onModuleInit pois pode estar causando confusão no ciclo de vida
 
   async validate(payload: any) {
     console.log('JwtStrategy.validate called with payload:', payload);

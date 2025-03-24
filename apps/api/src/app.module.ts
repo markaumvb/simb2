@@ -41,6 +41,7 @@ import { TenantMiddleware } from './middleware/tenant.middleware';
 import { PrismaTenantService } from './providers/prisma-tenant.provider';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { PrismaTenantModule } from './providers/prisma-tenant.module';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
@@ -58,8 +59,9 @@ import { PrismaTenantModule } from './providers/prisma-tenant.module';
       isGlobal: true,
       envFilePath: '.env',
     }),
+    PassportModule.register({ defaultStrategy: 'jwt' }), // Adicione isso
+    AuthModule, // Coloque primeiro na lista
     PrismaModule,
-    AuthModule,
 
     // Configuração do CacheModule para melhorar a performance
     CacheModule.register({
