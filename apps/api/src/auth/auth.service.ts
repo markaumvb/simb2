@@ -53,6 +53,8 @@ export class AuthService {
       tenantId: user.tenant_id,
     };
 
+    console.log('Creating JWT with payload:', payload);
+
     const accessToken = this.jwtService.sign(payload);
     const refreshToken = jwt.sign(payload, this.refreshTokenSecret, {
       expiresIn: '7d',

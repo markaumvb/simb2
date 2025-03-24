@@ -14,9 +14,12 @@ export class PrismaTenantService {
     return this.prismaService;
   }
 
-  // Retorna o tenant atual
   get currentTenantId(): number | null {
-    return this._request['tenantId'] ? Number(this._request['tenantId']) : null;
+    const tenantId = this._request['tenantId']
+      ? Number(this._request['tenantId'])
+      : null;
+    console.log('Current tenantId from request:', tenantId);
+    return tenantId;
   }
 
   // Adiciona tenant_id a filtros where
