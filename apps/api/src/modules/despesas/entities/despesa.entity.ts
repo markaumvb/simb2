@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Prisma, Despesa, Especie } from '@database';
+import { Prisma, Despesa } from '@database';
+import { Especie } from '@prisma/client'; // Importação correta do enum
 import { Transform } from 'class-transformer';
 
 export class DespesaEntity implements Despesa {
@@ -19,7 +20,7 @@ export class DespesaEntity implements Despesa {
   dt_hora: Date;
 
   @ApiProperty({ enum: Especie })
-  status: Especie;
+  status: Especie; // Note que no schema, você está usando 'status' em vez de 'especie'
 
   @ApiProperty()
   dt_cheque: Date | null;

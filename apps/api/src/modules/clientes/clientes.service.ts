@@ -5,9 +5,22 @@ import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 
 @Injectable()
 export class ClientesService {
+  private readonly logger = new Logger(ClientesService.name);
   constructor(private prismaTenant: PrismaTenantService) {}
 
+  private ensureTenantContext() {
+    if (!this.prismaTenant.currentTenantId) {
+      throw new UnauthorizedException('Contexto de tenant não encontrado');
+    }
+
+    Logger.debug(
+      `Operação executada no tenant: ${this.prismaTenant.currentTenantId}`,
+      this.constructor.name,
+    );
+  }
+
   async create(createClienteDto: CreateClienteDto) {
+    this.ensureTenantContext();
     return this.prismaTenant.prisma.client.cliente.create({
       data: this.prismaTenant.addTenantToData(createClienteDto),
     });
@@ -41,6 +54,7 @@ export class ClientesService {
   }
 
   async findOne(id: number) {
+    this.ensureTenantContext();
     return this.prismaTenant.prisma.client.cliente.findUnique({
       where: { id },
       include: {
@@ -58,6 +72,7 @@ export class ClientesService {
   }
 
   async update(id: number, updateClienteDto: UpdateClienteDto) {
+    this.ensureTenantContext();
     return this.prismaTenant.prisma.client.cliente.update({
       where: { id },
       data: updateClienteDto,
@@ -65,18 +80,7 @@ export class ClientesService {
   }
 
   async remove(id: number) {
+    this.ensureTenantContext();
     return this.prismaTenant.prisma.client.cliente.delete({ where: { id } });
-  }
-
-  private ensureTenantContext() {
-    if (!this.prismaTenant.currentTenantId) {
-      throw new UnauthorizedException('Contexto de tenant não encontrado');
-    }
-
-    // Opcional: log para auditoria
-    Logger.debug(
-      `Operação executada no tenant: ${this.prismaTenant.currentTenantId}`,
-      this.constructor.name,
-    );
   }
 }

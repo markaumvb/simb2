@@ -1,5 +1,5 @@
 // src/modules/funcionarios/funcionarios.service.ts
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { CreateFuncionarioDto } from './dto/create-funcionario.dto';
 import { UpdateFuncionarioDto } from './dto/update-funcionario.dto';
 import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
@@ -9,9 +9,21 @@ export const roundsOfHashing = 10;
 
 @Injectable()
 export class FuncionariosService {
+  private readonly logger = new Logger(FuncionariosService.name);
+
   constructor(private prismaTenant: PrismaTenantService) {}
 
+  private ensureTenantContext() {
+    if (!this.prismaTenant.currentTenantId) {
+      throw new UnauthorizedException('Contexto de tenant não encontrado');
+    }
+    this.logger.debug(
+      `Operação em funcionários executada no tenant: ${this.prismaTenant.currentTenantId}`,
+    );
+  }
+
   async create(createFuncionarioDto: CreateFuncionarioDto) {
+    this.ensureTenantContext();
     const hashedpassword = await bcrypt.hash(
       createFuncionarioDto.senha,
       roundsOfHashing,
@@ -35,18 +47,21 @@ export class FuncionariosService {
   }
 
   async findAll() {
+    this.ensureTenantContext();
     return this.prismaTenant.prisma.client.funcionario.findMany({
       where: this.prismaTenant.addTenantToFilter(),
     });
   }
 
   findSituacao(ativo: boolean) {
+    this.ensureTenantContext();
     return this.prismaTenant.prisma.client.funcionario.findMany({
       where: this.prismaTenant.addTenantToFilter({ status: ativo }),
     });
   }
 
   async findOne(id: number) {
+    this.ensureTenantContext();
     return this.prismaTenant.prisma.client.funcionario.findUnique({
       where: this.prismaTenant.addTenantToFilter({ id }),
       include: {
@@ -59,12 +74,14 @@ export class FuncionariosService {
   }
 
   findEmail(email: string) {
+    this.ensureTenantContext();
     return this.prismaTenant.prisma.client.funcionario.findMany({
       where: this.prismaTenant.addTenantToFilter({ email }),
     });
   }
 
   async update(id: number, updateFuncionarioDto: UpdateFuncionarioDto) {
+    this.ensureTenantContext();
     const { id_cidade, senha, ...restData } = updateFuncionarioDto;
 
     // Preparar objeto de dados
@@ -89,6 +106,7 @@ export class FuncionariosService {
   }
 
   async remove(id: number) {
+    this.ensureTenantContext();
     return this.prismaTenant.prisma.client.funcionario.delete({
       where: this.prismaTenant.addTenantToFilter({ id }),
     });

@@ -1,7 +1,9 @@
 import {
   BadRequestException,
   Injectable,
+  Logger,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { CreateCobrancaDto } from './dto/create-cobranca.dto';
 import { UpdateCobrancaDto } from './dto/update-cobranca.dto';
@@ -9,9 +11,21 @@ import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 
 @Injectable()
 export class CobrancasService {
+  private readonly logger = new Logger(CobrancasService.name);
+
   constructor(private prismaTenant: PrismaTenantService) {}
 
+  private ensureTenantContext() {
+    if (!this.prismaTenant.currentTenantId) {
+      throw new UnauthorizedException('Contexto de tenant não encontrado');
+    }
+    this.logger.debug(
+      `Operação em cobranças executada no tenant: ${this.prismaTenant.currentTenantId}`,
+    );
+  }
+
   async create(dto: CreateCobrancaDto) {
+    this.ensureTenantContext();
     // Verificar se a mesa existe e está ocupada
     const mesa = await this.prismaTenant.prisma.client.mesa.findUnique({
       where: { id: dto.id_mesa },
@@ -49,16 +63,19 @@ export class CobrancasService {
   }
 
   async findAll() {
+    this.ensureTenantContext();
     return this.prismaTenant.prisma.client.cobranca.findMany();
   }
 
   async findOne(id: number) {
+    this.ensureTenantContext();
     return this.prismaTenant.prisma.client.cobranca.findUnique({
       where: { id: id },
     });
   }
 
   findCobrancaMesa(mesa: number) {
+    this.ensureTenantContext();
     return this.prismaTenant.prisma.client.cobranca.findMany({
       where: { id_mesa: mesa },
       include: {
@@ -68,6 +85,7 @@ export class CobrancasService {
   }
 
   async update(id: number, updateCobrancaDto: UpdateCobrancaDto) {
+    this.ensureTenantContext();
     return this.prismaTenant.prisma.client.cobranca.update({
       where: { id },
       data: updateCobrancaDto,
@@ -75,6 +93,7 @@ export class CobrancasService {
   }
 
   async remove(id: number) {
+    this.ensureTenantContext();
     return this.prismaTenant.prisma.client.cobranca.delete({ where: { id } });
   }
 }
