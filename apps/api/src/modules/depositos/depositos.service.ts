@@ -8,6 +8,7 @@ import { CreateDepositoDto } from './dto/create-deposito.dto';
 import { UpdateDepositoDto } from './dto/update-deposito.dto';
 import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 import { CobrancasService } from '../cobrancas/cobrancas.service';
+import { Especie } from '@prisma/client';
 
 @Injectable()
 export class DepositosService {
@@ -31,24 +32,8 @@ export class DepositosService {
       throw new BadRequestException('Valor do depósito deve ser positivo');
     }
 
-    // Validar tipo de pagamento
-    const tiposPagamentoValidos = [
-      'Dinheiro',
-      'Cheque',
-      'PIX',
-      'Cartão',
-      'Transferência',
-      'Outros',
-      'Boleto',
-    ];
-    if (!tiposPagamentoValidos.includes(dto.especie)) {
-      throw new BadRequestException(
-        `Tipo de pagamento '${dto.especie}' inválido`,
-      );
-    }
-
     // Se for cheque, data do cheque é obrigatória
-    if (dto.especie === 'Cheque' && !dto.dt_cheque) {
+    if (dto.especie === Especie.CHEQUE && !dto.dt_cheque) {
       throw new BadRequestException(
         'Data do cheque é obrigatória para depósitos com cheque',
       );
