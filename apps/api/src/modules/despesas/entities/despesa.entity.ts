@@ -16,6 +16,9 @@ export class DespesaEntity implements Despesa {
   @ApiProperty({ type: Number, nullable: false })
   valor: Prisma.Decimal;
 
+  @ApiProperty({ enum: Especie })
+  especie: Especie;
+
   @ApiProperty()
   dt_hora: Date;
 

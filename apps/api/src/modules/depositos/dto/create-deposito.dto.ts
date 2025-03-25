@@ -1,7 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Prisma } from '@database';
+import { Especie } from '@database';
 import { Transform } from 'class-transformer';
-import { IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsDate,
+  IsEnum,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateDepositoDto {
   @IsDate()
@@ -15,9 +21,9 @@ export class CreateDepositoDto {
   })
   valor: number;
 
-  @IsString()
-  @ApiProperty({ type: Number })
-  especie: string;
+  @IsEnum(Especie)
+  @ApiProperty({ enum: Especie, enumName: 'Especie' })
+  especie: Especie;
 
   @IsOptional()
   @IsDate()

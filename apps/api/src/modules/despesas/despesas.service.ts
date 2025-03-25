@@ -8,6 +8,9 @@ import {
 import { CreateDespesaDto } from './dto/create-despesa.dto';
 import { UpdateDespesaDto } from './dto/update-despesa.dto';
 import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
+import { Especie } from '@prisma/client';
+import { create } from 'domain';
+import { async } from 'rxjs';
 
 @Injectable()
 export class DespesasService {
@@ -26,25 +29,15 @@ export class DespesasService {
 
   async create(dto: CreateDespesaDto) {
     this.ensureTenantContext();
+
     // Validar valor
     if (dto.valor <= 0) {
       throw new BadRequestException('Valor da despesa deve ser positivo');
     }
 
-    // Validar tipo de despesa
-    const tipoDespesa =
-      await this.prismaTenant.prisma.client.tipo_despesa.findUnique({
-        where: { id: dto.id_tipo },
-      });
-
-    if (!tipoDespesa) {
-      throw new NotFoundException(
-        `Tipo de despesa com ID ${dto.id_tipo} não encontrado`,
-      );
-    }
-
     // Validar forma de pagamento se for cheque
-    if (dto.especie === 'Cheque' && !dto.dt_cheque) {
+    if (dto.especie === Especie.CHEQUE && !dto.dt_cheque) {
+      // CORREÇÃO: usar especie em vez de status
       throw new BadRequestException(
         'Data do cheque é obrigatória para despesas pagas com cheque',
       );

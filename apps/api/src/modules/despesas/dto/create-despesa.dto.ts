@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Especie } from '@prisma/client';
 
 import { Transform } from 'class-transformer';
 import {
@@ -27,10 +28,9 @@ export class CreateDespesaDto {
   @ApiProperty()
   dt_hora: Date;
 
-  @IsNotEmpty()
-  @IsString()
-  @ApiProperty()
-  especie: string;
+  @IsEnum(Especie)
+  @ApiProperty({ enum: Especie, enumName: 'Especie' })
+  especie: Especie;
 
   @IsOptional()
   @IsDate()

@@ -16,7 +16,7 @@ export class DepositoEntity implements Deposito {
   valor: Prisma.Decimal;
 
   @ApiProperty({ enum: Especie })
-  status: Especie;
+  especie: Especie;
 
   @ApiProperty({ type: Number })
   dt_cheque: Date | null;

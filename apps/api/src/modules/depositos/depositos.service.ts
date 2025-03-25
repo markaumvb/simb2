@@ -71,11 +71,43 @@ export class DepositosService {
     });
   }
 
-  async update(id: number, data: UpdateDepositoDto) {
+  async update(id: number, updateDto: UpdateDepositoDto) {
     this.ensureTenantContext();
+
+    // Extrair campos relacionados
+    const {
+      id_linha,
+      id_movimentacao,
+      id_funcionario,
+      id_cliente,
+      ...restData
+    } = updateDto;
+
+    // Construir objeto de dados que o Prisma espera
+    const updateData: any = {
+      ...restData,
+    };
+
+    // Adicionar relações se fornecidas
+    if (id_linha !== undefined) {
+      updateData.linha = { connect: { id: id_linha } };
+    }
+
+    if (id_movimentacao !== undefined) {
+      updateData.movimentacao = { connect: { id: id_movimentacao } };
+    }
+
+    if (id_funcionario !== undefined) {
+      updateData.funcionario = { connect: { id: id_funcionario } };
+    }
+
+    if (id_cliente !== undefined) {
+      updateData.cliente = { connect: { id: id_cliente } };
+    }
+
     return this.prismaTenant.prisma.client.deposito.update({
       where: { id },
-      data: data,
+      data: updateData,
     });
   }
 
