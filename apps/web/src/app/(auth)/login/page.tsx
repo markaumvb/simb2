@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { LoginForm } from "@/components/forms/login-form";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -56,6 +57,9 @@ export default function LoginPage() {
             Entre com suas credenciais para acessar o sistema
           </p>
         </div>
+
+        {/* Formulário de login componentizado */}
+        <LoginForm />
 
         {/* Formulário de login */}
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
