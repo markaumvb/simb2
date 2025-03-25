@@ -1,4 +1,3 @@
-// src/auth/strategies/refresh-token.strategy.ts
 import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
@@ -21,18 +20,12 @@ export class RefreshTokenStrategy extends PassportStrategy(
       'REFRESH_TOKEN_SECRET',
     );
 
-    if (!refreshTokenSecret) {
-      throw new Error('REFRESH_TOKEN_SECRET não está configurado');
-    }
-
     super({
       jwtFromRequest: ExtractJwt.fromBodyField('refreshToken'),
       ignoreExpiration: false,
       secretOrKey: refreshTokenSecret,
       passReqToCallback: true,
     });
-
-    this.logger.log('Refresh Token Strategy inicializada com sucesso');
   }
 
   async validate(req: Request, payload: any) {

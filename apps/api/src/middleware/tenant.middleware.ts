@@ -23,7 +23,7 @@ export class TenantMiddleware implements NestMiddleware {
     const headerTenantId = req.headers['x-tenant-id'];
     if (headerTenantId) {
       req['tenantId'] = Number(headerTenantId);
-      this.logger.log(`Tenant ID extraído do cabeçalho: ${req['tenantId']}`);
+
       return next();
     }
 
@@ -34,17 +34,10 @@ export class TenantMiddleware implements NestMiddleware {
         // Use decode em vez de verify - ISSO É CRÍTICO
         const token = authHeader.substring(7);
 
-        // Adicione um log do token recebido para debug
-        this.logger.debug(`Token recebido: ${token.substring(0, 20)}...`);
-
-        // AQUI ESTÁ A MUDANÇA: decode em vez de verify
         const decoded = this.jwtService.decode(token);
 
         if (decoded && decoded.tenantId) {
           req['tenantId'] = Number(decoded.tenantId);
-          this.logger.debug(`Tenant ID extraído do token: ${req['tenantId']}`);
-        } else {
-          this.logger.warn('Token sem tenantId ou inválido');
         }
       } catch (error) {
         this.logger.error(`Erro ao processar token: ${error.message}`);

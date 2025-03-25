@@ -32,7 +32,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
       const user = await this.authService.validateUser(payload.userId);
 
       if (!user) {
-        this.logger.warn(`Usuário ${payload.userId} não encontrado ou inativo`);
         throw new UnauthorizedException('Não autorizado');
       }
 
@@ -45,7 +44,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
         tenantId: payload.tenantId,
       };
     } catch (error) {
-      this.logger.error(`Erro na validação JWT: ${error.message}`);
       throw new UnauthorizedException('Erro de autenticação');
     }
   }

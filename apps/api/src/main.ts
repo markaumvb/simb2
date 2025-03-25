@@ -41,8 +41,7 @@ async function bootstrap() {
     }`,
   );
 
-  // Verificar variáveis de ambiente importantes
-  logger.log(
+  /*   logger.log(
     `🔥🔥🔥 SECRETKEY: ${process.env.SECRETKEY ? 'Defined' : 'UNDEFINED'}`,
   );
   logger.log(`🔥🔥🔥 EXPIRESIN: ${process.env.EXPIRESIN || 'UNDEFINED'}`);
@@ -50,7 +49,7 @@ async function bootstrap() {
     `🔥🔥🔥 REFRESH_TOKEN_SECRET: ${
       process.env.REFRESH_TOKEN_SECRET ? 'Defined' : 'UNDEFINED'
     }`,
-  );
+  ); */
 
   const app = await NestFactory.create(AppModule);
 
@@ -78,7 +77,7 @@ async function bootstrap() {
         )}`,
       );
     } else {
-      logger.warn('🔥🔥🔥 No passport strategies found');
+      // logger.warn('🔥🔥🔥 No passport strategies found');
     }
   } catch (error) {
     logger.error(`🔥🔥🔥 Error checking passport strategies: ${error.message}`);

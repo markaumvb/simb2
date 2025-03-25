@@ -75,7 +75,6 @@ export class AuthService {
       throw new UnauthorizedException('Credenciais inválidas');
     }
 
-    // Verificar se o usuário está ativo
     if (!user.status) {
       this.logger.warn(`Login falhou: Usuário ${email} está inativo`);
       throw new UnauthorizedException('Usuário está inativo');
@@ -96,7 +95,6 @@ export class AuthService {
     );
 
     if (!accessTokenSecret || !refreshTokenSecret) {
-      this.logger.error('Chaves de segurança não configuradas');
       throw new Error('Configuração de segurança incompleta');
     }
 
@@ -106,9 +104,9 @@ export class AuthService {
       expiresIn: '7d',
     });
 
-    this.logger.log(
-      `Login bem-sucedido para usuário ${email} no tenant ${tenantId}`,
-    );
+    // this.logger.log(
+    //  `Login bem-sucedido para usuário ${email} no tenant ${tenantId}`,
+    //);
 
     // Retornar tokens e informações do usuário
     return {
