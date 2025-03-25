@@ -7,32 +7,24 @@ import {
   Param,
   Delete,
   NotFoundException,
-  UseGuards,
   ParseIntPipe,
   DefaultValuePipe,
   Query,
 } from '@nestjs/common';
 import { ClientesService } from './clientes.service';
-import {
-  ApiBearerAuth,
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiTags,
-} from '@nestjs/swagger';
-
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { UpdateClienteDto } from './dto/update-cliente.dto';
 import { ClienteEntity } from './entities/cliente.entity';
-import { TenantGuard } from '@app/guards/tenant.guard';
-import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
+import { ProtectedRoute } from '@app/decorators/protected-route.decorator';
+
 @ApiTags('Cliente')
 @Controller('clientes')
 export class ClientesController {
   constructor(private readonly clientesService: ClientesService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: ClienteEntity })
   async create(@Body() createClienteDto: CreateClienteDto) {
     return new ClienteEntity(
@@ -41,8 +33,7 @@ export class ClientesController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: ClienteEntity, isArray: true })
   async findAll(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
@@ -56,8 +47,7 @@ export class ClientesController {
   }
 
   @Get('ativo') //as rotas sem parametros como o get, get por id, devem ser inseridas após as rotas sem parametros
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: ClienteEntity, isArray: true })
   async findSituacao(@Query('ativo') ativo: boolean) {
     const cliente = await this.clientesService.findSituacao(ativo);
@@ -66,8 +56,7 @@ export class ClientesController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: ClienteEntity })
   async findOne(@Param('id', ParseIntPipe) id: number) {
     const cliente = new ClienteEntity(await this.clientesService.findOne(id));
@@ -79,8 +68,7 @@ export class ClientesController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: ClienteEntity })
   async update(
     @Param('id') id: number,
@@ -92,8 +80,7 @@ export class ClientesController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: ClienteEntity })
   async remove(@Param('id', ParseIntPipe) id: number) {
     return new ClienteEntity(await this.clientesService.remove(id));

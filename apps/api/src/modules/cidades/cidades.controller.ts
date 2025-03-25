@@ -7,20 +7,13 @@ import {
   Param,
   Delete,
   NotFoundException,
-  UseGuards,
 } from '@nestjs/common';
 import { CidadesService } from './cidades.service';
 import { CreateCidadeDto } from './dto/create-cidade.dto';
 import { UpdateCidadeDto } from './dto/update-cidade.dto';
-import {
-  ApiBearerAuth,
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { CidadeEntity } from './entities/cidade.entity';
-import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
-import { TenantGuard } from '@app/guards/tenant.guard';
+import { ProtectedRoute } from '@app/decorators/protected-route.decorator';
 
 @ApiTags('Cidade')
 @Controller('cidades')
@@ -28,24 +21,21 @@ export class CidadesController {
   constructor(private readonly cidadesService: CidadesService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: CidadeEntity })
   async create(@Body() createCidadeDto: CreateCidadeDto) {
     return new CidadeEntity(await this.cidadesService.create(createCidadeDto));
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: CidadeEntity, isArray: true })
   async findAll() {
     return await this.cidadesService.findAll();
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: CidadeEntity })
   async findOne(@Param('id') id: string) {
     const cidade = await this.cidadesService.findOne(+id);
@@ -56,8 +46,7 @@ export class CidadesController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: CidadeEntity })
   async update(
     @Param('id') id: number,
@@ -67,8 +56,7 @@ export class CidadesController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: CidadeEntity })
   async remove(@Param('id') id: number) {
     return new CidadeEntity(await this.cidadesService.remove(id));

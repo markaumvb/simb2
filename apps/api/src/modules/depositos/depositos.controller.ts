@@ -6,38 +6,29 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
   NotFoundException,
 } from '@nestjs/common';
 import { DepositosService } from './depositos.service';
 import { CreateDepositoDto } from './dto/create-deposito.dto';
 import { UpdateDepositoDto } from './dto/update-deposito.dto';
-import {
-  ApiBearerAuth,
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiTags,
-} from '@nestjs/swagger';
-
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ProtectedRoute } from '@app/decorators/protected-route.decorator';
 import { DepositoEntity } from './entities/deposito.entity';
-import { TenantGuard } from '@app/guards/tenant.guard';
-import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
+
 @ApiTags('Depósitos')
 @Controller('depositos')
 export class DepositosController {
   constructor(private readonly depositosService: DepositosService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: DepositoEntity })
   async create(@Body() data: CreateDepositoDto) {
     return new DepositoEntity(await this.depositosService.create(data));
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: DepositoEntity, isArray: true })
   async findAll() {
     const deposito = await this.depositosService.findAll();
@@ -45,8 +36,7 @@ export class DepositosController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: DepositoEntity })
   async findOne(@Param('id') id: number) {
     const deposito = new DepositoEntity(
@@ -59,16 +49,14 @@ export class DepositosController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: DepositoEntity })
   async update(@Param('id') id: number, @Body() data: UpdateDepositoDto) {
     return new DepositoEntity(await this.depositosService.update(id, data));
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: DepositoEntity })
   async remove(@Param('id') id: number) {
     return new DepositoEntity(await this.depositosService.remove(id));

@@ -8,21 +8,14 @@ import {
   Delete,
   ParseIntPipe,
   NotFoundException,
-  UseGuards,
   Query,
 } from '@nestjs/common';
 import { FuncionariosService } from './funcionarios.service';
 import { CreateFuncionarioDto } from './dto/create-funcionario.dto';
 import { UpdateFuncionarioDto } from './dto/update-funcionario.dto';
-import {
-  ApiBearerAuth,
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { FuncionarioEntity } from './entities/funcionario.entity';
-import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
-import { TenantGuard } from '@app/guards/tenant.guard';
+import { ProtectedRoute } from '@app/decorators/protected-route.decorator';
 
 @ApiTags('Funcionario')
 @Controller('funcionarios')
@@ -36,8 +29,7 @@ export class FuncionariosController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: FuncionarioEntity, isArray: true })
   async findAll() {
     const funcionario = await this.funcionariosService.findAll();
@@ -45,8 +37,7 @@ export class FuncionariosController {
   }
 
   @Get('ativo') //as rotas sem parametros como o get, get por id, devem ser inseridas após as rotas sem parametros
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: FuncionarioEntity, isArray: true })
   async findSituacao(@Query('ativo') ativo: boolean) {
     const cliente = await this.funcionariosService.findSituacao(ativo);
@@ -55,8 +46,7 @@ export class FuncionariosController {
   }
 
   @Get('email') //as rotas sem parametros como o get, get por id, devem ser inseridas após as rotas sem parametros
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: FuncionarioEntity, isArray: true })
   async findEmail(@Query('email') email: string) {
     const cliente = await this.funcionariosService.findEmail(email);
@@ -65,8 +55,7 @@ export class FuncionariosController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: FuncionarioEntity })
   async findOne(@Param('id') id: number) {
     const funcionario = new FuncionarioEntity(
@@ -79,8 +68,7 @@ export class FuncionariosController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: FuncionarioEntity })
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -92,8 +80,7 @@ export class FuncionariosController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: FuncionarioEntity })
   async remove(@Param('id', ParseIntPipe) id: number) {
     return new FuncionarioEntity(await this.funcionariosService.remove(id));

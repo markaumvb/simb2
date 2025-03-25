@@ -6,21 +6,14 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
   NotFoundException,
 } from '@nestjs/common';
 import { TipoDespesasService } from './tipo-despesas.service';
 import { CreateTipoDespesaDto } from './dto/create-tipo-despesa.dto';
 import { UpdateTipoDespesaDto } from './dto/update-tipo-despesa.dto';
-import {
-  ApiBearerAuth,
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiTags,
-} from '@nestjs/swagger';
-import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ProtectedRoute } from '@app/decorators/protected-route.decorator';
 import { TipoDespesaEntity } from './entities/tipo-despesa.entity';
-import { TenantGuard } from '@app/guards/tenant.guard';
 
 @ApiTags('Tipos de despesas')
 @Controller('tipo-despesas')
@@ -28,16 +21,14 @@ export class TipoDespesasController {
   constructor(private readonly tipoDespesasService: TipoDespesasService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: TipoDespesaEntity })
   async create(@Body() data: CreateTipoDespesaDto) {
     return new TipoDespesaEntity(await this.tipoDespesasService.create(data));
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: TipoDespesaEntity, isArray: true })
   async findAll() {
     const ponto = await this.tipoDespesasService.findAll();
@@ -45,8 +36,7 @@ export class TipoDespesasController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: TipoDespesaEntity })
   async findOne(@Param('id') id: number) {
     const ponto = new TipoDespesaEntity(
@@ -60,8 +50,7 @@ export class TipoDespesasController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: TipoDespesaEntity })
   async update(@Param('id') id: number, @Body() data: UpdateTipoDespesaDto) {
     return new TipoDespesaEntity(
@@ -70,8 +59,7 @@ export class TipoDespesasController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: TipoDespesaEntity })
   async remove(@Param('id') id: number) {
     return new TipoDespesaEntity(await this.tipoDespesasService.remove(id));

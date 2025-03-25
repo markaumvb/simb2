@@ -7,20 +7,13 @@ import {
   Param,
   Delete,
   NotFoundException,
-  UseGuards,
 } from '@nestjs/common';
 import { DebitosClientesService } from './debitos-clientes.service';
 import { CreateDebitosClienteDto } from './dto/create-debitos-cliente.dto';
 import { UpdateDebitosClienteDto } from './dto/update-debitos-cliente.dto';
-import {
-  ApiBearerAuth,
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiTags,
-} from '@nestjs/swagger';
-import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { DebitosClienteEntity } from './entities/debitos-cliente.entity';
-import { TenantGuard } from '@app/guards/tenant.guard';
+import { ProtectedRoute } from '@app/decorators/protected-route.decorator';
 
 @ApiTags('Débitos dos clientes')
 @Controller('debitos-clientes')
@@ -30,8 +23,7 @@ export class DebitosClientesController {
   ) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: DebitosClienteEntity })
   async create(@Body() createDebitosClienteDto: CreateDebitosClienteDto) {
     return new DebitosClienteEntity(
@@ -40,8 +32,7 @@ export class DebitosClientesController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: DebitosClienteEntity, isArray: true })
   async findAll() {
     const debitos = await this.debitosClientesService.findAll();
@@ -49,8 +40,7 @@ export class DebitosClientesController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: DebitosClienteEntity })
   async findOne(@Param('id') id: number) {
     const debitos = new DebitosClienteEntity(
@@ -64,8 +54,7 @@ export class DebitosClientesController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: DebitosClienteEntity })
   async update(
     @Param('id') id: number,
@@ -77,8 +66,7 @@ export class DebitosClientesController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: DebitosClienteEntity })
   async remove(@Param('id') id: number) {
     return new DebitosClienteEntity(

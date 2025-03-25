@@ -7,30 +7,23 @@ import {
   Param,
   Delete,
   ParseIntPipe,
-  UseGuards,
   NotFoundException,
 } from '@nestjs/common';
 import { TipoMesasService } from './tipo-mesas.service';
 import { CreateTipoMesaDto } from './dto/create-tipo-mesa.dto';
 import { UpdateTipoMesaDto } from './dto/update-tipo-mesa.dto';
-import {
-  ApiBearerAuth,
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ProtectedRoute } from '@app/decorators/protected-route.decorator';
 
 import { TipoMesaEntity } from './entities/tipo-mesa.entity';
-import { TenantGuard } from '@app/guards/tenant.guard';
-import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
+
 @ApiTags('Tipos de Mesas')
 @Controller('tipo-mesas')
 export class TipoMesasController {
   constructor(private readonly tipoMesasService: TipoMesasService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: TipoMesaEntity })
   async create(@Body() createTipoMesaDto: CreateTipoMesaDto) {
     return new TipoMesaEntity(
@@ -39,8 +32,7 @@ export class TipoMesasController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: TipoMesaEntity, isArray: true })
   async findAll() {
     const tipo = await this.tipoMesasService.findAll();
@@ -48,8 +40,7 @@ export class TipoMesasController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: TipoMesaEntity })
   async findOne(@Param('id', ParseIntPipe) id: number) {
     const tipo = new TipoMesaEntity(await this.tipoMesasService.findOne(id));
@@ -60,8 +51,7 @@ export class TipoMesasController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: TipoMesaEntity })
   async update(
     @Param('id') id: number,
@@ -73,8 +63,7 @@ export class TipoMesasController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: TipoMesaEntity })
   async remove(@Param('id', ParseIntPipe) id: number) {
     return new TipoMesaEntity(await this.tipoMesasService.remove(id));

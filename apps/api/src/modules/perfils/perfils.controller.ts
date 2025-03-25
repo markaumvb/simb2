@@ -7,20 +7,13 @@ import {
   Param,
   Delete,
   NotFoundException,
-  UseGuards,
 } from '@nestjs/common';
 import { PerfilsService } from './perfils.service';
 import { CreatePerfilDto } from './dto/create-perfil.dto';
 import { UpdatePerfilDto } from './dto/update-perfil.dto';
-import {
-  ApiBearerAuth,
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { PerfilEntity } from './entities/perfil.entity';
-import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
-import { TenantGuard } from '@app/guards/tenant.guard';
+import { ProtectedRoute } from '@app/decorators/protected-route.decorator';
 
 @ApiTags('Perfil para usuários')
 @Controller('perfils')
@@ -28,16 +21,14 @@ export class PerfilsController {
   constructor(private readonly perfilsService: PerfilsService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: PerfilEntity })
   async create(@Body() data: CreatePerfilDto) {
     return new PerfilEntity(await this.perfilsService.create(data));
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: PerfilEntity, isArray: true })
   async findAll() {
     const mesa = await this.perfilsService.findAll();
@@ -45,8 +36,7 @@ export class PerfilsController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: PerfilEntity })
   async findOne(@Param('id') id: number) {
     const mesa = new PerfilEntity(await this.perfilsService.findOne(id));
@@ -58,8 +48,7 @@ export class PerfilsController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: PerfilEntity })
   async update(
     @Param('id') id: number,
@@ -71,8 +60,7 @@ export class PerfilsController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: PerfilEntity })
   async remove(@Param('id') id: number) {
     return new PerfilEntity(await this.perfilsService.remove(id));

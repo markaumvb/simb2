@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { UpdateClienteDto } from './dto/update-cliente.dto';
 import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
@@ -14,6 +14,7 @@ export class ClientesService {
   }
 
   async findAll(page = 1, limit = 10) {
+    this.ensureTenantContext();
     const skip = (page - 1) * limit;
 
     const [data, total] = await Promise.all([
@@ -65,5 +66,17 @@ export class ClientesService {
 
   async remove(id: number) {
     return this.prismaTenant.prisma.client.cliente.delete({ where: { id } });
+  }
+
+  private ensureTenantContext() {
+    if (!this.prismaTenant.currentTenantId) {
+      throw new UnauthorizedException('Contexto de tenant não encontrado');
+    }
+
+    // Opcional: log para auditoria
+    Logger.debug(
+      `Operação executada no tenant: ${this.prismaTenant.currentTenantId}`,
+      this.constructor.name,
+    );
   }
 }

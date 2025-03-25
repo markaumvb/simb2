@@ -6,21 +6,14 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
   NotFoundException,
 } from '@nestjs/common';
 import { BrindesService } from './brindes.service';
 import { CreateBrindeDto } from './dto/create-brinde.dto';
 import { UpdateBrindeDto } from './dto/update-brinde.dto';
-import {
-  ApiBearerAuth,
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiTags,
-} from '@nestjs/swagger';
-import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ProtectedRoute } from '@app/decorators/protected-route.decorator';
 import { BrindeEntity } from './entities/brinde.entity';
-import { TenantGuard } from '@app/guards/tenant.guard';
 
 @ApiTags('Brindes')
 @Controller('brindes')
@@ -28,16 +21,14 @@ export class BrindesController {
   constructor(private readonly brindesService: BrindesService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: BrindeEntity })
   async create(@Body() data: CreateBrindeDto) {
     return new BrindeEntity(await this.brindesService.create(data));
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: BrindeEntity, isArray: true })
   async findAll() {
     const brinde = await this.brindesService.findAll();
@@ -45,8 +36,7 @@ export class BrindesController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: BrindeEntity })
   async findOne(@Param('id') id: number) {
     const brinde = new BrindeEntity(await this.brindesService.findOne(id));
@@ -57,8 +47,7 @@ export class BrindesController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: BrindeEntity })
   async update(
     @Param('id') id: number,
@@ -70,8 +59,7 @@ export class BrindesController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: BrindeEntity })
   async remove(@Param('id') id: number) {
     return new BrindeEntity(await this.brindesService.remove(id));

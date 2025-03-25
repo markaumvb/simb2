@@ -7,21 +7,14 @@ import {
   Param,
   Delete,
   ParseIntPipe,
-  UseGuards,
   NotFoundException,
 } from '@nestjs/common';
 import { ComposicoesService } from './composicoes.service';
 import { CreateComposicoeDto } from './dto/create-composicoe.dto';
 import { UpdateComposicoeDto } from './dto/update-composicoe.dto';
-import {
-  ApiBearerAuth,
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiTags,
-} from '@nestjs/swagger';
-import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ProtectedRoute } from '@app/decorators/protected-route.decorator';
 import { ComposicoeEntity } from './entities/composicoe.entity';
-import { TenantGuard } from '@app/guards/tenant.guard';
 
 @ApiTags('Composições de Gruas')
 @Controller('composicoes')
@@ -29,16 +22,14 @@ export class ComposicoesController {
   constructor(private readonly composicoesService: ComposicoesService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: ComposicoeEntity })
   async create(@Body() data: CreateComposicoeDto) {
     return new ComposicoeEntity(await this.composicoesService.create(data));
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: ComposicoeEntity, isArray: true })
   async findAll() {
     const composicao = await this.composicoesService.findAll();
@@ -46,8 +37,7 @@ export class ComposicoesController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: ComposicoeEntity })
   async findOne(@Param('id') id: number) {
     const mesa = new ComposicoeEntity(
@@ -61,8 +51,7 @@ export class ComposicoesController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: ComposicoeEntity })
   async update(
     @Param('id') id: number,
@@ -74,8 +63,7 @@ export class ComposicoesController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: ComposicoeEntity })
   async remove(@Param('id', ParseIntPipe) id: number) {
     return new ComposicoeEntity(await this.composicoesService.remove(id));

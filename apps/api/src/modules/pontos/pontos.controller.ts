@@ -6,21 +6,14 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
   NotFoundException,
 } from '@nestjs/common';
 import { PontosService } from './pontos.service';
 import { CreatePontoDto } from './dto/create-ponto.dto';
 import { UpdatePontoDto } from './dto/update-ponto.dto';
-import {
-  ApiBearerAuth,
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiTags,
-} from '@nestjs/swagger';
-import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ProtectedRoute } from '@app/decorators/protected-route.decorator';
 import { PontoEntity } from './entities/ponto.entity';
-import { TenantGuard } from '@app/guards/tenant.guard';
 
 @ApiTags('Pontos')
 @Controller('pontos')
@@ -28,16 +21,14 @@ export class PontosController {
   constructor(private readonly pontosService: PontosService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: PontoEntity })
   async create(@Body() data: CreatePontoDto) {
     return new PontoEntity(await this.pontosService.create(data));
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: PontoEntity, isArray: true })
   async findAll() {
     const ponto = await this.pontosService.findAll();
@@ -45,8 +36,7 @@ export class PontosController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: PontoEntity })
   async findOne(@Param('id') id: number) {
     const ponto = new PontoEntity(await this.pontosService.findOne(id));
@@ -58,16 +48,14 @@ export class PontosController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: PontoEntity })
   async update(@Param('id') id: number, @Body() data: UpdatePontoDto) {
     return new PontoEntity(await this.pontosService.update(id, data));
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: PontoEntity })
   async remove(@Param('id') id: number) {
     return new PontoEntity(await this.pontosService.remove(id));

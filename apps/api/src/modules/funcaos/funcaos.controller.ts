@@ -6,39 +6,30 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
   ParseIntPipe,
   NotFoundException,
 } from '@nestjs/common';
 import { FuncaosService } from './funcaos.service';
 import { CreateFuncaoDto } from './dto/create-funcao.dto';
 import { UpdateFuncaoDto } from './dto/update-funcao.dto';
-import {
-  ApiBearerAuth,
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiTags,
-} from '@nestjs/swagger';
-
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ProtectedRoute } from '@app/decorators/protected-route.decorator';
 import { FuncaoEntity } from './entities/funcao.entity';
-import { TenantGuard } from '@app/guards/tenant.guard';
-import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
+
 @ApiTags('Funções de usuários')
 @Controller('funcaos')
 export class FuncaosController {
   constructor(private readonly funcaosService: FuncaosService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: FuncaoEntity })
   async create(@Body() createFuncaoDto: CreateFuncaoDto) {
     return new FuncaoEntity(await this.funcaosService.create(createFuncaoDto));
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: FuncaoEntity, isArray: true })
   async findAll() {
     const funcao = await this.funcaosService.findAll();
@@ -46,8 +37,7 @@ export class FuncaosController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: FuncaoEntity })
   async findOne(@Param('id', ParseIntPipe) id: number) {
     const funcao = new FuncaoEntity(await this.funcaosService.findOne(id));
@@ -58,8 +48,7 @@ export class FuncaosController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: FuncaoEntity })
   async update(
     @Param('id') id: number,
@@ -71,8 +60,7 @@ export class FuncaosController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: FuncaoEntity })
   async remove(@Param('id') id: number) {
     return new FuncaoEntity(await this.funcaosService.remove(id));

@@ -7,20 +7,15 @@ import {
   Param,
   Delete,
   NotFoundException,
-  UseGuards,
 } from '@nestjs/common';
 import { AcertoFechamentosService } from './acerto-fechamentos.service';
 import { CreateAcertoFechamentoDto } from './dto/create-acerto-fechamento.dto';
 import { UpdateAcertoFechamentoDto } from './dto/update-acerto-fechamento.dto';
-import {
-  ApiBearerAuth,
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiTags,
-} from '@nestjs/swagger';
-import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+
 import { AcertoFechamentoEntity } from './entities/acerto-fechamento.entity';
-import { TenantGuard } from '@app/guards/tenant.guard';
+
+import { ProtectedRoute } from '@app/decorators/protected-route.decorator';
 
 @ApiTags('Acerto de fechamento de linha')
 @Controller('acerto-fechamentos')
@@ -30,8 +25,7 @@ export class AcertoFechamentosController {
   ) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: AcertoFechamentoEntity })
   async create(@Body() data: CreateAcertoFechamentoDto) {
     return new AcertoFechamentoEntity(
@@ -40,8 +34,7 @@ export class AcertoFechamentosController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: AcertoFechamentoEntity, isArray: true })
   async findAll() {
     const acerto = await this.acertoFechamentosService.findAll();
@@ -49,8 +42,7 @@ export class AcertoFechamentosController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: AcertoFechamentoEntity })
   async findOne(@Param('id') id: number) {
     const acerto = new AcertoFechamentoEntity(
@@ -63,8 +55,7 @@ export class AcertoFechamentosController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: AcertoFechamentoEntity })
   async update(
     @Param('id') id: number,
@@ -76,8 +67,7 @@ export class AcertoFechamentosController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: AcertoFechamentoEntity })
   async remove(@Param('id') id: number) {
     return new AcertoFechamentoEntity(

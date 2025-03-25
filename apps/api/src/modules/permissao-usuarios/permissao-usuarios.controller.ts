@@ -7,20 +7,13 @@ import {
   Param,
   Delete,
   NotFoundException,
-  UseGuards,
 } from '@nestjs/common';
 import { PermissaoUsuariosService } from './permissao-usuarios.service';
 import { CreatePermissaoUsuarioDto } from './dto/create-permissao-usuario.dto';
 import { UpdatePermissaoUsuarioDto } from './dto/update-permissao-usuario.dto';
-import {
-  ApiBearerAuth,
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiTags,
-} from '@nestjs/swagger';
-import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ProtectedRoute } from '@app/decorators/protected-route.decorator';
 import { PermissaoUsuarioEntity } from './entities/permissao-usuario.entity';
-import { TenantGuard } from '@app/guards/tenant.guard';
 
 @ApiTags('Permissões de usuários nos sistemas')
 @Controller('permissao-usuarios')
@@ -30,8 +23,7 @@ export class PermissaoUsuariosController {
   ) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: PermissaoUsuarioEntity })
   async create(@Body() data: CreatePermissaoUsuarioDto) {
     return new PermissaoUsuarioEntity(
@@ -40,8 +32,7 @@ export class PermissaoUsuariosController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: PermissaoUsuarioEntity, isArray: true })
   async findAll() {
     const permissao = await this.permissaoUsuariosService.findAll();
@@ -49,8 +40,7 @@ export class PermissaoUsuariosController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: PermissaoUsuarioEntity })
   async findOne(@Param('id') id: number) {
     const permissao = new PermissaoUsuarioEntity(
@@ -63,8 +53,7 @@ export class PermissaoUsuariosController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: PermissaoUsuarioEntity })
   async update(
     @Param('id') id: number,
@@ -76,8 +65,7 @@ export class PermissaoUsuariosController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: PermissaoUsuarioEntity })
   async remove(@Param('id') id: number) {
     return new PermissaoUsuarioEntity(

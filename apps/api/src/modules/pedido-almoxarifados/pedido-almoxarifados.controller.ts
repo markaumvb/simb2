@@ -6,21 +6,14 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
   NotFoundException,
 } from '@nestjs/common';
 import { PedidoAlmoxarifadosService } from './pedido-almoxarifados.service';
 import { CreatePedidoAlmoxarifadoDto } from './dto/create-pedido-almoxarifado.dto';
 import { UpdatePedidoAlmoxarifadoDto } from './dto/update-pedido-almoxarifado.dto';
-import {
-  ApiBearerAuth,
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { PedidoAlmoxarifadoEntity } from './entities/pedido-almoxarifado.entity';
-import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
-import { TenantGuard } from '@app/guards/tenant.guard';
+import { ProtectedRoute } from '@app/decorators/protected-route.decorator';
 
 @ApiTags('Pedidos de almoxarifado')
 @Controller('pedido-almoxarifados')
@@ -30,8 +23,7 @@ export class PedidoAlmoxarifadosController {
   ) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: PedidoAlmoxarifadoEntity })
   async create(@Body() data: CreatePedidoAlmoxarifadoDto) {
     return new PedidoAlmoxarifadoEntity(
@@ -40,8 +32,7 @@ export class PedidoAlmoxarifadosController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: PedidoAlmoxarifadoEntity, isArray: true })
   async findAll() {
     const pedido = await this.pedidoAlmoxarifadosService.findAll();
@@ -49,8 +40,7 @@ export class PedidoAlmoxarifadosController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: PedidoAlmoxarifadoEntity })
   async findOne(@Param('id') id: number) {
     const pedido = new PedidoAlmoxarifadoEntity(
@@ -65,8 +55,7 @@ export class PedidoAlmoxarifadosController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: PedidoAlmoxarifadoEntity })
   async update(
     @Param('id') id: number,
@@ -81,8 +70,7 @@ export class PedidoAlmoxarifadosController {
   }
 
   @Delete(':id')
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, TenantGuard)
+  @ProtectedRoute()
   @ApiOkResponse({ type: PedidoAlmoxarifadoEntity })
   async remove(@Param('id') id: number) {
     return new PedidoAlmoxarifadoEntity(

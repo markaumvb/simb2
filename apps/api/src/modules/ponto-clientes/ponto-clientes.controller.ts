@@ -6,21 +6,14 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
   NotFoundException,
 } from '@nestjs/common';
 import { PontoClientesService } from './ponto-clientes.service';
 import { CreatePontoClienteDto } from './dto/create-ponto-cliente.dto';
 import { UpdatePontoClienteDto } from './dto/update-ponto-cliente.dto';
-import {
-  ApiBearerAuth,
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiTags,
-} from '@nestjs/swagger';
-import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ProtectedRoute } from '@app/decorators/protected-route.decorator';
 import { PontoClienteEntity } from './entities/ponto-cliente.entity';
-import { TenantGuard } from '@app/guards/tenant.guard';
 
 @ApiTags('Pontos de Clientes')
 @Controller('ponto-clientes')
@@ -28,16 +21,14 @@ export class PontoClientesController {
   constructor(private readonly pontoClientesService: PontoClientesService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: PontoClienteEntity })
   async create(@Body() data: CreatePontoClienteDto) {
     return new PontoClienteEntity(await this.pontoClientesService.create(data));
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: PontoClienteEntity, isArray: true })
   async findAll() {
     const pontocliente = await this.pontoClientesService.findAll();
@@ -45,8 +36,7 @@ export class PontoClientesController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: PontoClienteEntity })
   async findOne(@Param('id') id: number) {
     const pontocliente = new PontoClienteEntity(
@@ -60,8 +50,7 @@ export class PontoClientesController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: PontoClienteEntity })
   async update(@Param('id') id: number, @Body() data: UpdatePontoClienteDto) {
     return new PontoClienteEntity(
@@ -70,8 +59,7 @@ export class PontoClientesController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: PontoClienteEntity })
   async remove(@Param('id') id: number) {
     return new PontoClienteEntity(await this.pontoClientesService.remove(id));

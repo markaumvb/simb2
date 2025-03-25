@@ -7,20 +7,13 @@ import {
   Param,
   Delete,
   NotFoundException,
-  UseGuards,
 } from '@nestjs/common';
 import { CobrancasService } from './cobrancas.service';
 import { CreateCobrancaDto } from './dto/create-cobranca.dto';
 import { UpdateCobrancaDto } from './dto/update-cobranca.dto';
-import {
-  ApiBearerAuth,
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiTags,
-} from '@nestjs/swagger';
-import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ProtectedRoute } from '@app/decorators/protected-route.decorator';
 import { CobrancaEntitity } from './entities/cobranca.entity';
-import { TenantGuard } from '@app/guards/tenant.guard';
 
 @ApiTags('Cobranças')
 @Controller('cobrancas')
@@ -28,16 +21,14 @@ export class CobrancasController {
   constructor(private readonly cobrancasService: CobrancasService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: CobrancaEntitity })
   async create(@Body() data: CreateCobrancaDto) {
     return new CobrancaEntitity(await this.cobrancasService.create(data));
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: CobrancaEntitity, isArray: true })
   async findAll() {
     const cobranca = await this.cobrancasService.findAll();
@@ -45,8 +36,7 @@ export class CobrancasController {
   }
 
   @Get(':mesa')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: CobrancaEntitity })
   async findCobrancaMesa(@Param('mesa') mesa: number) {
     const cobrancaMesa = await this.cobrancasService.findCobrancaMesa(mesa);
@@ -54,8 +44,7 @@ export class CobrancasController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: CobrancaEntitity })
   async findOne(@Param('id') id: number) {
     const cobranca = new CobrancaEntitity(
@@ -68,8 +57,7 @@ export class CobrancasController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: CobrancaEntitity })
   async update(
     @Param('id') id: number,
@@ -81,8 +69,7 @@ export class CobrancasController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: CobrancaEntitity })
   async remove(@Param('id') id: number) {
     return new CobrancaEntitity(await this.cobrancasService.remove(id));

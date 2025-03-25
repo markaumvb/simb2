@@ -6,7 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
   NotFoundException,
   ParseIntPipe,
   Query,
@@ -14,15 +13,9 @@ import {
 import { DespesasService } from './despesas.service';
 import { CreateDespesaDto } from './dto/create-despesa.dto';
 import { UpdateDespesaDto } from './dto/update-despesa.dto';
-import {
-  ApiBearerAuth,
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiTags,
-} from '@nestjs/swagger';
-import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ProtectedRoute } from '@app/decorators/protected-route.decorator';
 import { DespesaEntity } from './entities/despesa.entity';
-import { TenantGuard } from '@app/guards/tenant.guard';
 
 @ApiTags('Despesas')
 @Controller('despesas')
@@ -30,16 +23,14 @@ export class DespesasController {
   constructor(private readonly despesasService: DespesasService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: DespesaEntity })
   async create(@Body() data: CreateDespesaDto) {
     return new DespesaEntity(await this.despesasService.create(data));
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: DespesaEntity, isArray: true })
   async findAll() {
     const despesa = await this.despesasService.findAll();
@@ -47,8 +38,7 @@ export class DespesasController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: DespesaEntity })
   async findOne(@Param('id', ParseIntPipe) id: number) {
     const despesa = new DespesaEntity(await this.despesasService.findOne(id));
@@ -60,8 +50,7 @@ export class DespesasController {
   }
 
   @Get(':movimentacao')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: DespesaEntity, isArray: true })
   async findbyMovimentacao(@Query('movimentacao') movimentacao: number) {
     const despesa = await this.despesasService.findbyMovimentacao(movimentacao);
@@ -69,8 +58,7 @@ export class DespesasController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: DespesaEntity })
   async update(
     @Param('id') id: number,
@@ -82,8 +70,7 @@ export class DespesasController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: DespesaEntity })
   async remove(@Param('id') id: number) {
     return new DespesaEntity(await this.despesasService.remove(id));

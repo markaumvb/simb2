@@ -1,16 +1,9 @@
-import {
-  Controller,
-  Get,
-  Param,
-  UseGuards,
-  NotFoundException,
-} from '@nestjs/common';
+import { Controller, Get, Param, NotFoundException } from '@nestjs/common';
 import { HistoricoPontosService } from './historico-pontos.service';
-import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
-import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ProtectedRoute } from '@app/decorators/protected-route.decorator';
 import { HistoricoPontoEntity } from './entities/historico-ponto.entity';
-import { TenantGuard } from '@app/guards/tenant.guard';
 
 @ApiTags('Histórico de Ponto')
 @Controller('historico-pontos')
@@ -20,8 +13,7 @@ export class HistoricoPontosController {
   ) {}
 
   @Get()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: HistoricoPontoEntity, isArray: true })
   async findAll() {
     const historico = await this.historicoPontosService.findAll();
@@ -29,8 +21,7 @@ export class HistoricoPontosController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: HistoricoPontoEntity })
   async findOne(@Param('id') id: number) {
     const historico = new HistoricoPontoEntity(

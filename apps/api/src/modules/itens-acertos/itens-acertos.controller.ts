@@ -6,21 +6,14 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
   NotFoundException,
 } from '@nestjs/common';
 import { ItensAcertosService } from './itens-acertos.service';
 import { CreateItensAcertoDto } from './dto/create-itens-acerto.dto';
 import { UpdateItensAcertoDto } from './dto/update-itens-acerto.dto';
-import {
-  ApiBearerAuth,
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { ItensAcertoEntity } from './entities/itens-acerto.entity';
-import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
-import { TenantGuard } from '@app/guards/tenant.guard';
+import { ProtectedRoute } from '@app/decorators/protected-route.decorator';
 
 @ApiTags('Itens de Acertos')
 @Controller('itens-acertos')
@@ -29,15 +22,13 @@ export class ItensAcertosController {
 
   @Post()
   @ApiCreatedResponse({ type: ItensAcertoEntity })
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   async create(@Body() data: CreateItensAcertoDto) {
     return new ItensAcertoEntity(await this.itensAcertosService.create(data));
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: ItensAcertoEntity, isArray: true })
   async findAll() {
     const itens = await this.itensAcertosService.findAll();
@@ -45,8 +36,7 @@ export class ItensAcertosController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: ItensAcertoEntity })
   async findOne(@Param('id') id: number) {
     const itens = new ItensAcertoEntity(
@@ -59,8 +49,7 @@ export class ItensAcertosController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: ItensAcertoEntity })
   async update(
     @Param('id') id: number,
@@ -71,8 +60,7 @@ export class ItensAcertosController {
     );
   }
   @Delete(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: ItensAcertoEntity })
   async remove(@Param('id') id: number) {
     return new ItensAcertoEntity(await this.itensAcertosService.remove(id));

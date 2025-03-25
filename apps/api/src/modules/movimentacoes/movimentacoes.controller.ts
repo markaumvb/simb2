@@ -6,22 +6,15 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
   NotFoundException,
   Query,
 } from '@nestjs/common';
 import { MovimentacoesService } from './movimentacoes.service';
 import { CreateMovimentacoeDto } from './dto/create-movimentacoe.dto';
 import { UpdateMovimentacoeDto } from './dto/update-movimentacoe.dto';
-import {
-  ApiBearerAuth,
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiTags,
-} from '@nestjs/swagger';
-import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ProtectedRoute } from '@app/decorators/protected-route.decorator';
 import { MovimentacoeEntity } from './entities/movimentacoe.entity';
-import { TenantGuard } from '@app/guards/tenant.guard';
 
 @ApiTags('Movimentações por linhas')
 @Controller('movimentacoes')
@@ -29,16 +22,14 @@ export class MovimentacoesController {
   constructor(private readonly movimentacoesService: MovimentacoesService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: MovimentacoeEntity })
   async create(@Body() data: CreateMovimentacoeDto) {
     return new MovimentacoeEntity(await this.movimentacoesService.create(data));
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: MovimentacoeEntity, isArray: true })
   async findAll() {
     const movimentacao = await this.movimentacoesService.findAll();
@@ -46,8 +37,7 @@ export class MovimentacoesController {
   }
 
   @Get('status') //as rotas sem parametros como o get, get por id, devem ser inseridas após as rotas sem parametros
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: MovimentacoeEntity, isArray: true })
   async findSituacao(@Query('status') status: boolean) {
     const cliente = await this.movimentacoesService.findSituacao(status);
@@ -56,8 +46,7 @@ export class MovimentacoesController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: MovimentacoeEntity })
   async findOne(@Param('id') id: number) {
     const movimentacao = new MovimentacoeEntity(
@@ -71,8 +60,7 @@ export class MovimentacoesController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: MovimentacoeEntity })
   async update(
     @Param('id') id: number,
@@ -84,8 +72,7 @@ export class MovimentacoesController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: MovimentacoeEntity })
   async remove(@Param('id') id: number) {
     return new MovimentacoeEntity(await this.movimentacoesService.remove(id));

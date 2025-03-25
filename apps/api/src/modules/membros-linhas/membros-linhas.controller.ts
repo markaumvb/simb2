@@ -6,21 +6,14 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
   NotFoundException,
 } from '@nestjs/common';
 import { MembrosLinhasService } from './membros-linhas.service';
-import {
-  ApiBearerAuth,
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { CreateMembrosLinhaDto } from './dto/create-membros-linha.dto';
 import { UpdateMembrosLinhaDto } from './dto/update-membros-linha.dto';
-import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
+import { ProtectedRoute } from '@app/decorators/protected-route.decorator';
 import { MembrosLinhaEntity } from './entities/membros-linha.entity';
-import { TenantGuard } from '@app/guards/tenant.guard';
 
 @ApiTags('Membros da linha')
 @Controller('membros-linhas')
@@ -28,16 +21,14 @@ export class MembrosLinhasController {
   constructor(private readonly membrosLinhasService: MembrosLinhasService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: MembrosLinhaEntity })
   async create(@Body() data: CreateMembrosLinhaDto) {
     return new MembrosLinhaEntity(await this.membrosLinhasService.create(data));
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: MembrosLinhaEntity, isArray: true })
   async findAll() {
     const membro = await this.membrosLinhasService.findAll();
@@ -45,8 +36,7 @@ export class MembrosLinhasController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: MembrosLinhaEntity })
   async findOne(@Param('id') id: number) {
     const membro = new MembrosLinhaEntity(
@@ -60,8 +50,7 @@ export class MembrosLinhasController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: MembrosLinhaEntity })
   async update(
     @Param('id') id: number,
@@ -73,8 +62,7 @@ export class MembrosLinhasController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: MembrosLinhaEntity })
   async remove(@Param('id') id: number) {
     return new MembrosLinhaEntity(await this.membrosLinhasService.remove(id));

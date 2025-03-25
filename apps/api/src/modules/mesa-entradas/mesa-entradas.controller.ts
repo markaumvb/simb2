@@ -6,37 +6,28 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
   NotFoundException,
 } from '@nestjs/common';
 import { MesaEntradasService } from './mesa-entradas.service';
 import { CreateMesaEntradaDto } from './dto/create-mesa-entrada.dto';
 import { UpdateMesaEntradaDto } from './dto/update-mesa-entrada.dto';
-import {
-  ApiBearerAuth,
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiTags,
-} from '@nestjs/swagger';
-import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ProtectedRoute } from '@app/decorators/protected-route.decorator';
 import { MesaEntradaEntity } from './entities/mesa-entrada.entity';
-import { TenantGuard } from '@app/guards/tenant.guard';
 
 @ApiTags('Entradas de Mesas em pontos')
 @Controller('mesa-entradas')
 export class MesaEntradasController {
   constructor(private readonly mesaEntradasService: MesaEntradasService) {}
 
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, TenantGuard)
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: MesaEntradaEntity })
   @Post()
   async create(@Body() data: CreateMesaEntradaDto) {
     return new MesaEntradaEntity(await this.mesaEntradasService.create(data));
   }
 
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, TenantGuard)
+  @ProtectedRoute()
   @ApiOkResponse({ type: MesaEntradaEntity, isArray: true })
   @Get()
   async findAll() {
@@ -44,8 +35,7 @@ export class MesaEntradasController {
     return mesa.map((mes) => new MesaEntradaEntity(mes));
   }
 
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, TenantGuard)
+  @ProtectedRoute()
   @ApiOkResponse({ type: MesaEntradaEntity })
   @Get(':id')
   async findOne(@Param('id') id: number) {
@@ -59,8 +49,7 @@ export class MesaEntradasController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: MesaEntradaEntity })
   async update(@Param('id') id: number, @Body() data: UpdateMesaEntradaDto) {
     return new MesaEntradaEntity(
@@ -68,8 +57,7 @@ export class MesaEntradasController {
     );
   }
 
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, TenantGuard)
+  @ProtectedRoute()
   @ApiOkResponse({ type: MesaEntradaEntity })
   @Delete(':id')
   async remove(@Param('id') id: number) {

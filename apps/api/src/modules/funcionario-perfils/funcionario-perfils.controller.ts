@@ -7,20 +7,13 @@ import {
   Param,
   Delete,
   NotFoundException,
-  UseGuards,
 } from '@nestjs/common';
 import { FuncionarioPerfilsService } from './funcionario-perfils.service';
 import { CreateFuncionarioPerfilDto } from './dto/create-funcionario-perfil.dto';
 import { UpdateFuncionarioPerfilDto } from './dto/update-funcionario-perfil.dto';
-import {
-  ApiBearerAuth,
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiTags,
-} from '@nestjs/swagger';
-import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ProtectedRoute } from '@app/decorators/protected-route.decorator';
 import { FuncionarioPerfilEntity } from './entities/funcionario-perfil.entity';
-import { TenantGuard } from '@app/guards/tenant.guard';
 
 @ApiTags('Perfil de funcionarios/ usuários no sistema')
 @Controller('funcionario-perfils')
@@ -30,8 +23,7 @@ export class FuncionarioPerfilsController {
   ) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: FuncionarioPerfilEntity })
   async create(@Body() data: CreateFuncionarioPerfilDto) {
     return new FuncionarioPerfilEntity(
@@ -40,8 +32,7 @@ export class FuncionarioPerfilsController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: FuncionarioPerfilEntity, isArray: true })
   async findAll() {
     const perfil_usuario = await this.funcionarioPerfilsService.findAll();
@@ -49,8 +40,7 @@ export class FuncionarioPerfilsController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: FuncionarioPerfilEntity })
   async findOne(@Param('id') id: number) {
     const perfil_usuario = new FuncionarioPerfilEntity(
@@ -63,8 +53,7 @@ export class FuncionarioPerfilsController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: FuncionarioPerfilEntity })
   async update(
     @Param('id') id: number,
@@ -79,8 +68,7 @@ export class FuncionarioPerfilsController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: FuncionarioPerfilEntity })
   async remove(@Param('id') id: number) {
     return new FuncionarioPerfilEntity(

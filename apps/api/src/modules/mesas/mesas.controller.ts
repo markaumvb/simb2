@@ -6,7 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
   NotFoundException,
   Query,
   ParseEnumPipe,
@@ -14,16 +13,10 @@ import {
 import { MesasService } from './mesas.service';
 import { CreateMesaDto } from './dto/create-mesa.dto';
 import { UpdateMesaDto } from './dto/update-mesa.dto';
-import {
-  ApiBearerAuth,
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiTags,
-} from '@nestjs/swagger';
-
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ProtectedRoute } from '@app/decorators/protected-route.decorator';
 import { MesaEntity } from './entities/mesa.entity';
-import { TenantGuard } from '@app/guards/tenant.guard';
-import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
+
 import { StatusMesa } from '@prisma/client';
 @ApiTags('Mesas')
 @Controller('mesas')
@@ -31,16 +24,14 @@ export class MesasController {
   constructor(private readonly mesasService: MesasService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: MesaEntity })
   async create(@Body() createMesaDto: CreateMesaDto) {
     return new MesaEntity(await this.mesasService.create(createMesaDto));
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: MesaEntity, isArray: true })
   async findAll() {
     const mesa = await this.mesasService.findAll();
@@ -48,8 +39,7 @@ export class MesasController {
   }
 
   @Get('linha')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: MesaEntity, isArray: true })
   async findLinha(@Query('linha') linha: number) {
     const mesa = await this.mesasService.findLinha(linha);
@@ -57,8 +47,7 @@ export class MesasController {
   }
 
   @Get('ativo')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: MesaEntity, isArray: true })
   async findSituacao(
     @Query('ativo', new ParseEnumPipe(StatusMesa)) status: StatusMesa,
@@ -68,8 +57,7 @@ export class MesasController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: MesaEntity })
   async findOne(@Param('id') id: number) {
     const mesa = new MesaEntity(await this.mesasService.findOne(id));
@@ -81,16 +69,14 @@ export class MesasController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: MesaEntity })
   async update(@Param('id') id: number, @Body() updateMesaDto: UpdateMesaDto) {
     return new MesaEntity(await this.mesasService.update(id, updateMesaDto));
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: MesaEntity })
   async remove(@Param('id') id: number) {
     return new MesaEntity(await this.mesasService.remove(id));

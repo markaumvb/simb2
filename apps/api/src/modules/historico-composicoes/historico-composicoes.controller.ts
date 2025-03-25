@@ -6,21 +6,14 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
   NotFoundException,
 } from '@nestjs/common';
 import { HistoricoComposicoesService } from './historico-composicoes.service';
 import { CreateHistoricoComposicoeDto } from './dto/create-historico-composicoe.dto';
 import { UpdateHistoricoComposicoeDto } from './dto/update-historico-composicoe.dto';
-import {
-  ApiBearerAuth,
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiTags,
-} from '@nestjs/swagger';
-import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { HistoricoComposicoeEntity } from './entities/historico-composicoe.entity';
-import { TenantGuard } from '@app/guards/tenant.guard';
+import { ProtectedRoute } from '@app/decorators/protected-route.decorator';
 
 @ApiTags('Histórico de composições')
 @Controller('historico-composicoes')
@@ -29,8 +22,7 @@ export class HistoricoComposicoesController {
     private readonly historicoComposicoesService: HistoricoComposicoesService,
   ) {}
 
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, TenantGuard)
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: HistoricoComposicoeEntity })
   @Post()
   async create(@Body() data: CreateHistoricoComposicoeDto) {
@@ -40,8 +32,7 @@ export class HistoricoComposicoesController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: HistoricoComposicoeEntity, isArray: true })
   async findAll() {
     const historico = await this.historicoComposicoesService.findAll();
@@ -49,8 +40,7 @@ export class HistoricoComposicoesController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiOkResponse({ type: HistoricoComposicoeEntity })
   async findOne(@Param('id') id: number) {
     const historico = new HistoricoComposicoeEntity(
@@ -63,8 +53,7 @@ export class HistoricoComposicoesController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: HistoricoComposicoeEntity })
   async update(
     @Param('id') id: number,
@@ -79,8 +68,7 @@ export class HistoricoComposicoesController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard, TenantGuard)
-  @ApiBearerAuth()
+  @ProtectedRoute()
   @ApiCreatedResponse({ type: HistoricoComposicoeEntity })
   async remove(@Param('id') id: number) {
     return new HistoricoComposicoeEntity(
