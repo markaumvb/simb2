@@ -42,6 +42,8 @@ import { PrismaTenantModule } from './providers/prisma-tenant.module';
 import { PermissaoUsuariosModule } from './modules/permissao-usuarios/permissao-usuarios.module';
 import { TenantMiddleware } from './middleware/tenant.middleware';
 import { AuthModule } from './auth/auth.module';
+import { CacheModule } from '@nestjs/cache-manager';
+import { redisStore } from 'cache-manager-redis-store';
 
 @Module({
   imports: [

@@ -1,0 +1,2468 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>server documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+	   <link rel="stylesheet" href="./styles/style.css">
+        <link rel="stylesheet" href="./styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="./" class="navbar-brand">server documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content coverage">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">Documentation coverage</li>
+</ol>
+
+<div>
+    <img src="./images/coverage-badge-documentation.svg">
+</div>
+
+<table class="table table-bordered coverage" id="coverage-table">
+    <thead class="coverage-header">
+        <tr>
+            <th>File</th>
+            <th>Type</th>
+            <th>Identifier</th>
+            <th style="text-align:right" class="statements" data-sort-default>Statements</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/AuthController.html">src/auth/auth.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>AuthController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/3)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/AuthService.html">src/auth/auth.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>AuthService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/LoginDto.html">src/auth/dto/login.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>LoginDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/AuthEntity.html">src/auth/entity/auth.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>AuthEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/JwtAuthGuard.html">src/auth/guards/jwt-auth.guard.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>JwtAuthGuard</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/RefreshTokenGuard.html">src/auth/guards/refresh-token.guard.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>RefreshTokenGuard</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#JWT_SERVICE">src/auth/jwt.provider.ts</a>
+            </td>
+            <td>variable</td>
+            <td>JWT_SERVICE</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#jwtServiceProvider">src/auth/jwt.provider.ts</a>
+            </td>
+            <td>variable</td>
+            <td>jwtServiceProvider</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/JwtStrategy.html">src/auth/strategies/jwt.strategy.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>JwtStrategy</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/RefreshTokenStrategy.html">src/auth/strategies/refresh-token.strategy.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>RefreshTokenStrategy</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/PrismaService.html">src/database/prisma.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>PrismaService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./guards/TenantGuard.html">src/guards/tenant.guard.ts</a>
+            </td>
+            <td>guard</td>
+            <td>TenantGuard</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/ExtendedRequest.html">src/interceptors/extended-request.interface.ts</a>
+            </td>
+            <td>interface</td>
+            <td>ExtendedRequest</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/2)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/PaginationInterceptor.html">src/interceptors/pagination.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>PaginationInterceptor</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/3)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/ExtendedRequest.html">src/interceptors/pagination.ts</a>
+            </td>
+            <td>interface</td>
+            <td>ExtendedRequest</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/2)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/PaginationParams.html">src/interceptors/pagination.ts</a>
+            </td>
+            <td>interface</td>
+            <td>PaginationParams</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/3)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/functions.html#bootstrap">src/main.ts</a>
+            </td>
+            <td>function</td>
+            <td>bootstrap</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#envFile">src/main.ts</a>
+            </td>
+            <td>variable</td>
+            <td>envFile</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#envPath">src/main.ts</a>
+            </td>
+            <td>variable</td>
+            <td>envPath</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#schemas">src/main.ts</a>
+            </td>
+            <td>variable</td>
+            <td>schemas</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/TenantMiddleware.html">src/middleware/tenant.middleware.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>TenantMiddleware</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/5)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/AcertoFechamentosController.html">src/modules/acerto-fechamentos/acerto-fechamentos.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>AcertoFechamentosController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/AcertoFechamentosService.html">src/modules/acerto-fechamentos/acerto-fechamentos.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>AcertoFechamentosService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreateAcertoFechamentoDto.html">src/modules/acerto-fechamentos/dto/create-acerto-fechamento.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreateAcertoFechamentoDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/8)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdateAcertoFechamentoDto.html">src/modules/acerto-fechamentos/dto/update-acerto-fechamento.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdateAcertoFechamentoDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/AcertoFechamentoEntity.html">src/modules/acerto-fechamentos/entities/acerto-fechamento.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>AcertoFechamentoEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/12)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/AlmoxarifadosController.html">src/modules/almoxarifados/almoxarifados.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>AlmoxarifadosController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/AlmoxarifadosService.html">src/modules/almoxarifados/almoxarifados.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>AlmoxarifadosService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreateAlmoxarifadoDto.html">src/modules/almoxarifados/dto/create-almoxarifado.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreateAlmoxarifadoDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/9)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdateAlmoxarifadoDto.html">src/modules/almoxarifados/dto/update-almoxarifado.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdateAlmoxarifadoDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/AlmoxarifadoEntity.html">src/modules/almoxarifados/entities/almoxarifado.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>AlmoxarifadoEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/12)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/BrindesController.html">src/modules/brindes/brindes.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>BrindesController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/BrindesService.html">src/modules/brindes/brindes.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>BrindesService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreateBrindeDto.html">src/modules/brindes/dto/create-brinde.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreateBrindeDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/11)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdateBrindeDto.html">src/modules/brindes/dto/update-brinde.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdateBrindeDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/BrindeEntity.html">src/modules/brindes/entities/brinde.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>BrindeEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/14)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/CidadesController.html">src/modules/cidades/cidades.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>CidadesController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/CidadesService.html">src/modules/cidades/cidades.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>CidadesService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreateCidadeDto.html">src/modules/cidades/dto/create-cidade.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreateCidadeDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/5)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdateCidadeDto.html">src/modules/cidades/dto/update-cidade.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdateCidadeDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CidadeEntity.html">src/modules/cidades/entities/cidade.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>CidadeEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/8)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/ClientesController.html">src/modules/clientes/clientes.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>ClientesController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/ClientesService.html">src/modules/clientes/clientes.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>ClientesService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/8)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreateClienteDto.html">src/modules/clientes/dto/create-cliente.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreateClienteDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/16)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdateClienteDto.html">src/modules/clientes/dto/update-cliente.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdateClienteDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/ClienteEntity.html">src/modules/clientes/entities/cliente.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>ClienteEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/20)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/CobrancasController.html">src/modules/cobrancas/cobrancas.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>CobrancasController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/CobrancasService.html">src/modules/cobrancas/cobrancas.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>CobrancasService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/8)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreateCobrancaDto.html">src/modules/cobrancas/dto/create-cobranca.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreateCobrancaDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/19)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdateCobrancaDto.html">src/modules/cobrancas/dto/update-cobranca.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdateCobrancaDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CobrancaEntitity.html">src/modules/cobrancas/entities/cobranca.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>CobrancaEntitity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/22)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/ComposicoesController.html">src/modules/composicoes/composicoes.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>ComposicoesController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/ComposicoesService.html">src/modules/composicoes/composicoes.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>ComposicoesService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreateComposicoeDto.html">src/modules/composicoes/dto/create-composicoe.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreateComposicoeDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdateComposicoeDto.html">src/modules/composicoes/dto/update-composicoe.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdateComposicoeDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/ComposicoeEntity.html">src/modules/composicoes/entities/composicoe.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>ComposicoeEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/11)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/DebitosClientesController.html">src/modules/debitos-clientes/debitos-clientes.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>DebitosClientesController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/DebitosClientesService.html">src/modules/debitos-clientes/debitos-clientes.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>DebitosClientesService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreateDebitosClienteDto.html">src/modules/debitos-clientes/dto/create-debitos-cliente.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreateDebitosClienteDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdateDebitosClienteDto.html">src/modules/debitos-clientes/dto/update-debitos-cliente.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdateDebitosClienteDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/DebitosClienteEntity.html">src/modules/debitos-clientes/entities/debitos-cliente.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>DebitosClienteEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/10)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/DepositosController.html">src/modules/depositos/depositos.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>DepositosController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/DepositosService.html">src/modules/depositos/depositos.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>DepositosService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreateDepositoDto.html">src/modules/depositos/dto/create-deposito.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreateDepositoDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/12)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdateDepositoDto.html">src/modules/depositos/dto/update-deposito.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdateDepositoDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/DepositoEntity.html">src/modules/depositos/entities/deposito.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>DepositoEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/15)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/DespesasController.html">src/modules/despesas/despesas.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>DespesasController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/DespesasService.html">src/modules/despesas/despesas.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>DespesasService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/8)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreateDespesaDto.html">src/modules/despesas/dto/create-despesa.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreateDespesaDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/14)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdateDespesaDto.html">src/modules/despesas/dto/update-despesa.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdateDespesaDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/DespesaEntity.html">src/modules/despesas/entities/despesa.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>DespesaEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/17)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreateFuncaoDto.html">src/modules/funcaos/dto/create-funcao.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreateFuncaoDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/5)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdateFuncaoDto.html">src/modules/funcaos/dto/update-funcao.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdateFuncaoDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/FuncaoEntity.html">src/modules/funcaos/entities/funcao.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>FuncaoEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/8)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/FuncaosController.html">src/modules/funcaos/funcaos.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>FuncaosController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/FuncaosService.html">src/modules/funcaos/funcaos.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>FuncaosService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreateFuncionarioPerfilDto.html">src/modules/funcionario-perfils/dto/create-funcionario-perfil.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreateFuncionarioPerfilDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/13)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdateFuncionarioPerfilDto.html">src/modules/funcionario-perfils/dto/update-funcionario-perfil.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdateFuncionarioPerfilDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/FuncionarioPerfilEntity.html">src/modules/funcionario-perfils/entities/funcionario-perfil.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>FuncionarioPerfilEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/16)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/FuncionarioPerfilsController.html">src/modules/funcionario-perfils/funcionario-perfils.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>FuncionarioPerfilsController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/FuncionarioPerfilsService.html">src/modules/funcionario-perfils/funcionario-perfils.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>FuncionarioPerfilsService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreateFuncionarioDto.html">src/modules/funcionarios/dto/create-funcionario.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreateFuncionarioDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/23)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdateFuncionarioDto.html">src/modules/funcionarios/dto/update-funcionario.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdateFuncionarioDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/FuncionarioEntity.html">src/modules/funcionarios/entities/funcionario.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>FuncionarioEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/27)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/FuncionariosController.html">src/modules/funcionarios/funcionarios.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>FuncionariosController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/8)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/FuncionariosService.html">src/modules/funcionarios/funcionarios.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>FuncionariosService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/9)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#roundsOfHashing">src/modules/funcionarios/funcionarios.service.ts</a>
+            </td>
+            <td>variable</td>
+            <td>roundsOfHashing</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreateHistoricoComposicoeDto.html">src/modules/historico-composicoes/dto/create-historico-composicoe.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreateHistoricoComposicoeDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/5)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdateHistoricoComposicoeDto.html">src/modules/historico-composicoes/dto/update-historico-composicoe.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdateHistoricoComposicoeDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/HistoricoComposicoeEntity.html">src/modules/historico-composicoes/entities/historico-composicoe.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>HistoricoComposicoeEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/8)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/HistoricoComposicoesController.html">src/modules/historico-composicoes/historico-composicoes.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>HistoricoComposicoesController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/HistoricoComposicoesService.html">src/modules/historico-composicoes/historico-composicoes.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>HistoricoComposicoesService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreateHistoricoPontoDto.html">src/modules/historico-pontos/dto/create-historico-ponto.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreateHistoricoPontoDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/14)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdateHistoricoPontoDto.html">src/modules/historico-pontos/dto/update-historico-ponto.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdateHistoricoPontoDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/HistoricoPontoEntity.html">src/modules/historico-pontos/entities/historico-ponto.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>HistoricoPontoEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/17)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/HistoricoPontosController.html">src/modules/historico-pontos/historico-pontos.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>HistoricoPontosController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/3)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/HistoricoPontosService.html">src/modules/historico-pontos/historico-pontos.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>HistoricoPontosService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreateItensAcertoDto.html">src/modules/itens-acertos/dto/create-itens-acerto.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreateItensAcertoDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/9)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdateItensAcertoDto.html">src/modules/itens-acertos/dto/update-itens-acerto.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdateItensAcertoDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/ItensAcertoEntity.html">src/modules/itens-acertos/entities/itens-acerto.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>ItensAcertoEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/12)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/ItensAcertosController.html">src/modules/itens-acertos/itens-acertos.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>ItensAcertosController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/ItensAcertosService.html">src/modules/itens-acertos/itens-acertos.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>ItensAcertosService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreateItensPedidoAlmoxarifadoDto.html">src/modules/itens-pedido-almoxarifados/dto/create-itens-pedido-almoxarifado.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreateItensPedidoAlmoxarifadoDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/8)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdateItensPedidoAlmoxarifadoDto.html">src/modules/itens-pedido-almoxarifados/dto/update-itens-pedido-almoxarifado.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdateItensPedidoAlmoxarifadoDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/ItensPedidoAlmoxarifadoEntity.html">src/modules/itens-pedido-almoxarifados/entities/itens-pedido-almoxarifado.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>ItensPedidoAlmoxarifadoEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/11)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/ItensPedidoAlmoxarifadosController.html">src/modules/itens-pedido-almoxarifados/itens-pedido-almoxarifados.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>ItensPedidoAlmoxarifadosController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/ItensPedidoAlmoxarifadosService.html">src/modules/itens-pedido-almoxarifados/itens-pedido-almoxarifados.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>ItensPedidoAlmoxarifadosService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreateLinhaDto.html">src/modules/linhas/dto/create-linha.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreateLinhaDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/3)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdateLinhaDto.html">src/modules/linhas/dto/update-linha.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdateLinhaDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/LinhaEntity.html">src/modules/linhas/entities/linha.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>LinhaEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/LinhasController.html">src/modules/linhas/linhas.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>LinhasController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/LinhasService.html">src/modules/linhas/linhas.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>LinhasService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreateLogMesaDto.html">src/modules/log-mesas/dto/create-log-mesa.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreateLogMesaDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/14)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdateLogMesaDto.html">src/modules/log-mesas/dto/update-log-mesa.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdateLogMesaDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/LogMesaEntity.html">src/modules/log-mesas/entities/log-mesa.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>LogMesaEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/18)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/LogMesasController.html">src/modules/log-mesas/log-mesas.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>LogMesasController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/LogMesasService.html">src/modules/log-mesas/log-mesas.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>LogMesasService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/8)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreateMembrosLinhaDto.html">src/modules/membros-linhas/dto/create-membros-linha.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreateMembrosLinhaDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdateMembrosLinhaDto.html">src/modules/membros-linhas/dto/update-membros-linha.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdateMembrosLinhaDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/MembrosLinhaEntity.html">src/modules/membros-linhas/entities/membros-linha.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>MembrosLinhaEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/9)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/MembrosLinhasController.html">src/modules/membros-linhas/membros-linhas.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>MembrosLinhasController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/MembrosLinhasService.html">src/modules/membros-linhas/membros-linhas.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>MembrosLinhasService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreateMesaEntradaDto.html">src/modules/mesa-entradas/dto/create-mesa-entrada.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreateMesaEntradaDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/10)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdateMesaEntradaDto.html">src/modules/mesa-entradas/dto/update-mesa-entrada.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdateMesaEntradaDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/MesaEntradaEntity.html">src/modules/mesa-entradas/entities/mesa-entrada.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>MesaEntradaEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/13)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/MesaEntradasController.html">src/modules/mesa-entradas/mesa-entradas.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>MesaEntradasController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/MesaEntradasService.html">src/modules/mesa-entradas/mesa-entradas.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>MesaEntradasService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreateMesaSaidaDto.html">src/modules/mesa-saidas/dto/create-mesa-saida.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreateMesaSaidaDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/10)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdateMesaSaidaDto.html">src/modules/mesa-saidas/dto/update-mesa-saida.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdateMesaSaidaDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/MesaSaidaEntity.html">src/modules/mesa-saidas/entities/mesa-saida.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>MesaSaidaEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/13)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/MesaSaidasController.html">src/modules/mesa-saidas/mesa-saidas.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>MesaSaidasController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/MesaSaidasService.html">src/modules/mesa-saidas/mesa-saidas.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>MesaSaidasService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreateMesaDto.html">src/modules/mesas/dto/create-mesa.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreateMesaDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/14)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdateMesaDto.html">src/modules/mesas/dto/update-mesa.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdateMesaDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/MesaEntity.html">src/modules/mesas/entities/mesa.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>MesaEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/29)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/MesasController.html">src/modules/mesas/mesas.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>MesasController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/8)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/MesasService.html">src/modules/mesas/mesas.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>MesasService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/9)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreateMovimentacoeDto.html">src/modules/movimentacoes/dto/create-movimentacoe.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreateMovimentacoeDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/9)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdateMovimentacoeDto.html">src/modules/movimentacoes/dto/update-movimentacoe.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdateMovimentacoeDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/MovimentacoeEntity.html">src/modules/movimentacoes/entities/movimentacoe.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>MovimentacoeEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/11)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/MovimentacoesController.html">src/modules/movimentacoes/movimentacoes.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>MovimentacoesController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/MovimentacoesService.html">src/modules/movimentacoes/movimentacoes.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>MovimentacoesService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/8)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreatePedidoAlmoxarifadoDto.html">src/modules/pedido-almoxarifados/dto/create-pedido-almoxarifado.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreatePedidoAlmoxarifadoDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdatePedidoAlmoxarifadoDto.html">src/modules/pedido-almoxarifados/dto/update-pedido-almoxarifado.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdatePedidoAlmoxarifadoDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/PedidoAlmoxarifadoEntity.html">src/modules/pedido-almoxarifados/entities/pedido-almoxarifado.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>PedidoAlmoxarifadoEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/10)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/PedidoAlmoxarifadosController.html">src/modules/pedido-almoxarifados/pedido-almoxarifados.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>PedidoAlmoxarifadosController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/PedidoAlmoxarifadosService.html">src/modules/pedido-almoxarifados/pedido-almoxarifados.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>PedidoAlmoxarifadosService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/8)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreatePerfilDto.html">src/modules/perfils/dto/create-perfil.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreatePerfilDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/17)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdatePerfilDto.html">src/modules/perfils/dto/update-perfil.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdatePerfilDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/PerfilEntity.html">src/modules/perfils/entities/perfil.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>PerfilEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/20)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/PerfilsController.html">src/modules/perfils/perfils.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>PerfilsController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/PerfilsService.html">src/modules/perfils/perfils.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>PerfilsService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreatePermissaoUsuarioDto.html">src/modules/permissao-usuarios/dto/create-permissao-usuario.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreatePermissaoUsuarioDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/12)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdatePermissaoUsuarioDto.html">src/modules/permissao-usuarios/dto/update-permissao-usuario.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdatePermissaoUsuarioDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/PermissaoUsuarioEntity.html">src/modules/permissao-usuarios/entities/permissao-usuario.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>PermissaoUsuarioEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/15)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/PermissaoUsuariosController.html">src/modules/permissao-usuarios/permissao-usuarios.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>PermissaoUsuariosController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/PermissaoUsuariosService.html">src/modules/permissao-usuarios/permissao-usuarios.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>PermissaoUsuariosService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreatePontoClienteDto.html">src/modules/ponto-clientes/dto/create-ponto-cliente.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreatePontoClienteDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/10)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdatePontoClienteDto.html">src/modules/ponto-clientes/dto/update-ponto-cliente.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdatePontoClienteDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/PontoClienteEntity.html">src/modules/ponto-clientes/entities/ponto-cliente.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>PontoClienteEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/13)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/PontoClientesController.html">src/modules/ponto-clientes/ponto-clientes.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>PontoClientesController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/PontoClientesService.html">src/modules/ponto-clientes/ponto-clientes.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>PontoClientesService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreatePontoDto.html">src/modules/pontos/dto/create-ponto.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreatePontoDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/17)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdatePontoDto.html">src/modules/pontos/dto/update-ponto.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdatePontoDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/PontoEntity.html">src/modules/pontos/entities/ponto.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>PontoEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/20)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/PontosController.html">src/modules/pontos/pontos.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>PontosController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/PontosService.html">src/modules/pontos/pontos.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>PontosService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreateSistemaDto.html">src/modules/sistemas/dto/create-sistema.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreateSistemaDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/5)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdateSistemaDto.html">src/modules/sistemas/dto/update-sistema.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdateSistemaDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/SistemaEntity.html">src/modules/sistemas/entities/sistema.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>SistemaEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/8)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/SistemasController.html">src/modules/sistemas/sistemas.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>SistemasController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/SistemasService.html">src/modules/sistemas/sistemas.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>SistemasService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreateTenantDto.html">src/modules/tenants/dto/create-tenant.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreateTenantDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/5)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdateTenantDto.html">src/modules/tenants/dto/update-tenant.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdateTenantDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/TenantController.html">src/modules/tenants/tenant.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>TenantController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/TenantEntity.html">src/modules/tenants/tenant.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>TenantEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/9)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/TenantService.html">src/modules/tenants/tenant.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>TenantService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/9)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreateTipoDespesaDto.html">src/modules/tipo-despesas/dto/create-tipo-despesa.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreateTipoDespesaDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/5)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdateTipoDespesaDto.html">src/modules/tipo-despesas/dto/update-tipo-despesa.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdateTipoDespesaDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/TipoDespesaEntity.html">src/modules/tipo-despesas/entities/tipo-despesa.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>TipoDespesaEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/8)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/TipoDespesasController.html">src/modules/tipo-despesas/tipo-despesas.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>TipoDespesasController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/TipoDespesasService.html">src/modules/tipo-despesas/tipo-despesas.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>TipoDespesasService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/CreateTipoMesaDto.html">src/modules/tipo-mesas/dto/create-tipo-mesa.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>CreateTipoMesaDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/5)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/UpdateTipoMesaDto.html">src/modules/tipo-mesas/dto/update-tipo-mesa.dto.ts</a>
+            </td>
+            <td>class</td>
+            <td>UpdateTipoMesaDto</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/TipoMesaEntity.html">src/modules/tipo-mesas/entities/tipo-mesa.entity.ts</a>
+            </td>
+            <td>class</td>
+            <td>TipoMesaEntity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/8)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./controllers/TipoMesasController.html">src/modules/tipo-mesas/tipo-mesas.controller.ts</a>
+            </td>
+            <td>controller</td>
+            <td>TipoMesasController</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/TipoMesasService.html">src/modules/tipo-mesas/tipo-mesas.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>TipoMesasService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/PrismaClientExceptionFilter.html">src/prisma-client-exception/prisma-client-exception.filter.ts</a>
+            </td>
+            <td>class</td>
+            <td>PrismaClientExceptionFilter</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/2)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/PrismaTenantService.html">src/providers/prisma-tenant.provider.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>PrismaTenantService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/5)</span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<script src="js/libs/tablesort.min.js"></script>
+<script src="js/libs/tablesort.number.min.js"></script>
+<script>
+    new Tablesort(document.getElementById('coverage-table'));
+</script>
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 0;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'coverage';
+            var COMPODOC_CURRENT_PAGE_URL = 'coverage.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="./js/libs/custom-elements.min.js"></script>
+       <script src="./js/libs/lit-html.js"></script>
+
+       <script src="./js/menu-wc.js" defer></script>
+       <script nomodule src="./js/menu-wc_es5.js" defer></script>
+
+       <script src="./js/libs/bootstrap-native.js"></script>
+
+       <script src="./js/libs/es6-shim.min.js"></script>
+       <script src="./js/libs/EventDispatcher.js"></script>
+       <script src="./js/libs/promise.min.js"></script>
+
+       <script src="./js/compodoc.js"></script>
+
+       <script src="./js/tabs.js"></script>
+       <script src="./js/menu.js"></script>
+       <script src="./js/libs/clipboard.min.js"></script>
+       <script src="./js/libs/prism.js"></script>
+       <script src="./js/sourceCode.js"></script>
+          <script src="./js/search/search.js"></script>
+          <script src="./js/search/lunr.min.js"></script>
+          <script src="./js/search/search-lunr.js"></script>
+          <script src="./js/search/search_index.js"></script>
+       <script src="./js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

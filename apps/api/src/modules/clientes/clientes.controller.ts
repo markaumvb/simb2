@@ -9,6 +9,7 @@ import {
   NotFoundException,
   UseGuards,
   ParseIntPipe,
+  DefaultValuePipe,
   Query,
 } from '@nestjs/common';
 import { ClientesService } from './clientes.service';
@@ -43,9 +44,15 @@ export class ClientesController {
   @UseGuards(JwtAuthGuard, TenantGuard)
   @ApiBearerAuth()
   @ApiOkResponse({ type: ClienteEntity, isArray: true })
-  async findAll() {
-    const cliente = await this.clientesService.findAll();
-    return cliente.map((cli) => new ClienteEntity(cli));
+  async findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
+  ) {
+    const result = await this.clientesService.findAll(page, limit);
+    return {
+      data: result.data.map((c) => new ClienteEntity(c)),
+      meta: result.meta,
+    };
   }
 
   @Get('ativo') //as rotas sem parametros como o get, get por id, devem ser inseridas após as rotas sem parametros

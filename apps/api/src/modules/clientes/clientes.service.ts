@@ -13,8 +13,30 @@ export class ClientesService {
     });
   }
 
-  async findAll() {
-    return await this.prismaTenant.prisma.client.cliente.findMany();
+  async findAll(page = 1, limit = 10) {
+    const skip = (page - 1) * limit;
+
+    const [data, total] = await Promise.all([
+      this.prismaTenant.prisma.client.cliente.findMany({
+        where: this.prismaTenant.addTenantToFilter(),
+        skip,
+        take: limit,
+        orderBy: { nome: 'asc' },
+      }),
+      this.prismaTenant.prisma.client.cliente.count({
+        where: this.prismaTenant.addTenantToFilter(),
+      }),
+    ]);
+
+    return {
+      data,
+      meta: {
+        total,
+        page,
+        limit,
+        pages: Math.ceil(total / limit),
+      },
+    };
   }
 
   findOne(id: number) {

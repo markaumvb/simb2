@@ -7,9 +7,25 @@ import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 export class CobrancasService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(data: CreateCobrancaDto) {
-    return this.prismaTenant.prisma.client.cobranca.create({
-      data: this.prismaTenant.addTenantToData(data),
+  async create(dto: CreateCobrancaDto) {
+    return this.prismaTenant.prisma.client.$transaction(async (tx) => {
+      // 1. Criar a cobrança
+      const cobranca = await tx.cobranca.create({
+        data: this.prismaTenant.addTenantToData(dto),
+      });
+
+      // 2. Atualizar a mesa
+      await tx.mesa.update({
+        where: { id: dto.id_mesa },
+        data: {
+          cont_atual: dto.contador_atual,
+          cont_anterior: dto.contador_anterior,
+          contador_brinde_atual: dto.contador_brinde_atual,
+          contador_brinde_anterior: dto.contador_brinde_anterior,
+        },
+      });
+
+      return cobranca;
     });
   }
 

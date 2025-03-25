@@ -7,12 +7,31 @@ import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 export class MesaEntradasService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(createMesaEntradaDto: CreateMesaEntradaDto) {
-    return this.prismaTenant.prisma.client.mesa_entrada.create({
-      data: this.prismaTenant.addTenantToData(createMesaEntradaDto),
+  async create(dto: CreateMesaEntradaDto) {
+    return this.prismaTenant.prisma.client.$transaction(async (tx) => {
+      // Criar registro de entrada
+      const entrada = await tx.mesa_entrada.create({
+        data: this.prismaTenant.addTenantToData(dto),
+      });
+
+      // Atualizar status da mesa para OCUPADA
+      await tx.mesa.update({
+        where: { id: dto.id_mesa },
+        data: {
+          status: 'OCUPADA',
+          id_ponto: dto.id_ponto,
+        },
+      });
+
+      // Ativar ponto se necessário
+      await tx.ponto.update({
+        where: { id: dto.id_ponto },
+        data: { status: true },
+      });
+
+      return entrada;
     });
   }
-
   findAll() {
     return this.prismaTenant.prisma.client.mesa_entrada.findMany();
   }

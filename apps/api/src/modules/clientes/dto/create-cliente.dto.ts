@@ -6,6 +6,7 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  Matches,
 } from 'class-validator';
 
 export class CreateClienteDto {
@@ -14,8 +15,13 @@ export class CreateClienteDto {
   @ApiProperty()
   id_cidade: number;
 
+  @IsString()
+  @IsOptional()
+  @Matches(/^[0-9]{11}$|^[0-9]{14}$/, {
+    message: 'Documento deve ser um CPF (11 dígitos) ou CNPJ (14 dígitos)',
+  })
   @ApiProperty()
-  documento: string | null;
+  documento: string;
 
   @ApiProperty()
   endereco: string | null;
@@ -23,8 +29,13 @@ export class CreateClienteDto {
   @ApiProperty()
   bairro: string | null;
 
+  @IsString()
+  @IsOptional()
+  @Matches(/^[0-9]{10,11}$/, {
+    message: 'Telefone deve conter entre 10 e 11 dígitos',
+  })
   @ApiProperty()
-  fone: string | null;
+  fone: string;
 
   @IsNotEmpty()
   @IsString()

@@ -13,6 +13,9 @@ import * as compression from 'compression';
 import * as passport from 'passport';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as csurf from 'csurf';
+import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
+import { getMetadataStorage } from 'class-validator';
 
 // Debug para verificar configuração de ambiente
 const envFile =
@@ -29,6 +32,9 @@ if (fs.existsSync(envPath)) {
     .join('\n');
   console.log(content);
 }
+const schemas = validationMetadatasToSchemas({
+  classValidatorMetadataStorage: getMetadataStorage(),
+});
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
@@ -66,6 +72,7 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
   app.enableCors();
+  app.use(csurf());
 
   // Verificar estratégias registradas em passport
   try {
@@ -92,6 +99,8 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app as any, config);
   SwaggerModule.setup('api', app as any, document, {
+    extraModels: [],
+    additionalModels: schemas,
     customSiteTitle: 'API DO SIMB',
     swaggerOptions: {
       tagsSorter: 'alpha',
