@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Prisma, Deposito } from '@database';
+import { Prisma, Deposito, Especie } from '@database';
 import { Transform } from 'class-transformer';
 
 export class DepositoEntity implements Deposito {
@@ -15,8 +15,8 @@ export class DepositoEntity implements Deposito {
   @ApiProperty({ type: Number, nullable: true })
   valor: Prisma.Decimal;
 
-  @ApiProperty({ type: Number })
-  especie: string;
+  @ApiProperty({ enum: Especie })
+  status: Especie;
 
   @ApiProperty({ type: Number })
   dt_cheque: Date | null;

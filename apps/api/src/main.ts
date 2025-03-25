@@ -13,7 +13,7 @@ import * as compression from 'compression';
 import * as passport from 'passport';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as csurf from 'csurf';
+
 import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
 import { getMetadataStorage } from 'class-validator';
 
@@ -72,7 +72,6 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
   app.enableCors();
-  app.use(csurf());
 
   // Verificar estratégias registradas em passport
   try {

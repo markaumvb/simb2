@@ -1,9 +1,11 @@
 import { CreateItensAcertoDto } from '@app/modules/itens-acertos/dto/create-itens-acerto.dto';
 import { ApiProperty } from '@nestjs/swagger';
+import { Status } from '@prisma/client';
 import { Type } from 'class-transformer';
 import {
   IsBoolean,
   IsDate,
+  IsEnum,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -36,9 +38,9 @@ export class CreateAcertoFechamentoDto {
   @ApiProperty()
   dt_inclusao: Date | null;
 
-  @IsBoolean()
-  @ApiProperty()
-  status: boolean;
+  @IsEnum(Status)
+  @ApiProperty({ enum: Status, enumName: 'Status' })
+  status: Status;
 
   @ApiProperty({ type: [CreateItensAcertoDto], required: false })
   @IsOptional()

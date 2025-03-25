@@ -9,6 +9,7 @@ import {
   UseGuards,
   NotFoundException,
   Query,
+  ParseEnumPipe,
 } from '@nestjs/common';
 import { MesasService } from './mesas.service';
 import { CreateMesaDto } from './dto/create-mesa.dto';
@@ -23,6 +24,7 @@ import {
 import { MesaEntity } from './entities/mesa.entity';
 import { TenantGuard } from '@app/guards/tenant.guard';
 import { JwtAuthGuard } from '@app/auth/guards/jwt-auth.guard';
+import { StatusMesa } from '@prisma/client';
 @ApiTags('Mesas')
 @Controller('mesas')
 export class MesasController {
@@ -54,14 +56,15 @@ export class MesasController {
     return mesa.map((m) => new MesaEntity(m));
   }
 
-  @Get('ativo') //as rotas sem parametros como o get, get por id, devem ser inseridas após as rotas sem parametros
+  @Get('ativo')
   @UseGuards(JwtAuthGuard, TenantGuard)
   @ApiBearerAuth()
   @ApiCreatedResponse({ type: MesaEntity, isArray: true })
-  async findSituacao(@Query('ativo') ativo: string) {
-    const cliente = await this.mesasService.findStatus(ativo);
-
-    return cliente.map((mes) => new MesaEntity(mes));
+  async findSituacao(
+    @Query('ativo', new ParseEnumPipe(StatusMesa)) status: StatusMesa,
+  ) {
+    const mesa = await this.mesasService.findStatus(status);
+    return mesa.map((m) => new MesaEntity(m));
   }
 
   @Get(':id')

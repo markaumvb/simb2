@@ -1,9 +1,11 @@
 // src/modules/pontos/dto/create-ponto.dto.ts
 import { ApiProperty } from '@nestjs/swagger';
+import { TipoPonto } from '@prisma/client';
 import { Transform } from 'class-transformer';
 import {
   IsBoolean,
   IsDate,
+  IsEnum,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -53,8 +55,9 @@ export class CreatePontoDto {
 
   @IsString()
   @IsNotEmpty()
-  @ApiProperty()
-  tipo: string;
+  @IsEnum(TipoPonto)
+  @ApiProperty({ enum: TipoPonto, enumName: 'TipoPonto' })
+  tipo: TipoPonto;
 
   @IsString()
   @IsOptional()

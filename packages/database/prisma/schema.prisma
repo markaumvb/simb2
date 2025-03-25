@@ -63,7 +63,7 @@ model Acerto_fechamento {
   id_funcionario  Int
   dt_alteracao    DateTime?      @default(now())
   dt_inclusao     DateTime?      @default(now()) @db.Timestamp(6)
-  status          Boolean        @default(false)
+  status Status @default(PENDENTE)
   
   // Campo de tenant
   tenant_id       Int
@@ -88,7 +88,7 @@ model Almoxarifado {
   saldo                     Decimal                     @default(0) @db.Decimal(8, 2)
   saldo_min                 Decimal?                    @default(0) @db.Decimal(8, 2)
   saldo_max                 Decimal?                    @default(0) @db.Decimal(8, 2)
-  status                    String                      @db.VarChar(20)
+  status StatusAlmoxarifado @default(DISPONIVEL)
   
   // Campo de tenant
   tenant_id                 Int
@@ -258,7 +258,7 @@ model Deposito {
   id              Int          @id @default(autoincrement())
   dt_hora         DateTime     @db.Timestamp(6)
   valor           Decimal      @db.Decimal(6, 2)
-  especie         String       @default("Dinheiro") @db.VarChar(15)
+  status Especie @default(DINHEIRO)
   dt_cheque       DateTime?    @db.Date
   id_linha        Int
   id_movimentacao Int
@@ -286,7 +286,7 @@ model Despesa {
   favorecido      String       @db.VarChar(50)
   valor           Decimal      @db.Decimal(6, 2)
   dt_hora         DateTime     @default(now()) @db.Timestamp(6)
-  especie         String       @default("Dinheiro") @db.VarChar(15)
+  status Especie @default(DINHEIRO)
   dt_cheque       DateTime?    @db.Date
   num_cheque      String?      @db.VarChar(15)
   id_linha        Int
@@ -599,7 +599,7 @@ model Mesa {
   dt_inclusao          DateTime?        @default(now()) @db.Timestamp(6)
   cord_x               String?          @db.VarChar(30)
   cord_y               String?          @db.VarChar(30)
-  dt_entrada_linha     DateTime?        @db.Timestamp(6)
+  dt_entrada_linha     DateTime?      @db.Timestamp(6)
   dt_saida_linha       DateTime?        @db.Timestamp(6)
   id_ponto             Int?
   chave                String?          @db.VarChar(10)
@@ -792,7 +792,7 @@ model Ponto {
   dt_inclusao     DateTime          @default(now()) @db.Timestamp(6)
   dt_alteracao    DateTime?         @default(now()) @db.Timestamp(6)
   id_linha        Int
-  tipo            String            @db.VarChar(20)
+  tipo TipoPonto @default(COMERCIAL)
   complemento     String?           @db.VarChar(30)
   bairro          String?           @db.VarChar(20)
   numero_ponto    Int               @unique
@@ -901,4 +901,32 @@ enum StatusMesa {
   DISPONIVEL
   OCUPADA
   MANUTENCAO
+  NO_DEPOSITO
+}
+
+enum Status {
+  CONCLUIDO
+  PENDENTE
+}
+
+enum Especie {
+  PIX
+  DINHEIRO
+  CARTAO_DEBITO
+  CARTAO_CREDITO
+  CHEQUE 
+  BOLETO
+  TRANSFERENCIA
+  DEPOSITO
+  OUTROS
+}
+enum StatusAlmoxarifado {
+  DISPONIVEL
+  PENDENTE
+  ESGOTADO
+}
+
+enum TipoPonto {
+  COMERCIAL
+  RESIDENCIAL
 }

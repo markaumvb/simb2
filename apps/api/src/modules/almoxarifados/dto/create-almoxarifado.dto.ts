@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { StatusAlmoxarifado } from '@prisma/client';
 import { Decimal } from '@prisma/client/runtime/library';
 import { Transform } from 'class-transformer';
 import {
@@ -6,6 +7,7 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  IsEnum,
   Min,
 } from 'class-validator';
 
@@ -54,6 +56,7 @@ export class CreateAlmoxarifadoDto {
   saldo_max: Decimal;
 
   @IsNotEmpty()
+  @IsEnum(StatusAlmoxarifado)
   @ApiProperty()
   status: string;
 }

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Acerto_fechamento } from '@database';
+import { Acerto_fechamento, Status } from '@database';
 import { Type } from 'class-transformer';
 import { ItensAcertoEntity } from '@app/modules/itens-acertos/entities/itens-acerto.entity';
 
@@ -25,8 +25,8 @@ export class AcertoFechamentoEntity implements Acerto_fechamento {
   @ApiProperty({ nullable: true })
   dt_inclusao: Date | null;
 
-  @ApiProperty()
-  status: boolean;
+  @ApiProperty({ enum: Status, enumName: 'Status' })
+  status: Status; // Alterado de string para TipoPonto
 
   @ApiProperty()
   tenant_id: number;

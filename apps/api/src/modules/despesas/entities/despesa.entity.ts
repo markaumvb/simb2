@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Prisma, Despesa } from '@database';
+import { Prisma, Despesa, Especie } from '@database';
 import { Transform } from 'class-transformer';
 
 export class DespesaEntity implements Despesa {
@@ -18,8 +18,8 @@ export class DespesaEntity implements Despesa {
   @ApiProperty()
   dt_hora: Date;
 
-  @ApiProperty()
-  especie: string;
+  @ApiProperty({ enum: Especie })
+  status: Especie;
 
   @ApiProperty()
   dt_cheque: Date | null;

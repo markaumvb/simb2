@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateAlmoxarifadoDto } from './dto/create-almoxarifado.dto';
 import { UpdateAlmoxarifadoDto } from './dto/update-almoxarifado.dto';
 import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
+import { StatusAlmoxarifado } from '@prisma/client';
 
 @Injectable()
 export class AlmoxarifadosService {
@@ -47,9 +48,22 @@ export class AlmoxarifadosService {
   }
 
   async update(id: number, updateAlmoxarifadoDto: UpdateAlmoxarifadoDto) {
+    // Se houver campos que precisam de tratamento especial antes da atualização
+    const dataToUpdate: any = { ...updateAlmoxarifadoDto };
+
+    // Se precisar verificar explicitamente o status
+    if (dataToUpdate.status !== undefined) {
+      // Verificar se é um valor válido do enum
+      if (!Object.values(StatusAlmoxarifado).includes(dataToUpdate.status)) {
+        throw new BadRequestException(
+          `Status inválido: ${dataToUpdate.status}`,
+        );
+      }
+    }
+
     return this.prismaTenant.prisma.client.almoxarifado.update({
       where: { id },
-      data: updateAlmoxarifadoDto,
+      data: dataToUpdate,
     });
   }
 

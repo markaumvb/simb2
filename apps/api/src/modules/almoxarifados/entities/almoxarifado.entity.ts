@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Prisma, Almoxarifado } from '@database';
+import { Prisma, Almoxarifado, StatusAlmoxarifado } from '@database';
 import { Transform } from 'class-transformer';
 
 export class AlmoxarifadoEntity implements Almoxarifado {
@@ -39,8 +39,8 @@ export class AlmoxarifadoEntity implements Almoxarifado {
   @ApiProperty({ type: Number, nullable: true })
   saldo_max: Prisma.Decimal | null;
 
-  @ApiProperty()
-  status: string;
+  @ApiProperty({ enum: StatusAlmoxarifado })
+  status: StatusAlmoxarifado;
 
   @ApiProperty()
   tenant_id: number;

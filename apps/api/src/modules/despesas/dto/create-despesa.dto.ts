@@ -1,8 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Prisma } from '@database';
+import { Status } from '@prisma/client';
+
 import { Transform } from 'class-transformer';
 import {
   IsDate,
+  IsEnum,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -26,10 +28,9 @@ export class CreateDespesaDto {
   @ApiProperty()
   dt_hora: Date;
 
-  @IsNotEmpty()
-  @IsString()
-  @ApiProperty()
-  especie: string;
+  @IsEnum(Status) // Validar como enum
+  @ApiProperty({ enum: Status, enumName: 'Status' }) // Tipo para Swagger
+  status: Status;
 
   @IsOptional()
   @IsDate()

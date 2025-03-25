@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Prisma, Ponto } from '@database';
+import { Prisma, Ponto, TipoPonto } from '@database';
 import { Transform } from 'class-transformer';
 
 export class PontoEntity implements Ponto {
@@ -33,8 +33,8 @@ export class PontoEntity implements Ponto {
   @ApiProperty()
   id_linha: number;
 
-  @ApiProperty()
-  tipo: string;
+  @ApiProperty({ enum: TipoPonto, enumName: 'TipoPonto' })
+  tipo: TipoPonto;
 
   @ApiProperty()
   complemento: string | null;

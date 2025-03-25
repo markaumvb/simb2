@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateMesaDto } from './dto/create-mesa.dto';
 import { UpdateMesaDto } from './dto/update-mesa.dto';
 import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
+import { StatusMesa } from '@prisma/client';
 
 @Injectable()
 export class MesasService {
@@ -20,9 +21,9 @@ export class MesasService {
     });
   }
 
-  async findStatus(status: string) {
+  async findStatus(status: StatusMesa) {
     return await this.prismaTenant.prisma.client.mesa.findMany({
-      where: { status },
+      where: { status }, // Agora correto: status é do tipo StatusMesa
       orderBy: { id: 'asc' },
     });
   }

@@ -18,7 +18,16 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@compodoc/compodoc": "^1.1.26",
     "cross-env": "^7.0.3",
     "turbo": "^2.4.4"
+  },
+  "dependencies": {
+    "@nestjs/cache-manager": "^3.0.0",
+    "cache-manager": "^6.4.1",
+    "cache-manager-redis-store": "^3.0.1",
+    "class-validator-jsonschema": "^5.0.2",
+    "csurf": "^1.10.0",
+    "redis": "^4.7.0"
   }
 }
