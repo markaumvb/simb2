@@ -172,6 +172,7 @@ model Cliente {
 
   @@index([id_cidade], map: "fki_fk_cliente_cidade")
   @@index([id_linha], map: "fki_fk_cliente_linha")
+  @@index([nome])
 }
 
 model Cobranca {
@@ -584,7 +585,7 @@ model Membros_linha {
 
 model Mesa {
   id                   Int              @id
-  status               String           @default("Disponível") @db.Char(30)
+  status StatusMesa @default(DISPONIVEL)
   cont_atual           Int              @default(0)
   cont_anterior        Int              @default(0)
   tipo_cobranca        String?          @db.Char(12)
@@ -894,4 +895,10 @@ enum Role {
 enum TokenType {
   email
   API
+}
+
+enum StatusMesa {
+  DISPONIVEL
+  OCUPADA
+  MANUTENCAO
 }

@@ -1,4 +1,10 @@
-import { Injectable, Scope, Inject, Logger } from '@nestjs/common';
+import {
+  Injectable,
+  Scope,
+  Inject,
+  Logger,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { PrismaService } from '@app/database/prisma.service';
 
@@ -30,10 +36,12 @@ export class PrismaTenantService {
   addTenantToFilter(filter: any = {}): any {
     const tenantId = this.currentTenantId;
     if (tenantId === null) {
-      this.logger.warn(
-        'Tentando adicionar tenant a filtro, mas tenantId é nulo',
-      );
-      return filter;
+      if (process.env.NODE_ENV === 'production') {
+        throw new UnauthorizedException('Tenant ID é obrigatório');
+      } else {
+        this.logger.warn('Tenant ID nulo - em produção isso causará erro');
+        return filter;
+      }
     }
 
     this.logger.log(`Adicionando tenant_id ${tenantId} ao filtro`);

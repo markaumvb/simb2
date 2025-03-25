@@ -47,10 +47,8 @@ import { AuthModule } from './auth/auth.module';
   imports: [
     ThrottlerModule.forRoot({
       throttlers: [
-        {
-          ttl: 60,
-          limit: 100,
-        },
+        { ttl: 60, limit: 20 }, // 20 req/min geral
+        { ttl: 60, limit: 5, name: 'auth' }, // 5 req/min para auth
       ],
     }),
 

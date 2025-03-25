@@ -33,12 +33,20 @@ export class TenantMiddleware implements NestMiddleware {
       try {
         // Use decode em vez de verify - ISSO É CRÍTICO
         const token = authHeader.substring(7);
-
-        const decoded = this.jwtService.decode(token);
-
-        if (decoded && decoded.tenantId) {
-          req['tenantId'] = Number(decoded.tenantId);
+        try {
+          const decoded = this.jwtService.verify(token);
+          if (decoded && decoded.tenantId) {
+            req['tenantId'] = Number(decoded.tenantId);
+          }
+        } catch (error) {
+          this.logger.error(`Token inválido: ${error.message}`);
         }
+
+        // const decoded = this.jwtService.decode(token);
+
+        /* if (decoded && decoded.tenantId) {
+          req['tenantId'] = Number(decoded.tenantId);
+        } */
       } catch (error) {
         this.logger.error(`Erro ao processar token: ${error.message}`);
       }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, BadRequestException, Injectable } from '@nestjs/common';
 import { CreatePedidoAlmoxarifadoDto } from './dto/create-pedido-almoxarifado.dto';
 import { UpdatePedidoAlmoxarifadoDto } from './dto/update-pedido-almoxarifado.dto';
 import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
@@ -7,9 +7,18 @@ import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 export class PedidoAlmoxarifadosService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(createPedidoAlmoxarifadoDto: CreatePedidoAlmoxarifadoDto) {
+  async create(dto: CreatePedidoAlmoxarifadoDto) {
+    // Validação de regras de negócio
+    if (dto.status === 'APROVADO') {
+      // Verificar se possui itens válidos
+      const itens = await this.itensService.findByPedidoId(dto.id);
+      if (!itens.length) {
+        throw new BadRequestException('Pedido não pode ser aprovado sem itens');
+      }
+    }
+    
     return this.prismaTenant.prisma.client.pedido_almoxarifado.create({
-      data: this.prismaTenant.addTenantToData(createPedidoAlmoxarifadoDto),
+      data: this.prismaTenant.addTenantToData(dto),
     });
   }
 
