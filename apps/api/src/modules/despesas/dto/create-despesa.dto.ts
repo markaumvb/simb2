@@ -28,9 +28,10 @@ export class CreateDespesaDto {
   @ApiProperty()
   dt_hora: Date;
 
-  @IsEnum(Status) // Validar como enum
-  @ApiProperty({ enum: Status, enumName: 'Status' }) // Tipo para Swagger
-  status: Status;
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty()
+  especie: string;
 
   @IsOptional()
   @IsDate()
