@@ -1,9 +1,10 @@
+// src/providers/theme-provider.tsx
 "use client";
 
-import * as React from "react";
-import { ThemeProvider as NextThemesProvider } from "next-themes";
-import { type ThemeProviderProps } from "next-themes/dist/types";
+import { createContext, useContext, useState, useEffect } from "react";
 
-export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
-  return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  return (
+    <>{children}</> // Implementação mínima que não faz nada ainda
+  );
 }
