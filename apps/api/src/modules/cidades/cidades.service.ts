@@ -7,7 +7,7 @@ import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 export class CidadesService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(createCidadeDto: CreateCidadeDto) {
+  async create(createCidadeDto: CreateCidadeDto) {
     return this.prismaTenant.prisma.client.cidade.create({
       data: this.prismaTenant.addTenantToData(createCidadeDto),
     });
@@ -25,7 +25,7 @@ export class CidadesService {
     return { dados, total };
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return this.prismaTenant.prisma.client.cidade.findUnique({
       where: this.prismaTenant.addTenantToFilter({ id }),
       include: {
@@ -34,14 +34,14 @@ export class CidadesService {
     });
   }
 
-  update(id: number, updateCidadeDto: UpdateCidadeDto) {
+  async update(id: number, updateCidadeDto: UpdateCidadeDto) {
     return this.prismaTenant.prisma.client.cidade.update({
       where: this.prismaTenant.addTenantToFilter({ id }),
       data: updateCidadeDto,
     });
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return this.prismaTenant.prisma.client.cidade.delete({
       where: this.prismaTenant.addTenantToFilter({ id }),
     });

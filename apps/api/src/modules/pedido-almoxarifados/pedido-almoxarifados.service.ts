@@ -42,7 +42,7 @@ export class PedidoAlmoxarifadosService {
     });
   }
 
-  findAll() {
+  async findAll() {
     return this.prismaTenant.prisma.client.pedido_almoxarifado.findMany();
   }
 
@@ -52,7 +52,7 @@ export class PedidoAlmoxarifadosService {
     });
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return this.prismaTenant.prisma.client.pedido_almoxarifado.findUnique({
       where: { id },
       include: {
@@ -61,7 +61,7 @@ export class PedidoAlmoxarifadosService {
     });
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return this.prismaTenant.prisma.client.pedido_almoxarifado.delete({
       where: { id },
     });

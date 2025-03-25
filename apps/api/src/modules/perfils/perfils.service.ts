@@ -7,28 +7,28 @@ import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 export class PerfilsService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(createPerfilDto: CreatePerfilDto) {
+  async create(createPerfilDto: CreatePerfilDto) {
     return this.prismaTenant.prisma.client.perfil.create({
       data: this.prismaTenant.addTenantToData(createPerfilDto),
     });
   }
 
-  findAll() {
+  async findAll() {
     return this.prismaTenant.prisma.client.perfil.findMany();
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return this.prismaTenant.prisma.client.perfil.findUnique({ where: { id } });
   }
 
-  update(id: number, updatePerfilDto: UpdatePerfilDto) {
+  async update(id: number, updatePerfilDto: UpdatePerfilDto) {
     return this.prismaTenant.prisma.client.perfil.update({
       where: { id },
       data: updatePerfilDto,
     });
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return this.prismaTenant.prisma.client.perfil.delete({ where: { id } });
   }
 }

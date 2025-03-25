@@ -99,8 +99,6 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app as any, config);
   SwaggerModule.setup('api', app as any, document, {
-    extraModels: [],
-    additionalModels: schemas,
     customSiteTitle: 'API DO SIMB',
     swaggerOptions: {
       tagsSorter: 'alpha',

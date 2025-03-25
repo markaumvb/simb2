@@ -7,30 +7,30 @@ import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 export class BrindesService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(createBrindeDto: CreateBrindeDto) {
+  async create(createBrindeDto: CreateBrindeDto) {
     return this.prismaTenant.prisma.client.brinde.create({
       data: this.prismaTenant.addTenantToData(createBrindeDto),
     });
   }
 
-  findAll() {
+  async findAll() {
     return this.prismaTenant.prisma.client.brinde.findMany();
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return this.prismaTenant.prisma.client.brinde.findUnique({
       where: { id },
     });
   }
 
-  update(id: number, updateBrindeDto: UpdateBrindeDto) {
+  async update(id: number, updateBrindeDto: UpdateBrindeDto) {
     return this.prismaTenant.prisma.client.brinde.update({
       where: { id },
       data: updateBrindeDto,
     });
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return this.prismaTenant.prisma.client.brinde.delete({ where: { id } });
   }
 }

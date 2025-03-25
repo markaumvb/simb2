@@ -7,13 +7,13 @@ import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 export class MovimentacoesService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(data: CreateMovimentacoeDto) {
+  async create(data: CreateMovimentacoeDto) {
     return this.prismaTenant.prisma.client.movimentacao.create({
       data: this.prismaTenant.addTenantToData(data),
     });
   }
 
-  findAll() {
+  async findAll() {
     return this.prismaTenant.prisma.client.movimentacao.findMany();
   }
 
@@ -29,14 +29,14 @@ export class MovimentacoesService {
     });
   }
 
-  update(id: number, updateMovimentacoeDto: UpdateMovimentacoeDto) {
+  async update(id: number, updateMovimentacoeDto: UpdateMovimentacoeDto) {
     return this.prismaTenant.prisma.client.movimentacao.update({
       where: { id },
       data: updateMovimentacoeDto,
     });
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return this.prismaTenant.prisma.client.movimentacao.delete({
       where: { id },
     });

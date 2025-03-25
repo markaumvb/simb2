@@ -34,7 +34,7 @@ import { PaginationInterceptor } from './interceptors/pagination';
 import { ComposicoesModule } from './modules/composicoes/composicoes.module';
 import { ItensAcertosModule } from './modules/itens-acertos/itens-acertos.module';
 import { CacheModule, CacheInterceptor } from '@nestjs/cache-manager';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TenantModule } from './modules/tenants/tenant.module';
 import { PrismaTenantService } from './providers/prisma-tenant.provider';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
@@ -42,16 +42,29 @@ import { PrismaTenantModule } from './providers/prisma-tenant.module';
 import { PermissaoUsuariosModule } from './modules/permissao-usuarios/permissao-usuarios.module';
 import { TenantMiddleware } from './middleware/tenant.middleware';
 import { AuthModule } from './auth/auth.module';
-import { CacheModule } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-store';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
+    HealthModule,
     ThrottlerModule.forRoot({
       throttlers: [
         { ttl: 60, limit: 20 }, // 20 req/min geral
         { ttl: 60, limit: 5, name: 'auth' }, // 5 req/min para auth
       ],
+    }),
+
+    CacheModule.registerAsync({
+      isGlobal: true,
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        store: redisStore,
+        host: configService.get('REDIS_HOST', 'localhost'),
+        port: configService.get('REDIS_PORT', 6379),
+        ttl: 60, // segundos
+      }),
     }),
 
     // Configuração global do ConfigModule para variáveis de ambiente

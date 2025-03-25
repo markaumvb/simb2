@@ -7,7 +7,7 @@ import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 export class ClientesService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(createClienteDto: CreateClienteDto) {
+  async create(createClienteDto: CreateClienteDto) {
     return this.prismaTenant.prisma.client.cliente.create({
       data: this.prismaTenant.addTenantToData(createClienteDto),
     });
@@ -39,7 +39,7 @@ export class ClientesService {
     };
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return this.prismaTenant.prisma.client.cliente.findUnique({
       where: { id },
       include: {
@@ -56,14 +56,14 @@ export class ClientesService {
     });
   }
 
-  update(id: number, updateClienteDto: UpdateClienteDto) {
+  async update(id: number, updateClienteDto: UpdateClienteDto) {
     return this.prismaTenant.prisma.client.cliente.update({
       where: { id },
       data: updateClienteDto,
     });
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return this.prismaTenant.prisma.client.cliente.delete({ where: { id } });
   }
 }

@@ -7,30 +7,30 @@ import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 export class SistemasService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(createSistemaDto: CreateSistemaDto) {
+  async create(createSistemaDto: CreateSistemaDto) {
     return this.prismaTenant.prisma.client.sistema.create({
       data: this.prismaTenant.addTenantToData(createSistemaDto),
     });
   }
 
-  findAll() {
+  async findAll() {
     return this.prismaTenant.prisma.client.sistema.findMany();
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return this.prismaTenant.prisma.client.sistema.findUnique({
       where: { id },
     });
   }
 
-  update(id: number, updateSistemaDto: UpdateSistemaDto) {
+  async update(id: number, updateSistemaDto: UpdateSistemaDto) {
     return this.prismaTenant.prisma.client.sistema.update({
       where: { id },
       data: updateSistemaDto,
     });
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return this.prismaTenant.prisma.client.sistema.delete({ where: { id } });
   }
 }

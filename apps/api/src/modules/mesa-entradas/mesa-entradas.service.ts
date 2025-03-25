@@ -32,11 +32,11 @@ export class MesaEntradasService {
       return entrada;
     });
   }
-  findAll() {
+  async findAll() {
     return this.prismaTenant.prisma.client.mesa_entrada.findMany();
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return this.prismaTenant.prisma.client.mesa_entrada.findUnique({
       where: { id },
       include: {
@@ -45,14 +45,14 @@ export class MesaEntradasService {
     });
   }
 
-  update(id: number, updateMesaEntradaDto: UpdateMesaEntradaDto) {
+  async update(id: number, updateMesaEntradaDto: UpdateMesaEntradaDto) {
     return this.prismaTenant.prisma.client.mesa_entrada.update({
       where: { id },
       data: updateMesaEntradaDto,
     });
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return this.prismaTenant.prisma.client.mesa_entrada.delete({
       where: { id },
     });

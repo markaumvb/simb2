@@ -7,7 +7,7 @@ import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 export class MesasService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(data: CreateMesaDto) {
+  async create(data: CreateMesaDto) {
     return this.prismaTenant.prisma.client.mesa.create({
       data: this.prismaTenant.addTenantToData(data),
     });
@@ -50,14 +50,14 @@ export class MesasService {
     return mesa;
   }
 
-  update(id: number, updateMesaDto: UpdateMesaDto) {
+  async update(id: number, updateMesaDto: UpdateMesaDto) {
     return this.prismaTenant.prisma.client.mesa.update({
       where: { id },
       data: updateMesaDto,
     });
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return this.prismaTenant.prisma.client.mesa.delete({ where: { id } });
   }
 }

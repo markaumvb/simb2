@@ -1,5 +1,14 @@
+import { CreateItensAcertoDto } from '@app/modules/itens-acertos/dto/create-itens-acerto.dto';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsDate, IsNotEmpty, IsNumber } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  IsBoolean,
+  IsDate,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  ValidateNested,
+} from 'class-validator';
 
 export class CreateAcertoFechamentoDto {
   @ApiProperty()
@@ -30,4 +39,10 @@ export class CreateAcertoFechamentoDto {
   @IsBoolean()
   @ApiProperty()
   status: boolean;
+
+  @ApiProperty({ type: [CreateItensAcertoDto], required: false })
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => CreateItensAcertoDto)
+  itens?: CreateItensAcertoDto[];
 }

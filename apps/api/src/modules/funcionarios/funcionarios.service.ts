@@ -34,7 +34,7 @@ export class FuncionariosService {
     });
   }
 
-  findAll() {
+  async findAll() {
     return this.prismaTenant.prisma.client.funcionario.findMany({
       where: this.prismaTenant.addTenantToFilter(),
     });
@@ -46,7 +46,7 @@ export class FuncionariosService {
     });
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return this.prismaTenant.prisma.client.funcionario.findUnique({
       where: this.prismaTenant.addTenantToFilter({ id }),
       include: {
@@ -88,7 +88,7 @@ export class FuncionariosService {
     });
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return this.prismaTenant.prisma.client.funcionario.delete({
       where: this.prismaTenant.addTenantToFilter({ id }),
     });

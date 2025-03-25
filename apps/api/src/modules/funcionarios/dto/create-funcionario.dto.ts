@@ -1,20 +1,23 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Prisma } from '@database';
 import { Transform } from 'class-transformer';
 import {
   IsEmail,
   IsNotEmpty,
   IsNumber,
   IsString,
+  Matches,
   MinLength,
 } from 'class-validator';
 
 export class CreateFuncionarioDto {
-  @IsNotEmpty()
   @IsString()
+  @IsNotEmpty()
+  @Matches(/^[a-zA-Z\s]{3,100}$/, {
+    message:
+      'Nome deve conter apenas letras e espaços, entre 3 e 100 caracteres',
+  })
   @ApiProperty()
   nome: string;
-
   @IsNotEmpty()
   @ApiProperty({ type: Date })
   dt_nascimento: Date;
@@ -32,7 +35,11 @@ export class CreateFuncionarioDto {
   @ApiProperty({ required: false })
   telefone: string | null;
 
+  @IsString()
   @IsNotEmpty()
+  @Matches(/^\d{11}$/, {
+    message: 'CPF deve conter 11 dígitos',
+  })
   @ApiProperty()
   cpf: string;
 

@@ -7,13 +7,13 @@ import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 export class ComposicoesService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(createComposicoeDto: CreateComposicoeDto) {
+  async create(createComposicoeDto: CreateComposicoeDto) {
     return this.prismaTenant.prisma.client.composicao.create({
       data: this.prismaTenant.addTenantToData(createComposicoeDto),
     });
   }
 
-  findAll() {
+  async findAll() {
     return this.prismaTenant.prisma.client.composicao.findMany({
       include: {
         almoxarifado: true,
@@ -21,7 +21,7 @@ export class ComposicoesService {
     });
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return this.prismaTenant.prisma.client.composicao.findUnique({
       where: { id },
       include: {
@@ -31,14 +31,14 @@ export class ComposicoesService {
     });
   }
 
-  update(id: number, updateComposicoeDto: UpdateComposicoeDto) {
+  async update(id: number, updateComposicoeDto: UpdateComposicoeDto) {
     return this.prismaTenant.prisma.client.composicao.update({
       where: { id },
       data: updateComposicoeDto,
     });
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return this.prismaTenant.prisma.client.composicao.delete({ where: { id } });
   }
 }

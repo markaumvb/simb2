@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateDepositoDto } from './dto/create-deposito.dto';
 import { UpdateDepositoDto } from './dto/update-deposito.dto';
 import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
@@ -7,30 +7,58 @@ import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 export class DepositosService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(data: CreateDepositoDto) {
+  async create(dto: CreateDepositoDto) {
+    // Validar valor
+    if (dto.valor <= 0) {
+      throw new BadRequestException('Valor do depósito deve ser positivo');
+    }
+
+    // Validar tipo de pagamento
+    const tiposPagamentoValidos = [
+      'Dinheiro',
+      'Cheque',
+      'PIX',
+      'Cartão',
+      'Transferência',
+      'Outros',
+      'Boleto',
+    ];
+    if (!tiposPagamentoValidos.includes(dto.especie)) {
+      throw new BadRequestException(
+        `Tipo de pagamento '${dto.especie}' inválido`,
+      );
+    }
+
+    // Se for cheque, data do cheque é obrigatória
+    if (dto.especie === 'Cheque' && !dto.dt_cheque) {
+      throw new BadRequestException(
+        'Data do cheque é obrigatória para depósitos com cheque',
+      );
+    }
+
     return this.prismaTenant.prisma.client.deposito.create({
-      data: this.prismaTenant.addTenantToData(data),
+      data: this.prismaTenant.addTenantToData(dto),
     });
   }
 
-  findAll() {
+  async findAll() {
     return this.prismaTenant.prisma.client.deposito.findMany();
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return this.prismaTenant.prisma.client.deposito.findUnique({
       where: { id },
     });
   }
 
-  update(id: number, data: UpdateDepositoDto) {
+  async update(id: number, data: UpdateDepositoDto) {
     return this.prismaTenant.prisma.client.deposito.update({
       where: { id },
       data: data,
     });
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return this.prismaTenant.prisma.client.deposito.delete({ where: { id } });
   }
 }

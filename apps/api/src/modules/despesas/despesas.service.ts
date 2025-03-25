@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateDespesaDto } from './dto/create-despesa.dto';
 import { UpdateDespesaDto } from './dto/update-despesa.dto';
 import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
@@ -7,13 +11,37 @@ import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 export class DespesasService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(createDespesaDto: CreateDespesaDto) {
+  async create(dto: CreateDespesaDto) {
+    // Validar valor
+    if (dto.valor <= 0) {
+      throw new BadRequestException('Valor da despesa deve ser positivo');
+    }
+
+    // Validar tipo de despesa
+    const tipoDespesa =
+      await this.prismaTenant.prisma.client.tipo_despesa.findUnique({
+        where: { id: dto.id_tipo },
+      });
+
+    if (!tipoDespesa) {
+      throw new NotFoundException(
+        `Tipo de despesa com ID ${dto.id_tipo} não encontrado`,
+      );
+    }
+
+    // Validar forma de pagamento se for cheque
+    if (dto.especie === 'Cheque' && !dto.dt_cheque) {
+      throw new BadRequestException(
+        'Data do cheque é obrigatória para despesas pagas com cheque',
+      );
+    }
+
     return this.prismaTenant.prisma.client.despesa.create({
-      data: this.prismaTenant.addTenantToData(createDespesaDto),
+      data: this.prismaTenant.addTenantToData(dto),
     });
   }
 
-  findAll() {
+  async findAll() {
     return this.prismaTenant.prisma.client.despesa.findMany();
   }
 
@@ -23,7 +51,7 @@ export class DespesasService {
     });
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return this.prismaTenant.prisma.client.despesa.findUnique({
       where: { id },
       include: {
@@ -33,14 +61,14 @@ export class DespesasService {
     });
   }
 
-  update(id: number, updateDespesaDto: UpdateDespesaDto) {
+  async update(id: number, updateDespesaDto: UpdateDespesaDto) {
     return this.prismaTenant.prisma.client.despesa.update({
       where: { id },
       data: updateDespesaDto,
     });
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return this.prismaTenant.prisma.client.despesa.delete({ where: { id } });
   }
 }

@@ -7,23 +7,23 @@ import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 export class ItensPedidoAlmoxarifadosService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  create(createItensPedidoAlmoxarifadoDto: CreateItensPedidoAlmoxarifadoDto) {
+  async create(createItensPedidoAlmoxarifadoDto: CreateItensPedidoAlmoxarifadoDto) {
     return this.prismaTenant.prisma.client.itens_pedido_almoxarifado.create({
       data: this.prismaTenant.addTenantToData(createItensPedidoAlmoxarifadoDto),
     });
   }
 
-  findAll() {
+  async findAll() {
     return this.prismaTenant.prisma.client.itens_pedido_almoxarifado.findMany();
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return this.prismaTenant.prisma.client.itens_pedido_almoxarifado.findUnique(
       { where: { id } },
     );
   }
 
-  update(
+  async update(
     id: number,
     updateItensPedidoAlmoxarifadoDto: UpdateItensPedidoAlmoxarifadoDto,
   ) {
@@ -33,7 +33,7 @@ export class ItensPedidoAlmoxarifadosService {
     });
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return this.prismaTenant.prisma.client.itens_pedido_almoxarifado.delete({
       where: { id },
     });
