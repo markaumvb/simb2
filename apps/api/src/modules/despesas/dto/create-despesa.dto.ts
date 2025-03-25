@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Status } from '@prisma/client';
 
 import { Transform } from 'class-transformer';
 import {
