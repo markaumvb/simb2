@@ -258,7 +258,7 @@ model Deposito {
   id              Int          @id @default(autoincrement())
   dt_hora         DateTime     @db.Timestamp(6)
   valor           Decimal      @db.Decimal(6, 2)
-  status Especie @default(DINHEIRO)
+  especie Especie @default(DINHEIRO)
   dt_cheque       DateTime?    @db.Date
   id_linha        Int
   id_movimentacao Int

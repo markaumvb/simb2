@@ -7,7 +7,9 @@ import { PrismaTenantService } from '@app/providers/prisma-tenant.provider';
 export class ItensPedidoAlmoxarifadosService {
   constructor(private prismaTenant: PrismaTenantService) {}
 
-  async create(createItensPedidoAlmoxarifadoDto: CreateItensPedidoAlmoxarifadoDto) {
+  async create(
+    createItensPedidoAlmoxarifadoDto: CreateItensPedidoAlmoxarifadoDto,
+  ) {
     return this.prismaTenant.prisma.client.itens_pedido_almoxarifado.create({
       data: this.prismaTenant.addTenantToData(createItensPedidoAlmoxarifadoDto),
     });

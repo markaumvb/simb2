@@ -5,5 +5,6 @@ import { ItensPedidoAlmoxarifadosController } from './itens-pedido-almoxarifados
 @Module({
   controllers: [ItensPedidoAlmoxarifadosController],
   providers: [ItensPedidoAlmoxarifadosService],
+  exports: [ItensPedidoAlmoxarifadosService],
 })
 export class ItensPedidoAlmoxarifadosModule {}
