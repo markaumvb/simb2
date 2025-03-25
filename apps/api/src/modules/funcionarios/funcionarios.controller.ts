@@ -18,6 +18,7 @@ import { FuncionarioEntity } from './entities/funcionario.entity';
 import { ProtectedRoute } from '@app/decorators/protected-route.decorator';
 
 @ApiTags('Funcionario')
+@ProtectedRoute()
 @Controller('funcionarios')
 export class FuncionariosController {
   constructor(private readonly funcionariosService: FuncionariosService) {}

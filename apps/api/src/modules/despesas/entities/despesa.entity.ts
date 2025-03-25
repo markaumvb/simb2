@@ -16,14 +16,11 @@ export class DespesaEntity implements Despesa {
   @ApiProperty({ type: Number, nullable: false })
   valor: Prisma.Decimal;
 
-  @ApiProperty({ enum: Especie })
-  especie: Especie;
-
   @ApiProperty()
   dt_hora: Date;
 
   @ApiProperty({ enum: Especie })
-  status: Especie; // Note que no schema, você está usando 'status' em vez de 'especie'
+  status: Especie;
 
   @ApiProperty()
   dt_cheque: Date | null;
