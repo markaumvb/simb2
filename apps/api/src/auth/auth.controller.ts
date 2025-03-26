@@ -48,7 +48,6 @@ export class AuthController {
   })
   async login(@Body() loginDto: LoginDto): Promise<AuthEntity> {
     try {
-      // Agora não precisamos mais passar o tenantId
       const authResult = await this.authService.login(
         loginDto.email,
         loginDto.password,

@@ -3,7 +3,7 @@
  */
 
 // Configuração base para todas as requisições
-const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3002";
 
 // Tipo para opções adicionais
 type ApiOptions = {

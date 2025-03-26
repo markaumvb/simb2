@@ -69,7 +69,7 @@ export function useAuth() {
 
     try {
       // URL da API - ajuste conforme necessário
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3002";
 
       // Requisição para a API
       const response = await fetch(`${apiUrl}/auth/login`, {
