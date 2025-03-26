@@ -20,7 +20,12 @@ export interface ExtendedRequest extends Request {
 
 @Injectable()
 export class PaginationInterceptor implements NestInterceptor {
-  excludedPaths: string[] = ['autenticacao/login', 'autenticacao/refresh'];
+  excludedPaths: string[] = [
+    'auth/login',
+    'auth/refresh',
+    'autenticacao/login',
+    'autenticacao/refresh',
+  ];
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const request = context.switchToHttp().getRequest<ExtendedRequest>();

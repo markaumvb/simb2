@@ -1,4 +1,4 @@
-// src/auth/entity/auth.entity.ts
+// apps/api/src/auth/entity/auth.entity.ts
 import { ApiProperty } from '@nestjs/swagger';
 
 // Classe para as informações do usuário
