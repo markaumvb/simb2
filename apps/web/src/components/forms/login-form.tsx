@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { useAuthContext } from "@/providers/auth-provider";
 
 // Esquema de validação com Zod
 const loginSchema = z.object({
@@ -20,7 +21,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 
 export function LoginForm() {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
+  const { login, isLoading: authLoading } = useAuthContext();
   const [error, setError] = useState<string | null>(null);
 
   // Configuração do React Hook Form com validação Zod
@@ -38,37 +39,21 @@ export function LoginForm() {
 
   // Função para lidar com o envio do formulário
   const onSubmit = async (data: LoginFormValues) => {
-    setIsLoading(true);
     setError(null);
 
     try {
-      // Aqui entraria a chamada real à API
-      console.log("Enviando dados de login:", data);
+      // Usar o hook de autenticação para fazer login
+      const result = await login(data.email, data.password);
 
-      // Simulação de chamada à API com timeout
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      // Simulação de resposta bem-sucedida
-      const mockResponse = {
-        token: "mock-jwt-token",
-        user: {
-          name: "Usuário Teste",
-          email: data.email,
-          tenantId: 1,
-        },
-      };
-
-      // Armazenar token e informações do usuário
-      localStorage.setItem("authToken", mockResponse.token);
-      localStorage.setItem("userData", JSON.stringify(mockResponse.user));
-
-      // Redirecionar para o dashboard
-      router.push("/dashboard");
+      if (result.success) {
+        // Redirecionar para o dashboard se login bem-sucedido
+        router.push("/dashboard");
+      } else {
+        setError(result.error || "Falha na autenticação");
+      }
     } catch (err) {
       console.error("Erro no login:", err);
-      setError("Credenciais inválidas. Por favor, tente novamente.");
-    } finally {
-      setIsLoading(false);
+      setError("Ocorreu um erro inesperado. Por favor, tente novamente.");
     }
   };
 
@@ -109,8 +94,8 @@ export function LoginForm() {
         </div>
       )}
 
-      <Button type="submit" className="w-full" disabled={isLoading}>
-        {isLoading ? "Entrando..." : "Entrar"}
+      <Button type="submit" className="w-full" disabled={authLoading}>
+        {authLoading ? "Entrando..." : "Entrar"}
       </Button>
     </form>
   );
