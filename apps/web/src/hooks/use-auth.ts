@@ -86,6 +86,7 @@ export function useAuth() {
       }
 
       const data = await response.json();
+      console.log("RESPOSTA DA API:", JSON.stringify(data, null, 2));
 
       // Extrair token e informações do usuário
       const { access_token, user } = data;

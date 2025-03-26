@@ -104,14 +104,15 @@ export class AuthService {
       expiresIn: '7d',
     });
 
-    // Retornar tokens e informações do usuário
     return {
-      token: accessToken,
-      refreshToken,
-      usuario: user.nome,
-      email: user.email,
-      id: user.id,
-      tenantId,
+      access_token: accessToken,
+      refresh_token: refreshToken,
+      user: {
+        id: user.id,
+        name: user.nome,
+        email: user.email,
+        tenantId,
+      },
     };
   }
 
