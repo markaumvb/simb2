@@ -48,23 +48,11 @@ export class AuthController {
   })
   async login(@Body() loginDto: LoginDto): Promise<AuthEntity> {
     try {
+      // Agora não precisamos mais passar o tenantId
       const authResult = await this.authService.login(
         loginDto.email,
         loginDto.password,
-        loginDto.tenantId,
       );
-
-      const tokenParts = authResult.token.split('.');
-      if (tokenParts.length === 3) {
-        try {
-          const payload = JSON.parse(
-            Buffer.from(tokenParts[1], 'base64').toString(),
-          );
-          this.logger.debug('Payload do token:', payload);
-        } catch (e) {
-          this.logger.error('Erro ao decodificar payload do token:', e.message);
-        }
-      }
 
       this.logger.log(`Login bem-sucedido para ${loginDto.email}`);
       return authResult;
@@ -116,7 +104,6 @@ export class AuthController {
   async refresh(@Body('refreshToken') refreshToken: string) {
     try {
       const result = await this.authService.refreshToken(refreshToken);
-
       return result;
     } catch (error) {
       throw error;

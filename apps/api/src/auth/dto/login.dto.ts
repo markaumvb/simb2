@@ -1,12 +1,6 @@
 // src/auth/dto/login.dto.ts
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsEmail,
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-  MinLength,
-} from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 export class LoginDto {
   @IsEmail()
@@ -25,9 +19,4 @@ export class LoginDto {
     description: 'Senha do usuário (min 6 caracteres)',
   })
   readonly password: string;
-
-  @IsNumber()
-  @IsNotEmpty()
-  @ApiProperty({ example: 1, description: 'ID do tenant' })
-  readonly tenantId: number;
 }

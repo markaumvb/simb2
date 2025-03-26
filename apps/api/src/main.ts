@@ -109,7 +109,7 @@ async function bootstrap() {
   app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
 
   logger.log('🔥🔥🔥 Application initialized, starting to listen');
-  await app.listen(3000);
+  await app.listen(3002);
 }
 
 bootstrap().catch((err) => {

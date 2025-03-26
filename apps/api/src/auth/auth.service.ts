@@ -25,7 +25,7 @@ export class AuthService {
     this.logger.debug(`Validando usuário ID: ${userId}`);
 
     try {
-      // Primeiro tentamos buscar exatamente pelo ID
+      // Buscar usuário pelo ID
       const user = await this.prisma.client.funcionario.findUnique({
         where: { id: userId },
       });
@@ -50,21 +50,18 @@ export class AuthService {
     }
   }
 
-  async login(email: string, password: string, tenantId: number) {
-    // Buscar usuário pelo email no tenant específico
+  async login(email: string, password: string) {
+    // Buscar usuário pelo email (sem filtro de tenant neste momento)
     const user = await this.prisma.client.funcionario.findFirst({
-      where: {
-        email,
-        tenant_id: tenantId,
-      },
+      where: { email },
     });
 
     if (!user) {
       this.logger.warn(
-        `Login falhou: Usuário com email ${email} não encontrado no tenant ${tenantId}`,
+        `Login falhou: Usuário com email ${email} não encontrado`,
       );
       throw new NotFoundException(
-        `Não foi encontrado usuário com o email ${email} neste tenant`,
+        `Não foi encontrado usuário com o email ${email}`,
       );
     }
 
@@ -80,7 +77,10 @@ export class AuthService {
       throw new UnauthorizedException('Usuário está inativo');
     }
 
-    // Preparar payload para o token
+    // Agora temos o tenant_id do usuário
+    const tenantId = user.tenant_id;
+
+    // Preparar payload para o token, incluindo o tenantId
     const payload = {
       sub: user.id,
       userId: user.id,
@@ -103,10 +103,6 @@ export class AuthService {
     const refreshToken = jwt.sign(payload, refreshTokenSecret, {
       expiresIn: '7d',
     });
-
-    // this.logger.log(
-    //  `Login bem-sucedido para usuário ${email} no tenant ${tenantId}`,
-    //);
 
     // Retornar tokens e informações do usuário
     return {
@@ -140,7 +136,7 @@ export class AuthService {
         throw new UnauthorizedException('Usuário inválido ou inativo');
       }
 
-      // Preparar payload para o novo token
+      // Preparar payload para o novo token, mantendo o tenantId original
       const payload = {
         sub: user.id,
         userId: user.id,

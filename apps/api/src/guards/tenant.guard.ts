@@ -7,14 +7,27 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { TenantService } from '@app/modules/tenants/tenant.service';
+import { Reflector } from '@nestjs/core';
 
 @Injectable()
 export class TenantGuard implements CanActivate {
   private readonly logger = new Logger(TenantGuard.name);
 
-  constructor(private readonly tenantService: TenantService) {}
+  constructor(
+    private readonly tenantService: TenantService,
+    private readonly reflector: Reflector,
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    // Verifica se o endpoint está marcado como público (sem necessidade de tenant)
+    const isPublic = this.reflector.get<boolean>(
+      'isPublic',
+      context.getHandler(),
+    );
+    if (isPublic) {
+      return true;
+    }
+
     const request = context.switchToHttp().getRequest();
     const tenantId = request.tenantId;
 
