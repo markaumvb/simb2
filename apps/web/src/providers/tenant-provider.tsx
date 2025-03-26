@@ -1,7 +1,6 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect } from "react";
-import { useAuthContext } from "./auth-provider";
 
 type Tenant = {
   id: number;
@@ -19,33 +18,29 @@ const TenantContext = createContext<TenantContextType | undefined>(undefined);
 export function TenantProvider({ children }: { children: React.ReactNode }) {
   const [currentTenant, setCurrentTenant] = useState<Tenant | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { user, isAuthenticated } = useAuthContext();
 
   useEffect(() => {
-    // Carrega o tenant com base no usuário autenticado
+    // Aqui faremos a lógica para obter o tenant atual
+    // Isso pode vir de um cookie, localStorage, ou da sessão do usuário
     const loadTenant = async () => {
       try {
-        setIsLoading(true);
-
-        if (isAuthenticated && user?.tenantId) {
-          // Em produção, você poderia buscar mais detalhes do tenant da API
-          // Por enquanto, vamos apenas usar o ID do usuário
+        // Para o setup inicial, simulamos o carregamento de um tenant
+        // Em produção, isso viria do backend
+        setTimeout(() => {
           setCurrentTenant({
-            id: user.tenantId,
-            nome: `Tenant ${user.tenantId}`, // Placeholder, idealmente buscar da API
+            id: 1,
+            nome: "Empresa Demo",
           });
-        } else {
-          setCurrentTenant(null);
-        }
+          setIsLoading(false);
+        }, 500);
       } catch (error) {
         console.error("Erro ao carregar tenant:", error);
-      } finally {
         setIsLoading(false);
       }
     };
 
     loadTenant();
-  }, [isAuthenticated, user]);
+  }, []);
 
   // Fornece o contexto do tenant para a aplicação
   return (

@@ -44,7 +44,7 @@ export default function DashboardLayout({
     <AuthProvider>
       <ProtectedLayout>
         <div className="flex min-h-screen flex-col">
-          <header className="sticky top-0 z-10 bg-white dark:bg-gray-800 border-b p-4">
+          <header className="sticky top-0 z-10 bg-white  border-b p-4">
             <UserInfo />
           </header>
           <div className="flex flex-1">
