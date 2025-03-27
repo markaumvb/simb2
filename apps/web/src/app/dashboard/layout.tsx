@@ -74,7 +74,9 @@ export default function DashboardLayout({
 // Componente para exibir informações do usuário
 function UserInfo() {
   const { user, logout } = useAuthContext();
-  const { currentTenant } = useTenant();
+  const { data: tenant, isLoading: tenantLoading } = useTenantDetails(
+    user?.tenantId
+  );
 
   return (
     <div className="flex justify-between items-center">
@@ -86,7 +88,11 @@ function UserInfo() {
         <div className="text-sm">
           <p className="font-medium">{user?.name || "Usuário"}</p>
           <p className="text-gray-500 text-xs">
-            Tenant: {currentTenant?.nome || `ID: ${user?.tenantId}`}
+            {tenantLoading
+              ? "Carregando..."
+              : `Tenant: ${
+                  tenant?.nome || tenant?.id || `ID: ${user?.tenantId}`
+                }`}
           </p>
         </div>
 
@@ -105,4 +111,4 @@ function UserInfo() {
 
 // Importando o botão depois de usá-lo para evitar erro de referência
 import { Button } from "@/components/ui/button";
-import { useTenant } from "@/providers/tenant-provider";
+import { useTenantDetails } from "@/hooks/use-tenant-details";
