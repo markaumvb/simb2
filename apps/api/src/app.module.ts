@@ -42,8 +42,8 @@ import { PrismaTenantModule } from './providers/prisma-tenant.module';
 import { PermissaoUsuariosModule } from './modules/permissao-usuarios/permissao-usuarios.module';
 import { TenantMiddleware } from './middleware/tenant.middleware';
 import { AuthModule } from './auth/auth.module';
-import { redisStore } from 'cache-manager-redis-store';
 import { HealthModule } from './health/health.module';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
 
 @Module({
   imports: [

@@ -1,78 +1,85 @@
 "use client";
 
-import { Card } from "@/components/ui/card";
-import { useAuthContext } from "@/providers/auth-provider";
-import { useTenant } from "@/providers/tenant-provider";
+import { SummaryCard } from "@/components/dashboard/summary-card";
+import { UtilizationChart } from "@/components/dashboard/utilization-chart";
+import { MesaStatusChart } from "@/components/dashboard/mesa-status-chart";
+import { useDashboardSummary } from "@/hooks/use-dashboard";
+import { formatCurrency } from "@/lib/utils";
+import { CircleDollarSign, Users, Table2, Loader2 } from "lucide-react";
 
 export default function DashboardPage() {
-  const { user } = useAuthContext();
-  const { currentTenant } = useTenant();
+  const { data: dashboardData, isLoading, error } = useDashboardSummary();
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <span className="ml-2">Carregando dados do dashboard...</span>
+      </div>
+    );
+  }
+
+  if (error || !dashboardData) {
+    return (
+      <div className="p-4 border border-red-200 bg-red-50 rounded-md">
+        <h2 className="text-lg font-medium text-red-800">
+          Erro ao carregar dashboard
+        </h2>
+        <p className="text-red-600">
+          Ocorreu um erro ao carregar os dados. Por favor, tente novamente mais
+          tarde.
+        </p>
+      </div>
+    );
+  }
+
+  const { mesas, faturamento, utilizacao } = dashboardData;
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold">Dashboard</h1>
-
-      {/* Cartão de informações do usuário */}
-      <Card className="p-6 mb-6">
-        <h2 className="text-xl font-semibold mb-4">Informações do Usuário</h2>
-        <div className="space-y-2">
-          <p>
-            <span className="font-medium">Nome:</span> {user?.name}
-          </p>
-          <p>
-            <span className="font-medium">Email:</span> {user?.email}
-          </p>
-          <p>
-            <span className="font-medium">Tenant ID:</span> {user?.tenantId}
-          </p>
-          <p>
-            <span className="font-medium">Tenant Nome:</span>{" "}
-            {currentTenant?.nome || "Carregando..."}
-          </p>
-        </div>
-      </Card>
-
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="p-4">
-          <h3 className="font-medium text-sm text-muted-foreground">
-            Mesas Ativas
-          </h3>
-          <p className="text-2xl font-bold">24</p>
-        </Card>
-        <Card className="p-4">
-          <h3 className="font-medium text-sm text-muted-foreground">
-            Faturamento Hoje
-          </h3>
-          <p className="text-2xl font-bold">R$ 1.250,00</p>
-        </Card>
-        <Card className="p-4">
-          <h3 className="font-medium text-sm text-muted-foreground">
-            Mesas em Manutenção
-          </h3>
-          <p className="text-2xl font-bold">3</p>
-        </Card>
-        <Card className="p-4">
-          <h3 className="font-medium text-sm text-muted-foreground">
-            Clientes Ativos
-          </h3>
-          <p className="text-2xl font-bold">42</p>
-        </Card>
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold">Dashboard</h1>
       </div>
 
-      {/* Estatísticas e gráficos placeholder */}
-      <div className="grid gap-6 md:grid-cols-2">
-        <Card className="p-4">
-          <h3 className="font-medium mb-4">Faturamento Recente</h3>
-          <div className="h-[300px] flex items-center justify-center text-muted-foreground">
-            Gráfico de faturamento será exibido aqui
-          </div>
-        </Card>
-        <Card className="p-4">
-          <h3 className="font-medium mb-4">Desempenho por Mesa</h3>
-          <div className="h-[300px] flex items-center justify-center text-muted-foreground">
-            Gráfico de desempenho será exibido aqui
-          </div>
-        </Card>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <SummaryCard
+          title="Faturamento Diário"
+          value={formatCurrency(faturamento.diario.valor)}
+          description={`Período: ${faturamento.diario.periodo}`}
+          icon={CircleDollarSign}
+        />
+
+        <SummaryCard
+          title="Faturamento Mensal"
+          value={formatCurrency(faturamento.mensal.valor)}
+          description={`Período: ${faturamento.mensal.periodo}`}
+          icon={CircleDollarSign}
+        />
+
+        <SummaryCard
+          title="Mesas Ocupadas"
+          value={mesas.OCUPADA}
+          description={`De um total de ${mesas.total} mesas`}
+          icon={Table2}
+          valueClassName="text-blue-600"
+        />
+
+        <SummaryCard
+          title="Mesas Disponíveis"
+          value={mesas.DISPONIVEL}
+          description="Prontas para uso"
+          icon={Table2}
+          valueClassName="text-green-600"
+        />
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <UtilizationChart
+          data={utilizacao.dadosGrafico}
+          totalMesas={utilizacao.totalMesas}
+        />
+
+        <MesaStatusChart data={mesas} />
       </div>
     </div>
   );
