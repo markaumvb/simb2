@@ -1,12 +1,7 @@
-"use client";
-
+import { ReactNode } from "react";
 import { AuthProvider } from "@/providers/auth-provider";
 
-export default function AuthLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
     <AuthProvider>
       <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 p-4">

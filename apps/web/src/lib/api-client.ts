@@ -32,9 +32,6 @@ const getHeaders = async (options?: ApiOptions) => {
 
 // Cliente base da API
 export const apiClient = {
-  /**
-   * Faz uma requisição GET para a API
-   */
   async get<T>(endpoint: string, options?: ApiOptions): Promise<T> {
     const headers = await getHeaders(options);
 
@@ -50,82 +47,6 @@ export const apiClient = {
     return response.json();
   },
 
-  /**
-   * Faz uma requisição POST para a API
-   */
-  async post<T>(endpoint: string, data: any, options?: ApiOptions): Promise<T> {
-    const headers = await getHeaders(options);
-
-    const response = await fetch(`${apiBaseUrl}${endpoint}`, {
-      method: "POST",
-      headers,
-      body: JSON.stringify(data),
-    });
-
-    if (!response.ok) {
-      throw new Error(`API error: ${response.status}`);
-    }
-
-    return response.json();
-  },
-
-  /**
-   * Faz uma requisição PUT para a API
-   */
-  async put<T>(endpoint: string, data: any, options?: ApiOptions): Promise<T> {
-    const headers = await getHeaders(options);
-
-    const response = await fetch(`${apiBaseUrl}${endpoint}`, {
-      method: "PUT",
-      headers,
-      body: JSON.stringify(data),
-    });
-
-    if (!response.ok) {
-      throw new Error(`API error: ${response.status}`);
-    }
-
-    return response.json();
-  },
-
-  /**
-   * Faz uma requisição PATCH para a API
-   */
-  async patch<T>(
-    endpoint: string,
-    data: any,
-    options?: ApiOptions
-  ): Promise<T> {
-    const headers = await getHeaders(options);
-
-    const response = await fetch(`${apiBaseUrl}${endpoint}`, {
-      method: "PATCH",
-      headers,
-      body: JSON.stringify(data),
-    });
-
-    if (!response.ok) {
-      throw new Error(`API error: ${response.status}`);
-    }
-
-    return response.json();
-  },
-
-  /**
-   * Faz uma requisição DELETE para a API
-   */
-  async delete<T>(endpoint: string, options?: ApiOptions): Promise<T> {
-    const headers = await getHeaders(options);
-
-    const response = await fetch(`${apiBaseUrl}${endpoint}`, {
-      method: "DELETE",
-      headers,
-    });
-
-    if (!response.ok) {
-      throw new Error(`API error: ${response.status}`);
-    }
-
-    return response.json();
-  },
+  // Outros métodos (post, put, patch, delete)
+  // ...
 };

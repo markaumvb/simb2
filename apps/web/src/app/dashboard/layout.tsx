@@ -4,74 +4,10 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { AuthProvider, useAuthContext } from "@/providers/auth-provider";
 import { TenantProvider } from "@/providers/tenant-provider";
+import { Button } from "@/components/ui/button";
+import { useTenantDetails } from "@/hooks/use-tenant-details";
 
-// Componente para proteger rotas
-function ProtectedLayout({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated, isLoading } = useAuthContext();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      router.push("/login");
-    }
-  }, [isLoading, isAuthenticated, router]);
-
-  // Mostra nada enquanto verifica autenticação
-  if (isLoading) {
-    return (
-      <div className="flex h-screen items-center justify-center">
-        <p className="text-lg">Carregando...</p>
-      </div>
-    );
-  }
-
-  // Se não estiver autenticado, não renderiza o conteúdo
-  if (!isAuthenticated) {
-    return null;
-  }
-
-  // Se estiver autenticado, renderiza dentro do TenantProvider
-  return <TenantProvider>{children}</TenantProvider>;
-}
-
-// Layout do Dashboard com providers necessários
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <AuthProvider>
-      <ProtectedLayout>
-        <div className="flex min-h-screen flex-col">
-          <header className="sticky top-0 z-10 bg-white  border-b p-4">
-            <UserInfo />
-          </header>
-          <div className="flex flex-1">
-            <nav className="w-64 border-r p-4 hidden md:block">
-              {/* Sidebar vai aqui */}
-              <p className="font-medium mb-4">Menu</p>
-              <ul className="space-y-2">
-                <li>
-                  <a
-                    href="/dashboard"
-                    className="text-blue-600 hover:underline"
-                  >
-                    Dashboard
-                  </a>
-                </li>
-                {/* Outros links do menu */}
-              </ul>
-            </nav>
-            <main className="flex-1 p-6 overflow-auto">{children}</main>
-          </div>
-        </div>
-      </ProtectedLayout>
-    </AuthProvider>
-  );
-}
-
-// Componente para exibir informações do usuário
+// Componente para exibir informações do usuário (agora dentro do contexto correto)
 function UserInfo() {
   const { user, logout } = useAuthContext();
   const { data: tenant, isLoading: tenantLoading } = useTenantDetails(
@@ -109,6 +45,52 @@ function UserInfo() {
   );
 }
 
-// Importando o botão depois de usá-lo para evitar erro de referência
-import { Button } from "@/components/ui/button";
-import { useTenantDetails } from "@/hooks/use-tenant-details";
+// Conteúdo interno protegido (usa AuthContext quando já disponível)
+function DashboardContent({ children }: { children: React.ReactNode }) {
+  const { isAuthenticated, isLoading } = useAuthContext();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      router.push("/login");
+    }
+  }, [isLoading, isAuthenticated, router]);
+
+  if (isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <p className="text-lg">Carregando...</p>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return null;
+  }
+
+  return (
+    <TenantProvider>
+      <div className="flex min-h-screen flex-col">
+        <header className="sticky top-0 z-10 bg-white border-b p-4">
+          <UserInfo />
+        </header>
+        <div className="flex flex-1">
+          <main className="flex-1 p-6 overflow-auto">{children}</main>
+        </div>
+      </div>
+    </TenantProvider>
+  );
+}
+
+// Layout principal que providencia o contexto de autenticação
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <AuthProvider>
+      <DashboardContent>{children}</DashboardContent>
+    </AuthProvider>
+  );
+}
