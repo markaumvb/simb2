@@ -33,7 +33,27 @@ export default function DashboardPage() {
     );
   }
 
-  const { mesas, faturamento, utilizacao } = dashboardData;
+  // Desestruturação segura com valores padrão para evitar undefined
+  const {
+    mesas = {
+      DISPONIVEL: 0,
+      OCUPADA: 0,
+      MANUTENCAO: 0,
+      NO_DEPOSITO: 0,
+      total: 0,
+      mesasAtivas: 0,
+      mesasInativas: 0,
+    },
+    faturamento = {
+      diario: { valor: 0, periodo: "Hoje" },
+      semanal: { valor: 0, periodo: "Esta semana" },
+      mensal: { valor: 0, periodo: "Este mês" },
+    },
+    utilizacao = {
+      dadosGrafico: [],
+      totalMesas: 0,
+    },
+  } = dashboardData;
 
   return (
     <div className="space-y-6">
@@ -44,29 +64,29 @@ export default function DashboardPage() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <SummaryCard
           title="Faturamento Diário"
-          value={formatCurrency(faturamento.diario.valor)}
-          description={`Período: ${faturamento.diario.periodo}`}
+          value={formatCurrency(faturamento?.diario?.valor || 0)}
+          description={`Período: ${faturamento?.diario?.periodo || "Hoje"}`}
           icon={CircleDollarSign}
         />
 
         <SummaryCard
           title="Faturamento Mensal"
-          value={formatCurrency(faturamento.mensal.valor)}
-          description={`Período: ${faturamento.mensal.periodo}`}
+          value={formatCurrency(faturamento?.mensal?.valor || 0)}
+          description={`Período: ${faturamento?.mensal?.periodo || "Este mês"}`}
           icon={CircleDollarSign}
         />
 
         <SummaryCard
           title="Mesas Ocupadas"
-          value={mesas.OCUPADA}
-          description={`De um total de ${mesas.total} mesas`}
+          value={mesas?.OCUPADA || 0}
+          description={`De um total de ${mesas?.total || 0} mesas`}
           icon={Table2}
           valueClassName="text-blue-600"
         />
 
         <SummaryCard
           title="Mesas Disponíveis"
-          value={mesas.DISPONIVEL}
+          value={mesas?.DISPONIVEL || 0}
           description="Prontas para uso"
           icon={Table2}
           valueClassName="text-green-600"
@@ -75,8 +95,8 @@ export default function DashboardPage() {
 
       <div className="grid gap-4 md:grid-cols-2">
         <UtilizationChart
-          data={utilizacao.dadosGrafico}
-          totalMesas={utilizacao.totalMesas}
+          data={utilizacao?.dadosGrafico || []}
+          totalMesas={utilizacao?.totalMesas || 0}
         />
 
         <MesaStatusChart data={mesas} />
