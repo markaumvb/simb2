@@ -107,6 +107,7 @@ import { DashboardModule } from './modules/dashboard/dashboard.module';
     TipoDespesasModule,
     ComposicoesModule,
     ItensAcertosModule,
+    DashboardModule,
 
     PermissaoUsuariosModule,
 
