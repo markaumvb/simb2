@@ -1,4 +1,4 @@
-// src/components/data-table/data-table.tsx (versão corrigida)
+// src/components/data-table/data-table.tsx
 "use client";
 
 import { useState, useEffect } from "react";
@@ -38,7 +38,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { table } from "console";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -65,7 +64,9 @@ export function DataTable<TData, TValue>({
   const [searchAvailable, setSearchAvailable] = useState(false);
   const [filterAvailable, setFilterAvailable] = useState(false);
 
-  const table = useReactTable({
+  // Removi a importação não utilizada 'table' daqui
+
+  const tableInstance = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
@@ -83,7 +84,7 @@ export function DataTable<TData, TValue>({
   // Verifique se as colunas de pesquisa e filtro existem após a renderização da tabela
   useEffect(() => {
     if (searchColumn) {
-      const searchCol = table.getColumn(searchColumn);
+      const searchCol = tableInstance.getColumn(searchColumn);
       setSearchAvailable(!!searchCol);
       if (!searchCol) {
         console.warn(`Coluna de pesquisa "${searchColumn}" não encontrada.`);
@@ -91,27 +92,27 @@ export function DataTable<TData, TValue>({
     }
 
     if (filterColumn) {
-      const filterCol = table.getColumn(filterColumn.id);
+      const filterCol = tableInstance.getColumn(filterColumn.id);
       setFilterAvailable(!!filterCol);
       if (!filterCol) {
         console.warn(`Coluna de filtro "${filterColumn.id}" não encontrada.`);
       }
     }
-  }, [table, searchColumn, filterColumn]);
+  }, [tableInstance, searchColumn, filterColumn]);
 
   // Calcula a contagem de linhas exibidas atualmente
-  const { pageSize, pageIndex } = table.getState().pagination;
-  const totalRows = table.getFilteredRowModel().rows.length;
+  const { pageSize, pageIndex } = tableInstance.getState().pagination;
+  const totalRows = tableInstance.getFilteredRowModel().rows.length;
   const startRow = pageIndex * pageSize + 1;
   const endRow = Math.min((pageIndex + 1) * pageSize, totalRows);
 
   // Altera a página para a primeira ao mudar o filtro
   const handleFilterChange = (value: string) => {
     if (filterColumn && filterAvailable) {
-      const column = table.getColumn(filterColumn.id);
+      const column = tableInstance.getColumn(filterColumn.id);
       if (column) {
         column.setFilterValue(value);
-        table.setPageIndex(0);
+        tableInstance.setPageIndex(0);
       }
     }
   };
@@ -119,10 +120,10 @@ export function DataTable<TData, TValue>({
   // Handle de busca que reseta para a primeira página
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (searchColumn && searchAvailable) {
-      const column = table.getColumn(searchColumn);
+      const column = tableInstance.getColumn(searchColumn);
       if (column) {
         column.setFilterValue(event.target.value);
-        table.setPageIndex(0);
+        tableInstance.setPageIndex(0);
       }
     }
   };
@@ -143,7 +144,7 @@ export function DataTable<TData, TValue>({
               onChange={handleSearchChange}
               value={
                 searchAvailable
-                  ? (table
+                  ? (tableInstance
                       .getColumn(searchColumn)
                       ?.getFilterValue() as string) ?? ""
                   : ""
@@ -153,7 +154,7 @@ export function DataTable<TData, TValue>({
             {!searchAvailable && searchColumn && (
               <div className="flex items-center text-red-500 text-xs mt-1">
                 <AlertCircle className="h-3 w-3 mr-1" />
-                Coluna "{searchColumn}" não disponível para busca
+                Coluna &quot;{searchColumn}&quot; não disponível para busca
               </div>
             )}
           </div>
@@ -166,7 +167,7 @@ export function DataTable<TData, TValue>({
               onValueChange={handleFilterChange}
               value={
                 filterAvailable
-                  ? (table
+                  ? (tableInstance
                       .getColumn(filterColumn.id)
                       ?.getFilterValue() as string) ?? ""
                   : ""
@@ -194,7 +195,7 @@ export function DataTable<TData, TValue>({
             {!filterAvailable && filterColumn && (
               <div className="flex items-center text-red-500 text-xs mt-1">
                 <AlertCircle className="h-3 w-3 mr-1" />
-                Coluna "{filterColumn.id}" não disponível para filtro
+                Coluna &quot;{filterColumn.id}&quot; não disponível para filtro
               </div>
             )}
           </div>
@@ -205,7 +206,7 @@ export function DataTable<TData, TValue>({
       <div className="rounded-md border">
         <Table>
           <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
+            {tableInstance.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
@@ -233,9 +234,9 @@ export function DataTable<TData, TValue>({
                   Carregando...
                 </TableCell>
               </TableRow>
-            ) : table.getRowModel().rows?.length ? (
+            ) : tableInstance.getRowModel().rows?.length ? (
               // Rows with zebra striping
-              table.getRowModel().rows.map((row, index) => (
+              tableInstance.getRowModel().rows.map((row, index) => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
@@ -276,32 +277,34 @@ export function DataTable<TData, TValue>({
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.setPageIndex(0)}
-            disabled={!table.getCanPreviousPage()}
+            onClick={() => tableInstance.setPageIndex(0)}
+            disabled={!tableInstance.getCanPreviousPage()}
           >
             <ChevronsLeft className="h-4 w-4" />
           </Button>
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
+            onClick={() => tableInstance.previousPage()}
+            disabled={!tableInstance.getCanPreviousPage()}
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
+            onClick={() => tableInstance.nextPage()}
+            disabled={!tableInstance.getCanNextPage()}
           >
             <ChevronRight className="h-4 w-4" />
           </Button>
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-            disabled={!table.getCanNextPage()}
+            onClick={() =>
+              tableInstance.setPageIndex(tableInstance.getPageCount() - 1)
+            }
+            disabled={!tableInstance.getCanNextPage()}
           >
             <ChevronsRight className="h-4 w-4" />
           </Button>
