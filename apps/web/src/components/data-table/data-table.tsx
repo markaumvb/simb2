@@ -1,7 +1,7 @@
-// src/components/data-table/data-table.tsx
+// src/components/data-table/data-table.tsx (versão corrigida)
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   flexRender,
   getCoreRowModel,
@@ -29,14 +29,16 @@ import {
   ChevronsLeft,
   ChevronsRight,
   Search,
+  AlertCircle,
 } from "lucide-react";
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
+import { table } from "console";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -60,7 +62,9 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  
+  const [searchAvailable, setSearchAvailable] = useState(false);
+  const [filterAvailable, setFilterAvailable] = useState(false);
+
   const table = useReactTable({
     data,
     columns,
@@ -76,25 +80,50 @@ export function DataTable<TData, TValue>({
     },
   });
 
+  // Verifique se as colunas de pesquisa e filtro existem após a renderização da tabela
+  useEffect(() => {
+    if (searchColumn) {
+      const searchCol = table.getColumn(searchColumn);
+      setSearchAvailable(!!searchCol);
+      if (!searchCol) {
+        console.warn(`Coluna de pesquisa "${searchColumn}" não encontrada.`);
+      }
+    }
+
+    if (filterColumn) {
+      const filterCol = table.getColumn(filterColumn.id);
+      setFilterAvailable(!!filterCol);
+      if (!filterCol) {
+        console.warn(`Coluna de filtro "${filterColumn.id}" não encontrada.`);
+      }
+    }
+  }, [table, searchColumn, filterColumn]);
+
   // Calcula a contagem de linhas exibidas atualmente
   const { pageSize, pageIndex } = table.getState().pagination;
   const totalRows = table.getFilteredRowModel().rows.length;
   const startRow = pageIndex * pageSize + 1;
   const endRow = Math.min((pageIndex + 1) * pageSize, totalRows);
-  
+
   // Altera a página para a primeira ao mudar o filtro
   const handleFilterChange = (value: string) => {
-    if (filterColumn) {
-      table.getColumn(filterColumn.id)?.setFilterValue(value);
-      table.setPageIndex(0);
+    if (filterColumn && filterAvailable) {
+      const column = table.getColumn(filterColumn.id);
+      if (column) {
+        column.setFilterValue(value);
+        table.setPageIndex(0);
+      }
     }
   };
-  
+
   // Handle de busca que reseta para a primeira página
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (searchColumn) {
-      table.getColumn(searchColumn)?.setFilterValue(event.target.value);
-      table.setPageIndex(0);
+    if (searchColumn && searchAvailable) {
+      const column = table.getColumn(searchColumn);
+      if (column) {
+        column.setFilterValue(event.target.value);
+        table.setPageIndex(0);
+      }
     }
   };
 
@@ -107,23 +136,51 @@ export function DataTable<TData, TValue>({
           <div className="relative w-full sm:max-w-xs">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder={searchPlaceholder}
+              placeholder={
+                searchAvailable ? searchPlaceholder : "Busca indisponível"
+              }
               className="pl-8"
               onChange={handleSearchChange}
-              value={(table.getColumn(searchColumn)?.getFilterValue() as string) ?? ""}
+              value={
+                searchAvailable
+                  ? (table
+                      .getColumn(searchColumn)
+                      ?.getFilterValue() as string) ?? ""
+                  : ""
+              }
+              disabled={!searchAvailable}
             />
+            {!searchAvailable && searchColumn && (
+              <div className="flex items-center text-red-500 text-xs mt-1">
+                <AlertCircle className="h-3 w-3 mr-1" />
+                Coluna "{searchColumn}" não disponível para busca
+              </div>
+            )}
           </div>
         )}
-        
+
         {/* Filtro por status */}
         {filterColumn && (
           <div className="w-full sm:w-auto">
             <Select
               onValueChange={handleFilterChange}
-              value={(table.getColumn(filterColumn.id)?.getFilterValue() as string) ?? ""}
+              value={
+                filterAvailable
+                  ? (table
+                      .getColumn(filterColumn.id)
+                      ?.getFilterValue() as string) ?? ""
+                  : ""
+              }
+              disabled={!filterAvailable}
             >
               <SelectTrigger className="w-full sm:w-[180px]">
-                <SelectValue placeholder="Filtrar por status" />
+                <SelectValue
+                  placeholder={
+                    filterAvailable
+                      ? "Filtrar por status"
+                      : "Filtro indisponível"
+                  }
+                />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="">Todos</SelectItem>
@@ -134,6 +191,12 @@ export function DataTable<TData, TValue>({
                 ))}
               </SelectContent>
             </Select>
+            {!filterAvailable && filterColumn && (
+              <div className="flex items-center text-red-500 text-xs mt-1">
+                <AlertCircle className="h-3 w-3 mr-1" />
+                Coluna "{filterColumn.id}" não disponível para filtro
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -163,7 +226,10 @@ export function DataTable<TData, TValue>({
             {isLoading ? (
               // Loading state
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
                   Carregando...
                 </TableCell>
               </TableRow>
@@ -177,7 +243,10 @@ export function DataTable<TData, TValue>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
@@ -185,7 +254,10 @@ export function DataTable<TData, TValue>({
             ) : (
               // Empty state
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
                   Nenhum resultado encontrado.
                 </TableCell>
               </TableRow>
@@ -193,11 +265,12 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      
+
       {/* Paginação */}
       <div className="flex flex-col sm:flex-row gap-2 items-center justify-between">
         <div className="text-sm text-muted-foreground">
-          Mostrando {totalRows > 0 ? startRow : 0} a {endRow} de {totalRows} registros
+          Mostrando {totalRows > 0 ? startRow : 0} a {endRow} de {totalRows}{" "}
+          registros
         </div>
         <div className="flex items-center space-x-2">
           <Button
