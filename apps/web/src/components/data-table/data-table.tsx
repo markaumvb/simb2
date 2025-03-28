@@ -111,7 +111,7 @@ export function DataTable<TData, TValue>({
     if (filterColumn && filterAvailable) {
       const column = tableInstance.getColumn(filterColumn.id);
       if (column) {
-        column.setFilterValue(value);
+        column.setFilterValue(value === "all" ? undefined : value);
         tableInstance.setPageIndex(0);
       }
     }
@@ -169,7 +169,7 @@ export function DataTable<TData, TValue>({
                 filterAvailable
                   ? (tableInstance
                       .getColumn(filterColumn.id)
-                      ?.getFilterValue() as string) ?? ""
+                      ?.getFilterValue() as string) ?? "all"
                   : ""
               }
               disabled={!filterAvailable}
@@ -184,7 +184,7 @@ export function DataTable<TData, TValue>({
                 />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Todos</SelectItem>
+                <SelectItem value="all">Todos</SelectItem>
                 {filterColumn.options.map((option) => (
                   <SelectItem key={option.value} value={option.value}>
                     {option.label}
