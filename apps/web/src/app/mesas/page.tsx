@@ -1,4 +1,4 @@
-// src/app/mesas/page.tsx (atualização para incluir o modal)
+// src/app/mesas/page.tsx
 "use client";
 
 import { useState } from "react";
@@ -30,19 +30,60 @@ type Mesa = {
   id_tipo: number;
 };
 
-// Dados de exemplo para teste (mantenha os mesmos)
+// Dados de exemplo para teste
 const dadosExemplo: Mesa[] = [
-  // ... (manter os dados existentes)
+  {
+    id: 1,
+    status: "DISPONIVEL",
+    descricao: "Mesa 01",
+    tipo: "Sinuca",
+    valor: 20.0,
+    ativa: true,
+    id_tipo: 1,
+  },
+  {
+    id: 2,
+    status: "OCUPADA",
+    descricao: "Mesa 02",
+    tipo: "Sinuca Profissional",
+    valor: 30.0,
+    ativa: true,
+    id_tipo: 2,
+  },
+  {
+    id: 3,
+    status: "MANUTENCAO",
+    descricao: "Mesa 03",
+    tipo: "Bilhar",
+    valor: 25.0,
+    ativa: false,
+    id_tipo: 4,
+  },
+  {
+    id: 4,
+    status: "NO_DEPOSITO",
+    descricao: "Mesa 04",
+    tipo: "Snooker",
+    valor: 40.0,
+    ativa: false,
+    id_tipo: 3,
+  },
 ];
 
-// Mapeamento de status para cores de badge (manter o mesmo)
+// Mapeamento de status para cores de badge
 const statusColors: Record<string, string> = {
-  // ... (manter o mesmo)
+  DISPONIVEL: "bg-green-100 text-green-800 border-green-200",
+  OCUPADA: "bg-blue-100 text-blue-800 border-blue-200",
+  MANUTENCAO: "bg-yellow-100 text-yellow-800 border-yellow-200",
+  NO_DEPOSITO: "bg-red-100 text-red-800 border-red-200",
 };
 
-// Mapeamento de status para nomes amigáveis (manter o mesmo)
+// Mapeamento de status para nomes amigáveis
 const statusNames: Record<string, string> = {
-  // ... (manter o mesmo)
+  DISPONIVEL: "Disponível",
+  OCUPADA: "Ocupada",
+  MANUTENCAO: "Em Manutenção",
+  NO_DEPOSITO: "No Depósito",
 };
 
 export default function MesasPage() {
@@ -102,7 +143,47 @@ export default function MesasPage() {
 
   // Definição das colunas para a tabela
   const columns: ColumnDef<Mesa>[] = [
-    // ... (manter as colunas existentes)
+    {
+      accessorKey: "id",
+      header: "ID",
+      cell: ({ row }) => <div>#{row.original.id}</div>,
+    },
+    {
+      accessorKey: "descricao",
+      header: "Descrição",
+      cell: ({ row }) => <div>{row.original.descricao}</div>,
+    },
+    {
+      accessorKey: "tipo",
+      header: "Tipo",
+      cell: ({ row }) => <div>{row.original.tipo}</div>,
+    },
+    {
+      accessorKey: "valor",
+      header: "Valor",
+      cell: ({ row }) => <div>{formatCurrency(row.original.valor)}</div>,
+    },
+    {
+      accessorKey: "status",
+      header: "Status",
+      cell: ({ row }) => {
+        const status = row.original.status;
+        return (
+          <Badge className={statusColors[status]} variant="outline">
+            {statusNames[status] || status}
+          </Badge>
+        );
+      },
+    },
+    {
+      accessorKey: "ativa",
+      header: "Ativa",
+      cell: ({ row }) => (
+        <div className={row.original.ativa ? "text-green-600" : "text-red-600"}>
+          {row.original.ativa ? "Sim" : "Não"}
+        </div>
+      ),
+    },
     {
       id: "actions",
       cell: ({ row }) => {
